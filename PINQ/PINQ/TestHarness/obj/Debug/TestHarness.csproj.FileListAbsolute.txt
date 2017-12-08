@@ -1,0 +1,16 @@
+C:\Users\mcsherry.NORTHAMERICA\Documents\Visual Studio Codename Orcas\Projects\PINQ\TestHarness\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\mcsherry.NORTHAMERICA\Documents\Visual Studio Codename Orcas\Projects\PINQ\TestHarness\bin\Debug\TestHarness.exe
+C:\Users\mcsherry.NORTHAMERICA\Documents\Visual Studio Codename Orcas\Projects\PINQ\TestHarness\bin\Debug\TestHarness.pdb
+C:\Users\mcsherry.NORTHAMERICA\Documents\Visual Studio Codename Orcas\Projects\PINQ\TestHarness\bin\Debug\PINQ.dll
+C:\Users\mcsherry.NORTHAMERICA\Documents\Visual Studio Codename Orcas\Projects\PINQ\TestHarness\bin\Debug\PINQ.pdb
+C:\Users\mcsherry.NORTHAMERICA\Documents\Visual Studio Codename Orcas\Projects\PINQ\TestHarness\obj\Debug\TestHarness.exe
+C:\Users\mcsherry.NORTHAMERICA\Documents\Visual Studio Codename Orcas\Projects\PINQ\TestHarness\obj\Debug\TestHarness.pdb
+C:\Users\mcsherry.NORTHAMERICA\Documents\Visual Studio Codename Orcas\Projects\PINQ\TestHarness\bin\Debug\PINQ.xml
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\TestHarness\bin\Debug\TestHarness.exe
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\TestHarness\bin\Debug\TestHarness.pdb
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\TestHarness\bin\Debug\PINQ.dll
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\TestHarness\bin\Debug\PINQ.pdb
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\TestHarness\bin\Debug\PINQ.xml
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\TestHarness\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\TestHarness\obj\Debug\TestHarness.exe
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\TestHarness\obj\Debug\TestHarness.pdb

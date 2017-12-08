@@ -1,0 +1,8 @@
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\SocialNetworking\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\SocialNetworking\bin\Debug\SocialNetworking.exe
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\SocialNetworking\bin\Debug\SocialNetworking.pdb
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\SocialNetworking\bin\Debug\PINQ.dll
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\SocialNetworking\bin\Debug\PINQ.pdb
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\SocialNetworking\bin\Debug\PINQ.xml
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\SocialNetworking\obj\Debug\SocialNetworking.exe
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\SocialNetworking\obj\Debug\SocialNetworking.pdb

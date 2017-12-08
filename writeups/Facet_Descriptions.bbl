@@ -1,0 +1,9 @@
+\begin{thebibliography}{1}
+
+\bibitem{Ligett:2017}
+Katrina Ligett, Seth Neel, Aaron Roth, Bo~Waggoner, and Zhiwei~Steven Wu.
+\newblock Accuracy first: Selecting a differential privacy level for
+  accuracy-constrained {ERM}.
+\newblock {\em CoRR}, abs/1705.10829, 2017.
+
+\end{thebibliography}

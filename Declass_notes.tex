@@ -1,0 +1,35 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{latexsym}
+\usepackage{verbatim}
+\usepackage{code,proof,amsthm,amssymb,amsmath,stmaryrd}
+\usepackage{ifthen}
+\usepackage{graphics}
+\usepackage{mathpartir}
+\usepackage{hyperref}
+\usepackage{times}
+\newcommand{\lookslike}{\quad R \quad}
+\begin{document}
+\section{Dimensions of declassification}
+\subsection{What}
+The PER model uses an equivalence relation $R$ to model attacker knowledge. Equal elements look the same to the attacker. A system is safe if $m\lookslike n$ implies $s(m) = s(n)$ for a transformation $s$ available to the attacker. $R$ may be weakened to a non-reflexive, partial equivalence relation (PER), which is just an equivalence relation over a subset of the values. There are other models called $\textit{abstract noninterference}$ settings. \\
+
+Delimited release allow the declassification policy to be expressed in the program with a $\texttt{declassify}$ annotation. Information may be released only through these hatches.
+
+\subsection{Who}
+This prevents attackers from hijacking release mechanisms. Code may be written with decentralized labels that say who may run this code. We deem code to be ``safe'' when no change in the code controlled by the attacker will release additional information.
+
+\subsection{Where}
+Level locality policies describe where information may flow relative to security levels of the system. Intransitive noninterference means that it is sometimes possible for information to travel from higher security to lower security, so the flow is no longer a partial order. This data must first travel through a declassifier to control it. \\
+Code locality describes where in the code information may leak. The programmer writes in there code flows or other constructs.
+
+\subsection{When}
+Information can be revealed in a time-based format where a certain amount of time, proportional to the size of the secret, must elapse before revealing. Example: an attacker cannot learn a secret of size $n$ in $poly(n)$ time. We can also try to limit the probability of a leak being large.
+
+\section{Principles for Good Declassification}
+\subsection{Semantic Consistency}
+If two subprograms contain no declassifications and have the same semantics, then the security of the overall program is the same. 
+\subsection{}
+\subsection{}
+\subsection{}
+\end{document}

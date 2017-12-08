@@ -1,0 +1,8 @@
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\Visualization\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\Visualization\bin\Debug\Visualization.exe
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\Visualization\bin\Debug\Visualization.pdb
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\Visualization\bin\Debug\PINQ.dll
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\Visualization\bin\Debug\PINQ.pdb
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\Visualization\bin\Debug\PINQ.xml
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\Visualization\obj\Debug\Visualization.exe
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\Visualization\obj\Debug\Visualization.pdb

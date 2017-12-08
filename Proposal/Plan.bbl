@@ -1,0 +1,46 @@
+\begin{thebibliography}{1}
+
+\bibitem{Austin:2013}
+Thomas~H. Austin, Jean Yang, Cormac Flanagan, and Armando Solar-Lezama.
+\newblock Faceted execution of policy-agnostic programs.
+\newblock In {\em Proceedings of the Eighth ACM SIGPLAN Workshop on Programming
+  Languages and Analysis for Security}, PLAS '13, pages 15--26, New York, NY,
+  USA, 2013. ACM.
+
+\bibitem{Hay:2016}
+Michael Hay, Ashwin Machanavajjhala, Gerome Miklau, Yan Chen, Dan Zhang, and
+  George Bissias.
+\newblock Exploring privacy-accuracy tradeoffs using dpcomp.
+\newblock In {\em Proceedings of the 2016 International Conference on
+  Management of Data}, SIGMOD '16, pages 2101--2104, New York, NY, USA, 2016.
+  ACM.
+
+\bibitem{Kucera:2017}
+Martin Kucera, Petar Tsankov, Timon Gehr, Marco Guarnieri, and Martin Vechev.
+\newblock Spire: Synthesis of probabilistic privacy enforcement.
+\newblock {\em ACM CCS}, 2017.
+
+\bibitem{McSherry:2010}
+Frank McSherry.
+\newblock Privacy integrated queries: An extensible platform for
+  privacy-preserving data analysis.
+\newblock {\em Commun. ACM}, 53(9):89--97, September 2010.
+
+\bibitem{Narayanan:2006}
+Arvind Narayanan and Vitaly Shmatikov.
+\newblock How to break anonymity of the netflix prize dataset.
+\newblock {\em CoRR}, abs/cs/0610105, 2006.
+
+\bibitem{Reed:2010}
+Jason Reed and Benjamin~C. Pierce.
+\newblock Distance makes the types grow stronger: A calculus for differential
+  privacy.
+\newblock {\em SIGPLAN Not.}, 45(9):157--168, September 2010.
+
+\bibitem{Sampson:2014}
+Adrian Sampson, Pavel Panchekha, Todd Mytkowicz, Kathryn~S. McKinley, Dan
+  Grossman, and Luis Ceze.
+\newblock Expressing and verifying probabilistic assertions.
+\newblock {\em SIGPLAN Not.}, 49(6):112--122, June 2014.
+
+\end{thebibliography}

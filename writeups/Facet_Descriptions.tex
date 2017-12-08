@@ -1,0 +1,58 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{mathpazo}
+\usepackage{lmodern}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{wrapfig}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{algorithmicx,algpseudocode}
+\usetikzlibrary{positioning}
+\usepackage[margin=1in]{geometry}
+\lhead{Jacob Imola}
+\rhead{}
+\cfoot{\thepage}
+\pagestyle{fancy}
+\begin{document}
+\centerline{\textbf{Faceted Jostle: A Technical Description}}
+A simple program in Jeeves will look like this:
+\begin{verbatim}
+let accuracy(D, m) = List.mean (List.tabulate (m (random_query D) ) len) in
+let Logistic = Logistic_Classifier C1 in
+let SVM = SVM_Classifier C2 in
+label a in
+    restrict a: lambda D. lambda m. accuracy(D, m) > 0.8
+    let classifier = <a? Logistic : SVM> in
+    (concretize classifier D) query
+\end{verbatim}
+Any function in the \verb|restrict| clause must have type $\mathcal{R} \rightarrow \mathcal{C} \rightarrow \texttt{bool}$, where $\mathcal{R}$ is the space of datasets and $\mathcal{C}$ is the space of models. Each of the faceted values will have type $\mathcal{R} \rightarrow \mathbb{R} \rightarrow \mathcal{C}$ where the first argument is the differential privacy constant. When \verb|classifier| is concretized onto some dataset, it is expanded into the following code:
+\begin{verbatim}
+(concretize <a? Logistic : SVM>(D)) = 
+let (m1, e1) = search (S a) D Logistic in
+let (m2, e2) = search (S a) D SVM in
+if(e1 < e2) then m1 else m2
+\end{verbatim}
+The expression \verb|S a| retrieves any restrictions that have been set on $a$ from our store, $\mathcal{S}$. Therefore, \verb|search| has type 
+\[
+(\mathcal{R} \rightarrow \mathcal{C} \rightarrow \texttt{bool}) \rightarrow \mathcal{R} \rightarrow (\mathcal{R} \rightarrow \mathbb{R} \rightarrow \mathcal{C}) \rightarrow (\mathcal{C} \times \mathbb{R})
+\]
+This makes it clear that \verb|search| will return a real number representing the privacy of a model that satisfies the restriction along with the model. A natural way of implementing \verb|search| is the following:
+\begin{verbatim}
+search S D M e = let model = M D e in
+    if S model then (model, e) else search S D M (2*e)
+search S D M = search S D M 0.001
+\end{verbatim}
+Let the privacy of \verb|search| be $f(\epsilon)$ where $\epsilon$ is the privacy of the returned model. We must have $f(\epsilon) \geq \epsilon$. There are some algorithms \cite{Ligett:2017} where $f(\epsilon) = \epsilon$, but more work is needed to answer whether this is always possible. Let $\mathcal{D}_1, \mathcal{D}_2$ be the distribution of the model returned by \verb|SVM| and \verb|Logistic|, respectively. Then, the distribution of the returned model is 
+\[\Pr[\epsilon_1 > \epsilon_2]\mathcal{D}_1 + (1-\Pr[\epsilon_1 > \epsilon_2]) \mathcal{D}_2\]
+Now, let $\mathcal{D}_1'$, $\mathcal{D}_2'$ and $\epsilon_1'$, $\epsilon_2'$ be the distributions and privacies returned for a database differing by 1 row. We have
+\[
+\mathcal{D}_1' \leq e^{\epsilon_1}\mathcal{D}_1 \quad \mathcal{D}_2 \leq e^{\epsilon_2}\mathcal{D}_2
+\]
+it should not be higher than $\min\{e_1, e_2\}$ since this is the privacy usage of the best model.
+\bibliographystyle{plain}
+\bibliography{Working_Bib}
+\end{document}

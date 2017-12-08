@@ -1,0 +1,40 @@
+\newcommand{\etalchar}[1]{$^{#1}$}
+\begin{thebibliography}{BFG{\etalchar{+}}16}
+
+\bibitem[BFG{\etalchar{+}}14]{Barthe:2014}
+Gilles Barthe, C{\'e}dric Fournet, Benjamin Gr{\'e}goire, Pierre-Yves Strub,
+  Nikhil Swamy, and Santiago Zanella-B{\'e}guelin.
+\newblock Probabilistic relational verification for cryptographic
+  implementations.
+\newblock {\em SIGPLAN Not.}, 49(1):193--205, January 2014.
+
+\bibitem[BFG{\etalchar{+}}16]{Barthe:2016}
+Gilles Barthe, Gian~Pietro Farina, Marco Gaboardi, Emilio Jes{\'{u}}s~Gallego
+  Arias, Andy Gordon, Justin Hsu, and Pierre{-}Yves Strub.
+\newblock Differentially private bayesian programming.
+\newblock {\em CoRR}, abs/1605.00283, 2016.
+
+\bibitem[KF07]{Knowles:2007}
+Kenneth Knowles and Cormac Flanagan.
+\newblock Type reconstruction for general refinement types.
+\newblock In {\em Proceedings of the 16th European Symposium on Programming},
+  ESOP'07, pages 505--519, Berlin, Heidelberg, 2007. Springer-Verlag.
+
+\bibitem[McS10]{McSherry:2010}
+Frank McSherry.
+\newblock Privacy integrated queries: An extensible platform for
+  privacy-preserving data analysis.
+\newblock {\em Commun. ACM}, 53(9):89--97, September 2010.
+
+\bibitem[RP10]{Reed:2010}
+Jason Reed and Benjamin~C. Pierce.
+\newblock Distance makes the types grow stronger: A calculus for differential
+  privacy.
+\newblock {\em SIGPLAN Not.}, 45(9):157--168, September 2010.
+
+\bibitem[VSJ14]{Vazou:2014}
+Niki Vazou, Eric~L. Seidel, and Ranjit Jhala.
+\newblock Liquidhaskell: Experience with refinement types in the real world.
+\newblock {\em SIGPLAN Not.}, 49(12):39--51, September 2014.
+
+\end{thebibliography}

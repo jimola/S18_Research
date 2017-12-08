@@ -1,0 +1,8 @@
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\MachineLearning\bin\Debug\MachineLearning.exe
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\MachineLearning\bin\Debug\MachineLearning.pdb
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\MachineLearning\bin\Debug\PINQ.dll
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\MachineLearning\bin\Debug\PINQ.pdb
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\MachineLearning\bin\Debug\PINQ.xml
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\MachineLearning\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\MachineLearning\obj\Debug\MachineLearning.exe
+C:\Users\mcsherry.NORTHAMERICA\Desktop\PINQ\MachineLearning\obj\Debug\MachineLearning.pdb
