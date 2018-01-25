@@ -853,10 +853,6 @@ diffpLR.reverse.functional <- function(data, class, epsilon, guess) {
     
     trueval <- norm$dtransform(numeric(length(data[1,]))+1)[1];
     
-    nonclassnames <- dnames[!(dnames %in% class)];
-    nonguessnames <- dnames[!(dnames %in% guess) & !(dnames %in% class)];
-    knownnames <- nonclassnames[!(nonclassnames %in% guess)];
-        
     clfun <- cmpfun(function(x) {
         
         x <- norm$dtransform(as.numeric(x));
