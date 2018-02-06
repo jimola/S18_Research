@@ -1,4 +1,4 @@
-\documentclass[10.5pt]{article}
+\documentclass[11pt]{article}
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage{mathtools}
 \usepackage{enumerate}
@@ -10,16 +10,144 @@
 \usepackage{wrapfig}
 \usepackage{tikz}
 \usepackage{hyperref}
+\usepackage[linesnumbered,algoruled,boxed,lined]{algorithm2e}
 \usetikzlibrary{positioning}
 \newtheorem{theorem}{Theorem}
+\newtheorem{problem}{Problem}
+\newtheorem{defn}{Definition}
+\newcommand{\Jostle}{\texttt{Jostle}}
 \lhead{Senior Thesis}
 \rhead{Jacob Imola}
 \cfoot{\thepage}
 \pagestyle{fancy}
+\title{Automatic, Fine-Grained Algorithmic Choice for Differential Privacy}
+\date{\today}
+\author{Jacob Imola\\ School of Computer Science, Carnegie Mellon University\and Jean Yang\\ School of Computer Science, Carnegie Mellon University}
 \begin{document}
-\centerline{\textbf{Automatic, Fine-Grained Algorithmic Choice for Differential Privacy}}
+\maketitle
+\section{Introduction}
+\emph{Why is algorithmic choice in differential privacy important?}
+
+The rapid technological increase in data collection, speed, and storage has brought about revolutionary insights and ideas and will continue to do so. However, with huge amounts of private data comes the concern of preventing data from ending up in the wrong hands. In order to prevent data leakage, we must lay a strong privacy foundation and give data analysts the tools they need without forcing them to become privacy experts.
+
+Consider a healthcare database with records like patient weight, age, some genetic information, or whether they are HIV positive. Granting access rights to just the patients and their doctors protects privacy perfectly and developing tools for verification is an interesting question in its own right. However, sometimes it's okay to release a few general statistics about a database so that an analyst can find risk factors for people who have HIV. On the other side of the spectrum, publicly releasing all the information doesn't protect an individual's information. It is therefore necessary to use a middle ground tool where the amount of information released can be reliably controlled. Perhaps the most promising tool is differential privacy.
+
+Differential privacy has been the interest of many researchers and programmers since its conception in 2006. Its goal is to provide strong bounds on the amount of information being released from a dataset. Previous attempts were not mathematically rigorous and did not reliably prevent attacks. Most notably, before differential privacy, researchers were able to reidentify users in a Netflix dataset given an auxiliary dataset from IMDB and form a generalized attack against the state-of-the-art privacy algorithms of the time \cite{Narayanan:2006}. The strong privacy guarantee of differential privacy, on the other hand, has a rigorous mathematical foundation that makes it impervious to the post-processing attacks that exploited the Netflix dataset, and more recently, \href{https://hackernoon.com/how-to-rob-an-airbnb-252e7e7eda44}{AirBnB} and \href{https://gizmodo.com/this-is-almost-certainly-james-comey-s-twitter-account-1793843641}{Instagram}. As our world becomes more and more data-driven, it becomes ever more important to protect privacy in a sturdy way.
+
+However, just building a suite of differential privacy algorithms is not satisfactory. We are motivated by the need to build tools that make the analyst's life easier, and an analyst who is not well-versed in privacy would be daunted by the mountains of differential privacy algortihms out there. Privacy adds a new layer complexity to the data analyst's job because the performance of algorithms may vary wildly depending on the database or other input parameters. This leads to the central problem of this work: 
+\begin{problem}\label{prob:1}
+How can a data analyst make the correct algorithmic choice given that a many tasks may be solved by more than privacy algorithm?
+\end{problem}
+This problem is noted by the authors of DPComp \cite{Hay:2016}, who comment that currently, ``the practitioner is lost and incapable of deploying the right algorithm''. A data analyst should not responsible for making this choice. Little research has been conducted on how to help make the proper algorithmic choice; the most related work so far has been on visualization tools such as DPComp. However, we take a programming-language based approach for the following reasons:
+
+\begin{itemize}
+\item \textbf{Abstraction} Abstracting privacy in a programming language allows for the suppression of complicated privacy machinery, allowing programmers to view privacy as a black box. Programmers write code faster with fewer bugs when they can think about complicated ideas as black boxes.
+\item \textbf{Generalization} It is infeasible to conduct research on all use cases that a programmer may encounter. Writing a sophisticated programming language that automatically makes this choice would perform on par with the state-of-the-art methods. Effectively, we would allow anyone to stand on the shoulders of the giants who invented these algorithms.
+\end{itemize}
+
+The programming language could be termed \emph{privacy agnostic} because it allows programmers and data practitioners to be agnostic to the advanced studies that have gone into developing differentially-private algorithms yet still attain the level of performance of the highest-grade algorithms in the field. Because the programming language will automatically make decisions during execution in an attempt to maximize accuracy, we call it \Jostle{}.
+
+The most central idea in \Jostle{} is the \texttt{NoisyIf} statement, illustrated in Figure \ref{fig:1}.
+\begin{figure}
+\begin{verbatim}
+def f(D):
+    NoisyIf(g D):
+        do A
+    else:
+        do B
+\end{verbatim}
+\caption{Example \texttt{NoisyIf} statement.}
+\label{fig:1}
+\end{figure}
+A programmer will use \texttt{NoisyIf} when they are unsure of which choice to make at a certain point in their code. If they have certain beliefs that may aid \Jostle{} in making the choice, then they may specify an \emph{advice} function (denoted by \texttt{g} in Figure \ref{fig:1}). Jostle will combine this advice along with previous executions of this particular \texttt{NoisyIf} to make the best decision.
+
+We will begin with a background section on differential privacy and related work. Then we will introduce decision trees and highlight the existence of Problem \ref{prob:1} with them. Thirdly, we will solve the decision tree problem with different \texttt{NoisyIf} statements, and finally, we will illustrate how \texttt{NoisyIf} statements can be generalized to make \texttt{Jostle}.
+
+\section{Background}
+\subsection{Differential Privacy}
+Differential Privacy is based on the intuition of a user being asked to participate in a study involving an algorithm $\mathcal{A}$ being run on a database $D$. If $\mathcal{A}(D)$ changes as a result of the user participating, then this poses a privacy concern. An attacker may be able to infer something about the participant's input. This means that non-trivial deterministic algorithms are already unacceptable; their output may change depending on just a single addition to $D$. The strength $\epsilon$ of a differential privacy guarantee is the maximum factor that the randomized output of $\mathcal{A}$ changes for two databases $D$ and $D'$ which differ in one row. Mathematically, we are saying:
+
+\begin{defn}
+$\mathcal{A}$ satisfies $\epsilon$-differential privacy if for all $D$ and $D'$ such that $|D-D'|_1=1$ and for all $o$ in the range of $\mathcal{A}$, 
+\[\Pr\left(\mathcal{A}(D) = o \right) \leq e^{\epsilon} \Pr\left(\mathcal{A}(D')=o\right)\]
+\end{defn}
+
+There is also a weaker definition: 
+
+\begin{defn}
+$\mathcal{A}$ satisfies $(\epsilon, \delta)$-differential privacy if for all $D$ and $D'$ such that $|D-D'|_1=1$ and for all $o$ in the range of $\mathcal{A}$, 
+\[\Pr\left(\mathcal{A}(D) = o \right) \leq e^{\epsilon} \Pr\left(\mathcal{A}(D')=o \right) + \delta\]
+\end{defn}
+
+For much of this paper, we will focus on $\epsilon$-differential privacy, but it is worth knowing the more general case so we can import the well-known privacy theorems in their most general form. Below is perhaps the most important result, and its proof comes cleanly from the definition of differential privacy.
+
 \begin{theorem}
-The entropy function on disjoint histogram counts $a_1,a_2,\ldots, a_n$ has sensitivity 
+(Post-Processing) If $\mathcal{A}$ satisfies $(\epsilon, \delta)$-differential privacy, and $F$ is any function that takes the output of $\mathcal{A}$ as input, then $F(\mathcal{A})$ satisfies $(\epsilon, \delta)$-differential privacy.
+\end{theorem}
+This theorem is the reason why differential privacy is such a useful guarantee. Data analysts can be sure that once they run their algorithm $\mathcal{A}$ and release its output, then the differential privacy guarantee gets no weaker \emph{no matter what an adversary does with the data}. This prevents the headaches where an analyst realizes retroactively that the data he released can be combined in some way to reveal much more information than was intended. Another useful, intuitive result is:
+
+\begin{theorem} \label{thm:comp}
+(Composition) Given $k$ algorithms $M_1$ and $M_2$ satisfying $\epsilon_1$ and $\epsilon_2$ differential privacy, respectively, along with a database $D$, the algorithm $M = (M_1(D), M_2(D))$ has $(\epsilon_1+\epsilon_2, \delta_1+\delta_2)$ differential privacy.
+\end{theorem}
+
+So, what's a simple example of a differential privacy algorithm? Suppose each row of our database $D$ is 0 or 1, so $D \in \{0, 1\}^n$, and that we are trying to release the sum of the elements of $D$. If this sum is $S$, then all neighboring databases $D'$ have sum $S$ or $S+1$. We can add noise to $S$ so that it looks very similar in distribution to $S+1$. The distribution we are looking for is the Laplace distribution:
+\begin{defn}
+The $\text{Laplace}(\lambda)$ distribution has probability mass function $f(x) = \frac{1}{2\lambda}e^{-|x|/\lambda}$.
+\end{defn}
+This distribution fits perfectly with the definition of differential privacy because of the exponentials. If $X,Y$ are i.i.d. from $\text{Laplace}\left(\frac{1}{\epsilon}\right)$, then it is straightforward to show that the distributions of $S+X$ and $S+1+X$ satisfy $(\epsilon, 0)$ differential privacy. To generalize this statement, we will use the following definition:
+\begin{defn}
+(Sensitivity) A function $f$ is $\Delta$-sensitive if for all $x,y$ such that $|x-y|_1 = 1$, we have 
+\[
+|f(x) - f(y)| \leq \Delta
+\]
+This can equivalently be rephrased as 
+\[
+\max_{|x-y|_1=1}|f(x) - f(y)| = \Delta
+\]
+\end{defn}
+This gives us the following mechanism:
+
+\begin{algorithm}\label{alg:1}
+\SetAlgoLined
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\Input{$D$, a database; $f$, a function; $\Delta$, sensitivity of $f$; and $\epsilon$}
+\Output{An estimate for $f(D)$ satisfying $\epsilon$ differential privacy.}
+$X \sim \text{Laplace}\left(\frac{\Delta}{\epsilon}\right)$\;
+\Return{X+f(D)}
+\caption{Laplace Mechanism}
+\end{algorithm}
+
+\begin{theorem}
+The Laplace Mechanism \ref{alg:1} satisfies $(\epsilon, 0)$ differential privacy.
+\end{theorem}
+For the counting or histogram queries such as our example above, we have $\Delta = 1$ so we add $\text{Laplace}\left(\frac{1}{\epsilon}\right)$ noise to our function.
+
+\subsection{Related Work}
+
+Perhaps the best-known example of a language that attempts to help practitioners use differential privacy is PINQ \cite{McSherry:2010}. PINQ builds off Microsoft's C-sharp LINQ database system and provides an interface between the database and the programmer that can accomplish simple differential-privacy mechanisms. PINQ makes extensive use of the Laplace Mechamism \ref{alg:1} to noise histogram queries such as \texttt{Count}, \texttt{Average}, and \texttt{Median}. It also uses Composition \ref{thm:comp} extensively when many of these queries are executed, and it attempts to abstract the composition into a \texttt{PINQAgent} class which keeps track of privacy budget. For example, the \texttt{NoisyCount} function is implemented in Figure \ref{fig:PINQNoisyCount}
+\begin{figure}
+\begin{verbatim}
+double NoisyCount(double epsilon){
+    if(myagent.apply(epsilon)){
+        return mysource.Count() + Laplace(1.0/epsilon);
+    }else{
+        throw new Exception("Access Denied")
+    }
+}
+\end{verbatim}
+\caption{NoisyCount Implemented in PINQ.}
+\label{fig:PINQNoisyCount}
+\end{figure}
+The functionality of PINQ is limited, although a lot of code can still be written, and McSherry provides $k$-means and Social Networking examples to prove its power. Also, the interface is a step in the right direction of thinking about privacy as a black box. However, the drawback of PINQ is that an analyst must still think about noise at every step of the computation. If an \texttt{Access is denied} error is thrown or the results are unacceptably noisy, the analyst will have no idea how to fix their code without diving into privacy.
+
+Several languages have been built off PINQ to try to increase its functionality. wPINQ \cite{Proserpio:2014} uses 
+\subsection{Decision Trees}
+
+
+\section{Problem Setup}
+
+\begin{theorem}
+The entropy function on disjoint histogram counts $a_1,a_2,\ldots, a_n$ has sensitivity
 \end{theorem}
 \begin{proof}
 Let $A = \sum_{i=1}^n a_i$. Then, the entropy is 
@@ -34,4 +162,12 @@ Suppose bucket $a_j$ is reduced by 1, and the entropy change is
 \end{align*}
 
 \end{proof}
+Upon analyzing the Decision Tree paper, several questions are left unanswered:
+\begin{itemize}
+\item How would one generate the advice function in general?
+\item Is their decision to stop early if the database is small optimal? Can privacy be saved? Can accuracy be improved?
+\end{itemize}
+
+\bibliographystyle{plain}
+\bibliography{Thesis}
 \end{document}

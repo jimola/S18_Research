@@ -1,0 +1,28 @@
+\begin{thebibliography}{1}
+
+\bibitem{Hay:2016}
+Michael Hay, Ashwin Machanavajjhala, Gerome Miklau, Yan Chen, Dan Zhang, and
+  George Bissias.
+\newblock Exploring privacy-accuracy tradeoffs using dpcomp.
+\newblock In {\em Proceedings of the 2016 International Conference on
+  Management of Data}, SIGMOD '16, pages 2101--2104, New York, NY, USA, 2016.
+  ACM.
+
+\bibitem{McSherry:2010}
+Frank McSherry.
+\newblock Privacy integrated queries: An extensible platform for
+  privacy-preserving data analysis.
+\newblock {\em Commun. ACM}, 53(9):89--97, September 2010.
+
+\bibitem{Narayanan:2006}
+Arvind Narayanan and Vitaly Shmatikov.
+\newblock How to break anonymity of the netflix prize dataset.
+\newblock {\em CoRR}, abs/cs/0610105, 2006.
+
+\bibitem{Proserpio:2014}
+Davide Proserpio, Sharon Goldberg, and Frank McSherry.
+\newblock Calibrating data to sensitivity in private data analysis: A platform
+  for differentially-private analysis of weighted datasets.
+\newblock {\em Proc. VLDB Endow.}, 7(8):637--648, April 2014.
+
+\end{thebibliography}
