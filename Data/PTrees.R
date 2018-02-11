@@ -142,9 +142,9 @@ decision_tree <- function(data, pred, attrs, node, d){
     node$attr <- ba
 }
 #Returns a decision tree (call this one)
-dtree <- function(data, pred, attrs, d=3){
+dtree <- function(db, B=0, d=3){
     dt <- Node$new('')
-    decision_tree(data, pred, attrs, dt, d)
+    decision_tree(db$data, db$y_names, db$x_names, dt, d)
     return(dt)
 }
 
@@ -231,16 +231,16 @@ decision_tree_private <- function(data, range_bounds, pred, attrs, node, eps, d)
     node$attr <- ba
 }
 #Returns a private decision tree (call this one)
-dt_private <- function(data, range_bounds, pred, attrs, B, d=3){
+dt_private <- function(db, B, d=3){
     dt_p <- Node$new('')
     eps <- B/(2*(d+1))
-    decision_tree_private(data, range_bounds, pred, attrs, dt_p, eps, d)
+    decision_tree_private(db$data, db$rng, db$y_names, db$x_names, dt_p, eps, d)
     return(dt_p)
 }
 
 #Predicts the output for a dataset given the 
-predict <- function(t, D, levels){
-    preds <- rep(levels[[1]], nrow(D))
+predict <- function(t, D, default){
+    preds <- rep(default, nrow(D))
     if(nrow(D) == 0)
         return(preds)
     if(!is.null(t$guess)){
@@ -248,7 +248,7 @@ predict <- function(t, D, levels){
     }
     for(i in 1:length(t$pars)){
         mask <- t$pars[[i]](get(t$attr, D))
-        preds[mask] <- predict(t$children[[i]], D[mask, ], levels)
+        preds[mask] <- predict(t$children[[i]], D[mask, ], default)
     }
     return(preds)
 }

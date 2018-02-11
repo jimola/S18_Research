@@ -1,5 +1,10 @@
 \begin{thebibliography}{1}
 
+\bibitem{Fletcher:2016}
+Sam Fletcher and Md~Zahidul Islam.
+\newblock Decision tree classification with differential privacy: {A} survey.
+\newblock {\em CoRR}, abs/1611.01919, 2016.
+
 \bibitem{Hay:2016}
 Michael Hay, Ashwin Machanavajjhala, Gerome Miklau, Yan Chen, Dan Zhang, and
   George Bissias.
@@ -7,6 +12,12 @@ Michael Hay, Ashwin Machanavajjhala, Gerome Miklau, Yan Chen, Dan Zhang, and
 \newblock In {\em Proceedings of the 2016 International Conference on
   Management of Data}, SIGMOD '16, pages 2101--2104, New York, NY, USA, 2016.
   ACM.
+
+\bibitem{Johnson:2017}
+Noah~M. Johnson, Joseph~P. Near, and Dawn~Xiaodong Song.
+\newblock Practical differential privacy for {SQL} queries using elastic
+  sensitivity.
+\newblock {\em CoRR}, abs/1706.09479, 2017.
 
 \bibitem{McSherry:2010}
 Frank McSherry.
