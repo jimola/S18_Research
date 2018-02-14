@@ -1,5 +1,12 @@
 \begin{thebibliography}{1}
 
+\bibitem{Dwork:2006}
+Cynthia Dwork.
+\newblock Differential privacy.
+\newblock In {\em 33rd International Colloquium on Automata, Languages and
+  Programming, part II (ICALP 2006)}, volume 4052, pages 1--12, Venice, Italy,
+  July 2006. Springer Verlag.
+
 \bibitem{Fletcher:2016}
 Sam Fletcher and Md~Zahidul Islam.
 \newblock Decision tree classification with differential privacy: {A} survey.
@@ -18,6 +25,12 @@ Noah~M. Johnson, Joseph~P. Near, and Dawn~Xiaodong Song.
 \newblock Practical differential privacy for {SQL} queries using elastic
   sensitivity.
 \newblock {\em CoRR}, abs/1706.09479, 2017.
+
+\bibitem{Li:2014}
+Chao Li, Michael Hay, Gerome Miklau, and Yue Wang.
+\newblock A data- and workload-aware algorithm for range queries under
+  differential privacy.
+\newblock {\em Proc. VLDB Endow.}, 7(5):341--352, January 2014.
 
 \bibitem{McSherry:2010}
 Frank McSherry.

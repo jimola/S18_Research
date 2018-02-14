@@ -14,7 +14,6 @@
 \usepackage[linesnumbered,algoruled,boxed,lined]{algorithm2e}
 \usetikzlibrary{positioning}
 \newtheorem{theorem}{Theorem}
-\newtheorem{problem}{Problem}
 \newtheorem{defn}{Definition}
 \newcommand{\Jostle}{\texttt{Jostle}}
 \lhead{Senior Thesis}
@@ -27,46 +26,48 @@
 \begin{document}
 \maketitle
 \section{Introduction}
-\emph{Why is algorithmic choice in Differential Privacy important?}
+The rapid technological increase in data collection, speed, and storage has brought about revolutionary insights and ideas and will continue to do so. However, with huge amounts of private data comes the concern of preventing data from ending up in the wrong hands. In order to prevent data leakage, we must lay a strong privacy foundation and give data analysts the tools for them to implement privacy efficiently and correctly.
 
-The rapid technological increase in data collection, speed, and storage has brought about revolutionary insights and ideas and will continue to do so. However, with huge amounts of private data comes the concern of preventing data from ending up in the wrong hands. In order to prevent data leakage, we must lay a strong privacy foundation and give data analysts the tools they need without forcing them to become privacy experts.
+Consider a healthcare database with records like patient weight, age, some genetic information, or whether they are HIV positive. Granting access rights, or policies, to just patients and their doctors protects as much privacy as possible, and developing tools for verifying information flow policies is an interesting question in its own right. However, sometimes it's okay to release a few general statistics about a database so that an analyst can find risk factors for people who have HIV. On the other side of the spectrum, publicly releasing the entire database doesn't protect privacy at all, yet it would be an analyst's dream. In order to appease both data analysts and patients, a middle ground area must be chosen where a blurry snapshot of the database is released, comprehensive enough so that meaningful conclusions may be drawn yet blurry enough so that individuals are mostly protected. We call this the \emph{privacy-accuracy} tradeoff. We can always sacrifice one for the other before we disclose our database snapshot. However, after we disclose, it is impossible to take any privacy back, so we have to be absolutely sure that privacy guarantee will not fail under any attack. The most promising method for doing such a disclosure is Differential Privacy \cite{Dwork:2006}.
 
-Consider a healthcare database with records like patient weight, age, some genetic information, or whether they are HIV positive. Granting access rights to just the patients and their doctors protects privacy perfectly and developing tools for verification is an interesting question in its own right. However, sometimes it's okay to release a few general statistics about a database so that an analyst can find risk factors for people who have HIV. On the other side of the spectrum, publicly releasing all the information doesn't protect an individual's information. It is therefore necessary to use a middle ground tool where the amount of information released can be reliably controlled. Perhaps the most promising tool is Differential Privacy.
+Differential Privacy (DP) is considered to be the gold-standard of privacy and has been researched intensely since its conception in 2005. Its goal is to provide guarantees on what can be done with the information being released from a dataset making minimal assumptions about an attacker's powers. Previous attempts were not mathematically rigorous and did not reliably prevent attacks. Notably, before DP, researchers were able to reidentify users in a Netflix dataset given an auxiliary dataset from IMDB and form a generalized attack against the state-of-the-art privacy algorithms of the time \cite{Narayanan:2006}. The strong privacy guarantee of DP, on the other hand, has a rigorous mathematical foundation that makes it impervious to the post-processing attacks that exploited the Netflix dataset, and more recently, \href{https://hackernoon.com/how-to-rob-an-airbnb-252e7e7eda44}{AirBnB} and \href{https://gizmodo.com/this-is-almost-certainly-james-comey-s-twitter-account-1793843641}{Instagram}. Differential Privacy has certainly stood the test of time as a sturdy way to protect privacy.
 
-Differential Privacy (DP) has been the interest of many researchers and programmers since its conception in 2006. Its goal is to provide strong bounds on the amount of information being released from a dataset. Previous attempts were not mathematically rigorous and did not reliably prevent attacks. Most notably, before DP, researchers were able to reidentify users in a Netflix dataset given an auxiliary dataset from IMDB and form a generalized attack against the state-of-the-art privacy algorithms of the time \cite{Narayanan:2006}. The strong privacy guarantee of DP, on the other hand, has a rigorous mathematical foundation that makes it impervious to the post-processing attacks that exploited the Netflix dataset, and more recently, \href{https://hackernoon.com/how-to-rob-an-airbnb-252e7e7eda44}{AirBnB} and \href{https://gizmodo.com/this-is-almost-certainly-james-comey-s-twitter-account-1793843641}{Instagram}. As our world becomes more and more data-driven, it becomes ever more important to protect privacy in a sturdy way.
+However, just building a suite of DP algorithms is not satisfactory. Privacy adds a new layer of complexity to the data analyst's job because the performance of algorithms may vary wildly depending on the database or on other parameters, complexity that an analyst may not fully understand. Most data analysts are not Differential Privacy experts. This leads to the central problem of this work: 
 
-However, just building a suite of DP algorithms is not satisfactory. We are motivated by the need to build tools that make the analyst's life easier, and an analyst who is not well-versed in privacy would be daunted by the mountains of DP algortihms out there. Privacy adds a new layer complexity to the data analyst's job because the performance of algorithms may vary wildly depending on the database or other input parameters. This leads to the central problem of this work: 
-\begin{problem}\label{prob:1}
-How can a data analyst make the correct algorithmic choice given that a many tasks may be solved by more than privacy algorithm?
-\end{problem}
-This problem is noted by the authors of DPComp \cite{Hay:2016}, who comment that currently, ``the practitioner is lost and incapable of deploying the right algorithm''. A data analyst should not responsible for making this choice. Little research has been conducted on how to help make the proper algorithmic choice; the most related work so far has been on visualization tools such as DPComp. However, we take a programming-language based approach for the following reasons:
+\textbf{Problem:} How can we help data analysts dispatch Differential Privacy algorithms in a way that helps them understand the privacy and accuracy tradeoff space?
 
+This problem is noted by the authors of DPComp \cite{Hay:2016}, who comment that currently, ``the practitioner is lost and incapable of deploying the right algorithm''. DPComp allows the analyst to visualize the performances of different histogram querying algorithms on certain datasets. An example dataset  is shown in Figure \ref{fig:dpcomp}. We feel this is a step in the right direction, but there are two main drawbacks: their visualization tools are limited to 2D histogram algorithms, and they don't help the programmer enough on his actual dataset, instead using publicly available knowledge. To address both of these issues, we take a programming-language-based approach. The approach is to move the manual exploration of algorithms that an analyst might do with DPComp into the runtime of our programming language, which we call \Jostle{}. This will preserve the insights that an analyst may gleam from DPComp (since the algorithmic choice will be publicly available to him) and will confer the advantages of a programming language:
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.3]{DPComp}
+\end{center}
+\caption{A screenshot of a DPComp graph depicting the original dataset and the noise that a DP algorthm, DAWA \cite{Li:2014}, adds at $\epsilon=0.01$. This would help an analyst decide whether to apply DAWA on his own dataset.}\label{fig:dpcomp}
+\end{figure}
 \begin{itemize}
-\item \textbf{Abstraction} Abstracting privacy in a programming language allows for the suppression of complicated privacy machinery, allowing programmers to view privacy as a black box. Programmers write code faster with fewer bugs when they can think about complicated ideas as black boxes.
-\item \textbf{Generalization} It is infeasible to conduct research on all use cases that a programmer may encounter. Writing a sophisticated programming language that automatically makes this choice would perform on par with the state-of-the-art methods. Effectively, we would allow anyone to stand on the shoulders of the giants who invented these algorithms.
+\item \textbf{Abstraction} Creating an abstraction for algorithmic choice in a programming language allows for the suppression of complicated privacy machinery, allowing analysts to view the choice as a black box. In fact, a programmer could view all of DP as a black box and still use \Jostle{} by simply trying many DP black boxes and knowing that the best algorithm will be used \footnote{We could call these programmers privacy-agnostic.}. Programmers write code faster with fewer bugs when they can think about complicated ideas as black boxes.
+\item \textbf{Generalization} As previously noted, it is infeasible to conduct experiments like DPComp on all use cases that an analyst may encounter. Writing a sophisticated programming language that automatically makes this choice would eliminate the need for this while still allowing for high-grade code performing as if the experiments had been conducted.
 \end{itemize}
-
-The programming language could be termed \emph{privacy agnostic} because it allows programmers and data practitioners to be agnostic to the advanced studies that have gone into developing differentially-private algorithms yet still attain the level of performance of the highest-grade algorithms in the field. Because the programming language will automatically make decisions during execution in an attempt to maximize accuracy, we call it \Jostle{}.
 
 The most central idea in \Jostle{} is the \texttt{NoisyIf} statement, illustrated in Figure \ref{fig:1}.
 \begin{figure}
-\begin{verbatim}
+\begin{lstlisting}
 def f(D):
     NoisyIf(g D):
         do A
     else:
         do B
-\end{verbatim}
+\end{lstlisting}
 \caption{Example \texttt{NoisyIf} statement.}
 \label{fig:1}
 \end{figure}
 A programmer will use \texttt{NoisyIf} when they are unsure of which choice to make at a certain point in their code. If they have certain beliefs that may aid \Jostle{} in making the choice, then they may specify an \emph{advice} function (denoted by \texttt{g} in Figure \ref{fig:1}). Jostle will combine this advice along with previous executions of this particular \texttt{NoisyIf} to make the best decision.
 
-We will begin with a background section on DP and related work. Then we will introduce decision trees and highlight the existence of Problem \ref{prob:1} with them. Thirdly, we will solve the decision tree problem with different \texttt{NoisyIf} statements, and finally, we will illustrate how \texttt{NoisyIf} statements can be generalized to make \texttt{Jostle}.
+We will begin with a background section on DP and related work. Then we will introduce decision trees and highlight the existence of Problem with them. Thirdly, we will solve the decision tree problem with different \texttt{NoisyIf} statements, and finally, we will illustrate how \texttt{NoisyIf} statements can be generalized to make \texttt{Jostle}.
 
 \section{Background}
-\subsection{DP}
-DP is based on the intuition of a user being asked to participate in a study involving an algorithm $\mathcal{A}$ being run on a database $D$. If $\mathcal{A}(D)$ changes as a result of the user participating, then this poses a privacy concern. An attacker may be able to infer something about the participant's input. This means that non-trivial deterministic algorithms are already unacceptable; their output may change depending on just a single addition to $D$. The strength $\epsilon$ of a DP guarantee is the maximum factor that the randomized output of $\mathcal{A}$ changes for two databases $D$ and $D'$ which differ in one row. Mathematically, we are saying:
+\subsection{Differential Privacy}
+DP is motivated by the example of a subject being asked to participate in a study involving an algorithm $\mathcal{A}$ being run on a database $D$. If $\mathcal{A}(D)$ changes as a result of the subject participating, then this poses a privacy concern. An attacker may be able to infer something about the participant's input. This means that non-trivial deterministic algorithms are already unacceptable; their output may change depending on just a single addition to $D$. The strength $\epsilon$ of a DP guarantee is the maximum factor that the randomized output of $\mathcal{A}$ changes for two databases $D$ and $D'$ which differ in one row. Mathematically, we are saying:
 
 \begin{defn}
 $\mathcal{A}$ satisfies $\epsilon$-DP if for all $D$ and $D'$ such that $|D-D'|_1=1$ and for all $o$ in the range of $\mathcal{A}$, 
@@ -83,18 +84,18 @@ $\mathcal{A}$ satisfies $(\epsilon, \delta)$-DP if for all $D$ and $D'$ such tha
 For much of this paper, we will focus on $\epsilon$-DP, but it is worth knowing the more general case so we can import the well-known privacy theorems in their most general form. Below is perhaps the most important result, and its proof comes cleanly from the definition of DP.
 
 \begin{theorem}
-(Post-Processing) If $\mathcal{A}$ satisfies $(\epsilon, \delta)$-DP, and $F$ is any function that takes the output of $\mathcal{A}$ as input, then $F(\mathcal{A})$ satisfies $(\epsilon, \delta)$-DP.
+(Post-Processing \cite{Dwork:2006}) If $\mathcal{A}$ satisfies $(\epsilon, \delta)$-DP, and $F$ is any function that takes the output of $\mathcal{A}$ as input, then $F(\mathcal{A})$ satisfies $(\epsilon, \delta)$-DP.
 \end{theorem}
 This theorem is the reason why DP is such a useful guarantee. Data analysts can be sure that once they run their algorithm $\mathcal{A}$ and release its output, then the DP guarantee gets no weaker \emph{no matter what an adversary does with the data}. This prevents the headaches where an analyst realizes retroactively that the data he released can be combined in some way to reveal much more information than was intended. Another useful, intuitive result is:
 
 \begin{theorem} \label{thm:comp}
-(Composition) Given algorithms $M_1$ and $M_2$ satisfying $\epsilon_1$ and $\epsilon_2$ DP, respectively, along with a database $D$, the algorithm $M = (M_1(D), M_2(D))$ has $(\epsilon_1+\epsilon_2, \delta_1+\delta_2)$ DP.
+(Composition \cite{Dwork:2006}) Given algorithms $M_1$ and $M_2$ satisfying $\epsilon_1$ and $\epsilon_2$ DP, respectively, along with a database $D$, the algorithm $M = (M_1(D), M_2(D))$ has $(\epsilon_1+\epsilon_2, \delta_1+\delta_2)$ DP.
 \end{theorem}
 Composition is like the union bound from probability; it's convenient to apply but often is a pessimistic bound, as we will see later. Because of composition, we often refer to $\epsilon$ as a privacy budget---if we string together many private computations, it's like we spend some of our budget on them, and our total budget is $\epsilon$.
 
 Finally, we can talk about the disjointness of our queries---if $D$ is split into disjoint parts, before mechanisms are applied to it, then out of all its possible neighbors, only one of the parts will be different. Thus, only the worst mechanism will affect the guarantee:
 \begin{theorem}\label{thm:disj}
-(Disjointness) Given disjoint subsets $D_1, D_2$ of $D$ with two mechanisms $M_1$ and $M_2$ providing $(\epsilon_1, \delta_1)$ and $(\epsilon_2, \delta_2)$-privacy, then $((M_1(D_1), M_2(D_2))$ satisfies $(\max\{\epsilon_1, \epsilon_2\}, \max\{\delta_1, \delta_2\})$-DP.
+(Disjointness \cite{Dwork:2006}) Given disjoint subsets $D_1, D_2$ of $D$ with two mechanisms $M_1$ and $M_2$ providing $(\epsilon_1, \delta_1)$ and $(\epsilon_2, \delta_2)$-privacy, then $((M_1(D_1), M_2(D_2))$ satisfies $(\max\{\epsilon_1, \epsilon_2\}, \max\{\delta_1, \delta_2\})$-DP.
 \end{theorem}
 
 So, what's a simple example of a DP algorithm? Suppose each row of our database $D$ is 0 or 1, so $D \in \{0, 1\}^n$, and that we are trying to release the sum of the elements of $D$. If this sum is $S$, then all neighboring databases $D'$ have sum $S$ or $S+1$. We can add noise to $S$ so that it looks very similar in distribution to $S+1$. The distribution we are looking for is the Laplace distribution:
@@ -126,7 +127,7 @@ $X \sim \text{Laplace}\left(\frac{\Delta(f)}{\epsilon}\right)$\;
 \end{algorithm}
 
 \begin{theorem}
-The Laplace Mechanism \ref{alg:1} satisfies $(\epsilon, 0)$ DP.
+The Laplace Mechanism \ref{alg:1} satisfies $(\epsilon, 0)$-DP \cite{Dwork:2006}.
 \end{theorem}
 For the counting or histogram queries such as our example above, we have $\Delta = 1$ so we add $\text{Laplace}\left(\frac{1}{\epsilon}\right)$ noise to our function.
 
@@ -166,7 +167,7 @@ For instance, in a complete bipartite graph with $n$ vertices, there are no tria
 
 The authors of \cite{Johnson:2017} overcome the large sensitivity of \texttt{Join} by forcing the predicate of the Join to be just equality of keys. This greatly reduces the 
 
-Static methods
+Static methods including PSI
 
 \subsection{Decision Trees}
 
@@ -255,7 +256,7 @@ When converting this mechanism to the differentially-private version, the user i
 As we will see, the answers to these questions are data-dependent and there is never one answer that always dominates.
 
 \section{Decision Tree Examples}
-For recursive decision tree algorithms set up like \ref{alg:c4.5}, the recursive calls on the same depth of the tree all operate on disjoint subsets of $D$. Therefore, a conservative estimate of the privacy usage, using composition and disjointness, is
+For recursive decision tree algorithms set up like \ref{alg:c45}, the recursive calls on the same depth of the tree all operate on disjoint subsets of $D$. Therefore, a conservative estimate of the privacy usage, using composition and disjointness, is
 \begin{equation}
 \sum_{i=0}^d \max_{n \in \texttt{Nodes on lvl }i} \epsilon_{n}
 \end{equation}
@@ -268,7 +269,7 @@ def c_entropy(D, class, attribute):
         count_a = NoisyCount(D[attribute == a])
 \end{lstlisting}
 \begin{theorem}
-The entropy function on disjoint histogram counts $a_1,a_2,\ldots, a_n$ has sensitivity
+The entropy function on disjoint histogram counts $a_1,a_2,\ldots, a_n$ produced from a database $D$ has sensitivity bounded by $\frac{1}{|D|}\left(\frac{1}{\ln(2)} + \log(|D|) \right)$.
 \end{theorem}
 \begin{proof}
 Let $A = \sum_{i=1}^n a_i$. Then, the entropy is 

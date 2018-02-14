@@ -59,4 +59,13 @@ bind <- cbind(b1, V2=bind$V2 %>% as.factor)
 bind_x_names <- names(bind)[-9]
 bind_y_names <- names(bind)[9]
 bind_lvls <- levels(bind$V2)
-bindd <- list(data=bind, x_names=bind_x_names, y_names=bind_y_names, rng=NULL)
+bindd <- list(data=bind, x_names=bind_x_names, y_names=bind_y_names, rng=NA)
+
+ttt <- fread('../datasets/tic-tac-toe.data', header=FALSE)
+ttt <- lapply(ttt, to_num_fac) %>% data.frame
+ttt <- ttt[sample(1:nrow(ttt), nrow(ttt)), ]
+ttt <- list(data=ttt, x_names=names(ttt)[-10], y_names=names(ttt)[10], rng=NA)
+
+nurs <- fread('../datasets/nursery.data') %>% lapply(to_num_fac) %>% data.frame
+nurs <- list(data=nurs, x_names=names(nurs)[-9], y_names=names(nurs)[9], rng=NA)
+

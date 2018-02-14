@@ -299,6 +299,7 @@ prune <- function(t, lvls){
 }
 #Does a full prune (call this one)
 prune_tree <- function(t, lvls){
+    lvls <- as.factor(lvls)
     top_down(t, 1)
     bottom_up(t)
     prune(t, lvls)
