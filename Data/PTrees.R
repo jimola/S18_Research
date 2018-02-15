@@ -211,7 +211,6 @@ decision_tree_private <- function(data, range_bounds, pred, attrs, node, eps, d)
     atp <- lapply(attrs, function(name) cond_eval(name, data, range_bounds, p))
     best_attr <- exp_mech(atp, sapply(atp, function(x) -x$ent), eps, ent_util$sens)
     node$name <- paste(node$name, best_attr$name, sep=';')
-    node$branch <- node$name
     ba <- best_attr$name
     nl <- attrs[attrs!= ba]
     if(best_attr$type == 'numeric'){
