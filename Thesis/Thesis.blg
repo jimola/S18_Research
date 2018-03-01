@@ -3,44 +3,52 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: Thesis.aux
 The style file: plain.bst
 Database file #1: Thesis.bib
-You've used 8 entries,
+Warning--entry type for "Singh:2014" isn't style-file defined
+--line 376 of file Thesis.bib
+Warning--entry type for "Fletcher:2015" isn't style-file defined
+--line 385 of file Thesis.bib
+A bad cross reference---entry "Friedman:2010"
+refers to entry "DBLP:conf/kdd/2010", which doesn't exist
+Warning--I didn't find a database entry for "DBLP:conf/kdd/2010"
+You've used 18 entries,
             2118 wiz_defined-function locations,
-            558 strings with 5472 characters,
-and the built_in function-call counts, 2823 in all, are:
-= -- 286
-> -- 132
-< -- 3
-+ -- 53
-- -- 44
-* -- 207
-:= -- 475
-add.period$ -- 26
-call.type$ -- 8
-change.case$ -- 46
+            626 strings with 7573 characters,
+and the built_in function-call counts, 6267 in all, are:
+= -- 621
+> -- 301
+< -- 6
++ -- 121
+- -- 100
+* -- 427
+:= -- 1029
+add.period$ -- 56
+call.type$ -- 18
+change.case$ -- 103
 chr.to.int$ -- 0
-cite$ -- 8
-duplicate$ -- 107
-empty$ -- 207
-format.name$ -- 44
-if$ -- 589
+cite$ -- 18
+duplicate$ -- 247
+empty$ -- 481
+format.name$ -- 100
+if$ -- 1333
 int.to.chr$ -- 0
-int.to.str$ -- 8
-missing$ -- 8
-newline$ -- 43
-num.names$ -- 16
-pop$ -- 35
+int.to.str$ -- 18
+missing$ -- 17
+newline$ -- 91
+num.names$ -- 36
+pop$ -- 109
 preamble$ -- 1
-purify$ -- 38
+purify$ -- 86
 quote$ -- 0
-skip$ -- 82
+skip$ -- 194
 stack$ -- 0
-substring$ -- 165
-swap$ -- 25
-text.length$ -- 3
+substring$ -- 334
+swap$ -- 64
+text.length$ -- 6
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 32
+type$ -- 70
 warning$ -- 0
-while$ -- 27
-width$ -- 9
-write$ -- 96
+while$ -- 57
+width$ -- 20
+write$ -- 203
+(There was 1 error message)

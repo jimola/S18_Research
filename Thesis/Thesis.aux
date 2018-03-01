@@ -34,33 +34,80 @@
 \newlabel{thm:comp}{{2}{5}{}{theorem.2}{}}
 \newlabel{thm:disj}{{3}{5}{}{theorem.3}{}}
 \citation{Dwork:2006}
-\citation{McSherry:2010}
 \newlabel{alg:1}{{1}{6}{Differential Privacy}{algocfline.1}{}}
 \@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces Laplace Mechanism}}{6}{algocf.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Related Work}{6}{subsection.2.2}}
+\newlabel{alg:max}{{2}{6}{Differential Privacy}{algocfline.2}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces ReportNoisyMax}}{6}{algocf.2}}
+\citation{McSherry:2010}
 \citation{Proserpio:2014}
 \citation{Johnson:2017}
 \citation{Proserpio:2014}
-\newlabel{alg:exp}{{2}{7}{Differential Privacy}{algocfline.2}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces Exponential Mechanism}}{7}{algocf.2}}
+\newlabel{alg:exp}{{3}{7}{Differential Privacy}{algocfline.3}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {3}{\ignorespaces Exponential Mechanism}}{7}{algocf.3}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces NoisyCount Implemented in PINQ.}}{7}{figure.3}}
 \newlabel{fig:PINQNoisyCount}{{3}{7}{NoisyCount Implemented in PINQ}{figure.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Related Work}{7}{subsection.2.2}}
 \citation{Johnson:2017}
+\citation{Reed:2010}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Existing Methods for Algorithmic Choice}{8}{subsection.2.3}}
+\citation{Koufogiannis:2015}
+\citation{Ligett:2017}
+\citation{Dwork:2006}
 \citation{Fletcher:2016}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Decision Trees}{8}{subsection.2.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Example Decision Tree.}}{10}{figure.4}}
+\newlabel{fig:dt}{{4}{10}{Example Decision Tree}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Decision Trees}{10}{subsection.2.4}}
 \citation{Fletcher:2016}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Example Decision Tree.}}{9}{figure.4}}
-\newlabel{fig:dt}{{4}{9}{Example Decision Tree}{figure.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces C4.5 Algorithm.}}{9}{figure.5}}
-\newlabel{alg:c45}{{5}{9}{C4.5 Algorithm}{figure.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Decision Tree Examples}{10}{section.3}}
+\newlabel{eq:cond_ent}{{1}{11}{Decision Trees}{equation.2.1}{}}
+\newlabel{eq:gini}{{2}{11}{Decision Trees}{equation.2.2}{}}
+\newlabel{eq:max}{{3}{11}{Decision Trees}{equation.2.3}{}}
+\citation{Blum:2005}
+\@writefile{lol}{\contentsline {lstlisting}{./DTree.py}{12}{lstlisting.-2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces C4.5 Algorithm.}}{12}{figure.5}}
+\newlabel{alg:c45}{{5}{12}{C4.5 Algorithm}{figure.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Decision Tree Examples}{12}{section.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Private Decision Trees}{12}{subsection.3.1}}
+\newlabel{eq:priv_est}{{4}{12}{Private Decision Trees}{equation.3.4}{}}
+\citation{Friedman:2010}
+\citation{Fletcher:2016}
+\citation{Friedman:2010}
+\newlabel{thm:ent_sens}{{5}{13}{}{theorem.5}{}}
+\citation{Quinlan:1993}
+\citation{Friedman:2010}
+\@writefile{lol}{\contentsline {lstlisting}{./DTree.py}{14}{lstlisting.-3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Private C4.5 proposed by Friedman and Schuster \cite  {Friedman:2010}. }}{14}{figure.6}}
+\newlabel{alg:pc45}{{6}{14}{Private C4.5 proposed by Friedman and Schuster \cite {Friedman:2010}}{figure.6}{}}
+\citation{Friedman:2010}
+\citation{Mohammed:2015}
+\citation{Jagannathan:2009}
+\citation{Singh:2014}
+\citation{Fletcher:2015}
+\citation{Mohammed:2015}
+\citation{Jagannathan:2009}
+\citation{Singh:2014}
+\citation{Fletcher:2015}
+\citation{Fletcher:2016}
+\citation{Fletcher:2016}
 \bibstyle{plain}
 \bibdata{Thesis}
-\bibcite{Dwork:2006}{1}
-\bibcite{Fletcher:2016}{2}
-\bibcite{Hay:2016}{3}
-\bibcite{Johnson:2017}{4}
-\bibcite{Li:2014}{5}
-\bibcite{McSherry:2010}{6}
-\bibcite{Narayanan:2006}{7}
-\bibcite{Proserpio:2014}{8}
+\bibcite{Blum:2005}{1}
+\bibcite{Dwork:2006}{2}
+\bibcite{Fletcher:2015}{3}
+\bibcite{Fletcher:2016}{4}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Our decision tree algorithm with NoisyConditionals which learn the execution path from past histories. Depending on what the NoisyConditionals say, this algorithm is capable of expressing all the decision tree algorithms in \cite  {Fletcher:2016}.}}{16}{figure.7}}
+\newlabel{alg:dtree}{{7}{16}{Our decision tree algorithm with NoisyConditionals which learn the execution path from past histories. Depending on what the NoisyConditionals say, this algorithm is capable of expressing all the decision tree algorithms in \cite {Fletcher:2016}}{figure.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Experiments}{16}{subsection.3.2}}
+\bibcite{Friedman:2010}{5}
+\bibcite{Hay:2016}{6}
+\bibcite{Jagannathan:2009}{7}
+\bibcite{Johnson:2017}{8}
+\bibcite{Koufogiannis:2015}{9}
+\bibcite{Li:2014}{10}
+\bibcite{Ligett:2017}{11}
+\bibcite{McSherry:2010}{12}
+\bibcite{Mohammed:2015}{13}
+\bibcite{Narayanan:2006}{14}
+\bibcite{Proserpio:2014}{15}
+\bibcite{Quinlan:1993}{16}
+\bibcite{Reed:2010}{17}
+\bibcite{Singh:2014}{18}

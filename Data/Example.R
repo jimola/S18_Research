@@ -4,9 +4,7 @@ dtree_outer <- function(data, attrs, y_name, D_ranges, dep, epsilon){
   dt <- 0
   if(NoisyBranch(L1)){
     dt <- dtree_helper(data, attrs, y_name, D_ranges, dep, epsilon/(2*dep), TRUE)
-    if(NoisyBranch(L2)){
-      prune(dt)
-    }
+    prune(dt)
   }else{
     dt <- dtree_helper(data, attrs, y_name, D_ranges, dep, epsilon/(dep), FALSE)
   }
@@ -15,10 +13,10 @@ dtree_outer <- function(data, attrs, y_name, D_ranges, dep, epsilon){
 
 dtree_helper <- function(data, attrs, y_name, D_ranges, dep, epsilon, collect_size){
   dsize <- Inf
-  if(collect_size || NoisyBranch(L3)){
+  if(collect_size || NoisyBranch(L2)){
     dsize <- noisy_count(data)
   }
-  if(dep == 0 || dsize < epsilon){
+  if(dep == 0 || NoisyBranch(L3)){ #May insert NoisyBranch Here
     most_common_class <- ReportNoisyMax(data, epsilon)
     return(Tree$Leaf(size=dsize))
   }

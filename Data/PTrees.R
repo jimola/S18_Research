@@ -30,7 +30,7 @@ exp_mech2 <- function(data, domain, util, eps){
 }
 exp_mech <- function(domain, util, eps, sens=1){
     if(eps == 0){
-        return(domain[util==max(util)][[1]])
+        return(sample(domain, 1)[[1]])
     }
     util <- util-max(util)
     n <- length(domain)

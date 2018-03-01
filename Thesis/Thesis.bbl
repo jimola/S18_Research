@@ -1,4 +1,11 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{Blum:2005}
+Avrim Blum, Cynthia Dwork, Frank McSherry, and Kobbi Nissim.
+\newblock Practical privacy: The sulq framework.
+\newblock In {\em 24th ACM SIGMOD International Conference on Management of
+  Data / Principles of Database Systems, Baltimore (PODS 2005)}, Baltimore,
+  Maryland, USA, June 2005.
 
 \bibitem{Dwork:2006}
 Cynthia Dwork.
@@ -7,10 +14,22 @@ Cynthia Dwork.
   Programming, part II (ICALP 2006)}, volume 4052, pages 1--12, Venice, Italy,
   July 2006. Springer Verlag.
 
+\bibitem{Fletcher:2015}
+Sam Fletcher and Md~Islam.
+\newblock A differentially private random decision forest using reliable
+  signal-to-noise ratios, 11 2015.
+
 \bibitem{Fletcher:2016}
 Sam Fletcher and Md~Zahidul Islam.
 \newblock Decision tree classification with differential privacy: {A} survey.
 \newblock {\em CoRR}, abs/1611.01919, 2016.
+
+\bibitem{Friedman:2010}
+Arik Friedman and Assaf Schuster.
+\newblock Data mining with differential privacy.
+\newblock In {\em Proceedings of the 16th {ACM} {SIGKDD} International
+  Conference on Knowledge Discovery and Data Mining, Washington, DC, USA, July
+  25-28, 2010}, pages 493--502, 2010.
 
 \bibitem{Hay:2016}
 Michael Hay, Ashwin Machanavajjhala, Gerome Miklau, Yan Chen, Dan Zhang, and
@@ -20,11 +39,23 @@ Michael Hay, Ashwin Machanavajjhala, Gerome Miklau, Yan Chen, Dan Zhang, and
   Management of Data}, SIGMOD '16, pages 2101--2104, New York, NY, USA, 2016.
   ACM.
 
+\bibitem{Jagannathan:2009}
+Geetha Jagannathan, Krishnan Pillaipakkamnatt, and Rebecca~N. Wright.
+\newblock A practical differentially private random decision tree classifier.
+\newblock In {\em Proceedings of the 2009 IEEE International Conference on Data
+  Mining Workshops}, ICDMW '09, pages 114--121, Washington, DC, USA, 2009. IEEE
+  Computer Society.
+
 \bibitem{Johnson:2017}
 Noah~M. Johnson, Joseph~P. Near, and Dawn~Xiaodong Song.
 \newblock Practical differential privacy for {SQL} queries using elastic
   sensitivity.
 \newblock {\em CoRR}, abs/1706.09479, 2017.
+
+\bibitem{Koufogiannis:2015}
+Fragkiskos Koufogiannis, Shuo Han, and George~J. Pappas.
+\newblock Gradual release of sensitive data under differential privacy.
+\newblock {\em CoRR}, abs/1504.00429, 2015.
 
 \bibitem{Li:2014}
 Chao Li, Michael Hay, Gerome Miklau, and Yue Wang.
@@ -32,11 +63,24 @@ Chao Li, Michael Hay, Gerome Miklau, and Yue Wang.
   differential privacy.
 \newblock {\em Proc. VLDB Endow.}, 7(5):341--352, January 2014.
 
+\bibitem{Ligett:2017}
+Katrina Ligett, Seth Neel, Aaron Roth, Bo~Waggoner, and Zhiwei~Steven Wu.
+\newblock Accuracy first: Selecting a differential privacy level for
+  accuracy-constrained {ERM}.
+\newblock {\em CoRR}, abs/1705.10829, 2017.
+
 \bibitem{McSherry:2010}
 Frank McSherry.
 \newblock Privacy integrated queries: An extensible platform for
   privacy-preserving data analysis.
 \newblock {\em Commun. ACM}, 53(9):89--97, September 2010.
+
+\bibitem{Mohammed:2015}
+N.~Mohammed, S.~Barouti, D.~Alhadidi, and R.~Chen.
+\newblock Secure and private management of healthcare databases for data
+  mining.
+\newblock In {\em 2015 IEEE 28th International Symposium on Computer-Based
+  Medical Systems}, pages 191--196, June 2015.
 
 \bibitem{Narayanan:2006}
 Arvind Narayanan and Vitaly Shmatikov.
@@ -48,5 +92,21 @@ Davide Proserpio, Sharon Goldberg, and Frank McSherry.
 \newblock Calibrating data to sensitivity in private data analysis: A platform
   for differentially-private analysis of weighted datasets.
 \newblock {\em Proc. VLDB Endow.}, 7(8):637--648, April 2014.
+
+\bibitem{Quinlan:1993}
+J.R. Quinlan.
+\newblock {\em C4.5: Programs for Machine Learning}.
+\newblock Morgan Kaufmann series in machine learning. Morgan Kaufmann
+  Publishers, 1993.
+
+\bibitem{Reed:2010}
+Jason Reed and Benjamin~C. Pierce.
+\newblock Distance makes the types grow stronger: A calculus for differential
+  privacy.
+\newblock {\em SIGPLAN Not.}, 45(9):157--168, September 2010.
+
+\bibitem{Singh:2014}
+Sanjay Singh and Abhijit Patil.
+\newblock Differential private random forest, 09 2014.
 
 \end{thebibliography}

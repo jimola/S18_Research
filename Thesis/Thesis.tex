@@ -1,5 +1,5 @@
 \documentclass[11pt]{article}
-\usepackage{amsmath,amsthm,amssymb}
+\usepackage{amsmath,amsthm,amssymb,wasysym}
 \usepackage{mathtools}
 \usepackage{enumerate}
 \usepackage{graphicx}
@@ -11,8 +11,24 @@
 \usepackage{tikz}
 \usepackage{hyperref}
 \usepackage{listings}
+\lstset
+{
+    language=Python,
+    basicstyle=\footnotesize,
+    numbers=left,
+    stepnumber=1,
+    showstringspaces=false,
+    tabsize=1,
+    breaklines=true,
+    breakatwhitespace=false,
+}
 \usepackage[linesnumbered,algoruled,boxed,lined]{algorithm2e}
-\usetikzlibrary{positioning}
+\usetikzlibrary{positioning, shapes.geometric, arrows}
+\tikzstyle{startstop} = [rectangle, rounded corners, text centered, draw=black, fill=red!30]
+\tikzstyle{io} = [text centered]
+\tikzstyle{decision} = [rectangle, text centered, draw=black]
+\tikzstyle{process} = [trapezium, text centered, draw=black]
+\tikzstyle{arrow} = [thick,->,>=stealth]
 \newtheorem{theorem}{Theorem}
 \newtheorem{defn}{Definition}
 \newcommand{\Jostle}{\texttt{Jostle}}
@@ -20,7 +36,7 @@
 \rhead{Jacob Imola}
 \cfoot{\thepage}
 \pagestyle{fancy}
-\title{Automatic, Fine-Grained Algorithmic Choice for DP}
+\title{Automatic, Fine-Grained Algorithmic Choice for Differential Privacy}
 \date{\today}
 \author{Jacob Imola\\ School of Computer Science, Carnegie Mellon University\and Jean Yang\\ School of Computer Science, Carnegie Mellon University}
 \begin{document}
@@ -119,9 +135,9 @@ This gives us the following mechanism:
 \begin{algorithm}\label{alg:1}
 \SetAlgoLined
 \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
-\Input{$D$, a database; $f$, a function; and $\epsilon$}
-\Output{An estimate for $f(D)$ satisfying $\epsilon$ DP.}
-$X \sim \text{Laplace}\left(\frac{\Delta(f)}{\epsilon}\right)$\;
+\Input{$D$, a database; $f$, a function $\mathcal{D} \rightarrow \mathbb{R}^n$; and $\epsilon$}
+\Output{An estimate for $f(D)$ satisfying $\epsilon$-DP.}
+$X$, a vector of $n$ i.i.d. variables drawn from $\text{Laplace}\left(\frac{\Delta(f)}{\epsilon}\right)$\;
 \Return{X+f(D)}
 \caption{Laplace Mechanism}
 \end{algorithm}
@@ -131,18 +147,27 @@ The Laplace Mechanism \ref{alg:1} satisfies $(\epsilon, 0)$-DP \cite{Dwork:2006}
 \end{theorem}
 For the counting or histogram queries such as our example above, we have $\Delta = 1$ so we add $\text{Laplace}\left(\frac{1}{\epsilon}\right)$ noise to our function.
 
-However, what if we wanted to compute the maximum value in a set? If we had $n$ elements, we certainly wouldn't want to apply Composition $n$ times, obtaining $n\epsilon$-DP, just to have $\texttt{Laplace}\left(\frac{1}{\epsilon}\right)$ noise added to our answer. A better way is to use the exponential mechanism \ref{alg:exp}. Instead of paying $n\epsilon$, the exponential mechanism allows us to pay $\epsilon$ for essentially the same noise on our answer, and it works for any utility function.
-
+However, what if we wanted to compute the maximum value in a set? If we had $n$ elements, we certainly wouldn't want to apply Composition $n$ times, obtaining $n\epsilon$-DP, just to have $\texttt{Laplace}\left(\frac{1}{\epsilon}\right)$ noise added to our answer. A better way is to use ReportNoisyMax \ref{alg:max}. Instead of paying $n\epsilon$, ReportNoisyMax allows us to pay $\epsilon$ for the exact same noise on our answer.
+\begin{algorithm}\label{alg:max}
+\SetAlgoLined
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\Input{$D \in \mathcal{D}$, $\mathcal{X}$, a domain; $f$, a function $\mathcal{X} \times \mathcal{D} \rightarrow \mathbb{R}$; and $\epsilon$}
+\Output{$x \in \mathcal{X}$ that attains maximum value on $f(S)$, satisfying $\epsilon$-DP.}
+$X$, a vector of $|\mathcal{X}|$ i.i.d. variables drawn from $\text{Laplace}\left(\frac{\Delta(f)}{\epsilon}\right)$\;
+\Return{$\arg\max_{i=1}^{|\mathcal{X}|}\{ X+f(\mathcal{X})\}$}
+\caption{ReportNoisyMax}
+\end{algorithm}
+However, ReportNoisyMax only works on monotone queries, or where $f(x, D) < f(x, D')$ for all $x \in X'$. A version that works on queries in general is the Exponential Mechanism \ref{alg:exp}.
 \begin{algorithm}\label{alg:exp}
 \SetAlgoLined
 \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
 \Input{$D\in \mathcal{D}$; $\mathcal{X}$, a domain; $f : \mathcal{X}\times \mathcal{D} \rightarrow \mathbb{R}$, a utility function, $\epsilon$}
 \Output{$x \in \mathcal{X}$ where $f(x, D)$ is more likely to be high.}
-Pick $x \in \mathcal{X}$ where $\Pr(x=k) \propto \exp\left(\frac{\epsilon f(k, D)}{\Delta(f)}\right)$\;
+Pick $x \in \mathcal{X}$ where $\Pr(x=k) \propto \exp\left(\frac{\epsilon f(k, D)}{2\Delta(f)}\right)$\;
 \Return{$x$}
 \caption{Exponential Mechanism}
 \end{algorithm}
-
+ReportNoisyMax doesn't have a factor of 2 in its Laplacian noise, and this means a lighter tail. Thus, for monotone queries, we use ReportNoisyMax.
 \subsection{Related Work}
 
 Perhaps the best-known example of a language that attempts to help practitioners use DP is PINQ \cite{McSherry:2010}. PINQ builds off Microsoft's C-sharp LINQ database system and provides an interface between the database and the programmer that can accomplish simple differential-privacy mechanisms. PINQ makes extensive use of the Laplace Mechamism \ref{alg:1} to noise histogram queries such as \texttt{Count}, \texttt{Average}, and \texttt{Median}. It also uses Composition \ref{thm:comp} extensively when many of these queries are executed, and it attempts to abstract the composition into a \texttt{PINQAgent} class which keeps track of privacy budget. For example, the \texttt{NoisyCount} function is implemented in Figure \ref{fig:PINQNoisyCount}
@@ -165,27 +190,32 @@ Several languages have been built off PINQ to try to increase its functionality 
 
 For instance, in a complete bipartite graph with $n$ vertices, there are no triangles. However, the addition of a single edge can add $O(n)$ triangles to the graph, so the triangle-counting function is very sensitive. If we were to count the number of triangles given a database $D$ of all the edges, we could start with the standard outer Join, $\texttt{Join}(D, D)$, to produce paths of length 2. Indeed, this produces a database where $O(n)$ elements could vary when a single edge is changed. To prevent this problem, the authors define a new type of Join, where the weight of an element in $\texttt{Join}(D, D)$ is inversely proportional to the number of times each vertex in the path appears in any path of length 2. This curbs the sensitivity immensely, and the authors succeed in counting the number of triangles (or any design) using their version of \texttt{Join}.
 
-The authors of \cite{Johnson:2017} overcome the large sensitivity of \texttt{Join} by forcing the predicate of the Join to be just equality of keys. This greatly reduces the 
+The authors of \cite{Johnson:2017} overcome the large sensitivity of \texttt{Join} by forcing the predicate of the Join to be just equality of keys. This greatly reduces the amount that a single record can change the result of \texttt{Join}.
 
-Static methods including PSI
+In Fuzz \cite{Reed:2010}, a type system is implemented to guarantee differential privacy and sensitivity. Each type is endowed with a metric, and judgments are given for sums, products, recursive types, and lambda expressions to types for richer expressions. Once a final type is produced, its metric is known and its sensitivity can be inferred from the input variables. Sensitivity allows us to add the proper amount of noise via the Laplace Mechanism. To go from an $\epsilon$-sensitive function to an $\epsilon$-DP function, noise is added via a monad by applying the function $add\_noise : \mathbb{R} \multimap \fullmoon\mathbb{R}$.
 
+For instance, counting the number of people in a database older than 40 could be achieved by:
+\[
+add\_noise (size (filter over_{40} db)) : db \multimap \fullmoon\mathbb{R}
+\]
+
+\subsection{Existing Methods for Algorithmic Choice}
+
+Limited versions of algorithmic choice have been demonstrated in previous work. These methods focus on giving the analyst the ability to choose an $\epsilon$, evaluate whether the computations is satisfactory, and then have the option of increasing $\epsilon$ if the computation is deemed unsatisfactory.
+For instance, if the analyst is training a private linear regression model that requires her to release $(X^TX)^{-1}X^Ty$ for a matrix $X$ and output vector $y$, then it's easy for her to compute the sensitivity of her function and apply the Laplace Mechanism to the output. However, it's not easy to know ex-ante exactly how high $\epsilon$ should be to result in a fit that has, for example, less than 5 mean square error.
+
+This problem is addressed by Koufogiannis et. al \cite{Koufogiannis:2015} who give a general method for releasing any computation based on the Laplace Mechanism \emph{gradually}. In their version of the Laplace Mechanism, an analyst selects a set of increasing $\epsilon$ values, $(\epsilon_1, \epsilon_2, \ldots, \epsilon_T)$. Their main result is finding a way to generate Laplace variables $(v_1, v_2, \ldots, v_T)$ such that knowing a prefix $(v_1, v_2, \ldots, v_t)$ is $\epsilon_t$-DP and, with high probability, the noise generated by $v_i$ is no worse than the noise added by the standard Laplace Mechanism for guaranteeing $\epsilon_t$-differential privacy. They accomplish this by correlating the $v_i$'s in an intelligent way. Ligett et. al \cite{Ligett:2017} take this one step further by describing a way to iterate through the $v_i$'s until a suitably accurate algorithm is selected. Accuracy can be specified by the analyst as an arbitrary function that takes in a $v_i$. Of course, the release of the most-accurate mechanism has to be done in a differentially-private manner as well, and Ligett et. al use an adaptation of the AboveThreshold mechanism \cite{Dwork:2006}. This results in an additional privacy and accuracy penalty over simply using the Laplace Mechanism with a fixed $\epsilon$. Specifically, if $v_t$ is chosen, then the computation is $\epsilon_t+\epsilon_A$-DP.
+
+We notice the following problems with the methods addressed above:
+\begin{itemize}
+\item AboveThreshold does not work on releasing $(\epsilon, \delta)$-DP mechanisms with $\delta > 0$.
+\item A privacy and accuracy penalty is taken when selecting the best algorithm. This method is rather arbitrary; how do we select $\epsilon_A$? Is this even the optimal way of algorithm selection?
+\item The papers only work on the specialized case of the Laplace Mechanism.
+\end{itemize}
 \subsection{Decision Trees}
 
-Decision Trees are a powerful tool for data mining due to their high human interpretability, non-parametric design, low computational cost, ability to discover non-linear relationships among attributes, resilience to missing values, ability to handle both discrete and continuous data, and ability to handle non-binary labels \cite{Fletcher:2016}. Let $\{\mathcal{A}_1, \ldots, \mathcal{A}_k\}$ be a set of attributes for each input, where $\mathcal{A}_i$ is a set of possible values for the $i$th coordinate. Let $\mathcal{C}$ be the output attribute, or class. A decision tree classifies points by branching on attribute $\mathcal{A}_i$, forming $|\mathcal{A}_i|$ subtrees. Once certain criteria are met, no more branching occurs, and instead a leaf node predicts a branch. An example Decision Tree is given in Figure \ref{fig:dt}.
+Decision Trees are a powerful tool for data mining due to their high human interpretability, non-parametric design, low computational cost, ability to discover non-linear relationships among attributes, resilience to missing values, ability to handle both discrete and continuous data, and ability to handle non-binary labels \cite{Fletcher:2016}. Let our database again be $D$, and suppose it has $k$ columns or attributes, the $i$th of which can take values in $\mathcal{A}_i$. Let $\mathcal{C}$ be the output attribute, or class, which we are trying to predict. We assume for simplicity that $\mathcal{A}_i$ and $\mathcal{C}$ are discrete sets. A decision tree classifies points by branching on attribute $\mathcal{A}_i$, forming $|\mathcal{A}_i|$ subtrees. Once certain criteria are met, no more branching occurs, and instead a leaf node predicts the class. An example Decision Tree is given in Figure \ref{fig:dt}.
 
-The most widely-used algorithm for training decision trees is the C4.5 algorithm. C4.5 grows trees top-down, and it creates a branch up to a certain depth specified by the user. For each branch, it selects the attribute that produces the lowest conditional entropy and splits the dataset on it. Conditional Entropy is defined as:
-\begin{defn}
-(Entropy) The Entropy of a discrete random variable $X$ which attains $k$ values with probabilities $p_1, p_2, \ldots, p_k$ is
-\[
-H(X) = -\sum_{i=1}^k p_i \log(p_i)
-\]
-The conditional entropy of $X$ given a discrete random variable $Y$ which attains values $a_1, \ldots, a_\ell$ is
-\[
-H(X\mid Y) = \sum_{i=1}^\ell \Pr[Y=i] H(X\mid Y=i)
-\]
-\end{defn}
-Conditional entropy, being a measure for information, is minimized so as to prioritize those attributes which produce large information gain. For leaf nodes, the class that has the largest representation in the remaining dataset is selected. The C4.5 algorithm appears in Algorithm \ref{alg:c45}.
-We denote by $D_{k}$ to be the $k$th column of database $D$ and use bracket notation $D[i]$ to represent those rows of $D$ where conditional $i$ is satisfied.
 \begin{figure}
 \begin{center}
 \begin{tikzpicture}[scale=0.2]
@@ -231,21 +261,36 @@ We denote by $D_{k}$ to be the $k$th column of database $D$ and use bracket nota
 \caption{Example Decision Tree.}\label{fig:dt}
 \end{center}
 \end{figure}
-\begin{figure}
-\begin{lstlisting}
 
-def DTree(D, att, class, d):
-    if(d = 0):
-        return Leaf(prediction=get_most_common_class(D, class))
-    else:
-        E_now    = Entropy(D[k+1])
-        best_att = arg_max(att, lambda a: c_entropy(D, class, a))
-        C = map(best_att, lambda a: DTree(D[best_att == a],
-            att[att != best_att], class, d-1))
-        return Node(att=best_att, children=C)
-\end{lstlisting}
+The most widely-used algorithm for training decision trees is the C4.5 algorithm. C4.5 grows trees top-down, and it creates a branch up to a certain depth specified by the user. For each branch, it selects the attribute that produces the lowest conditional entropy and splits the dataset on it. Conditional Entropy is defined as:
+\begin{defn}
+(Entropy) The Entropy of a discrete random variable $X$ which attains $k$ values with probabilities $p_1, p_2, \ldots, p_k$ is
+\[
+H(X) = -\sum_{i=1}^k p_i \log(p_i)
+\]
+The conditional entropy of $X$ given a discrete random variable $Y$ which attains values $a_1, \ldots, a_\ell$ is
+\[
+H(X\mid Y) = \sum_{i=1}^\ell \Pr[Y=i] H(X\mid Y=i)
+\]
+\end{defn}
+Conditional entropy, being a measure for information, is minimized so as to prioritize those attributes which produce large information gain. For leaf nodes, the class that has the largest representation in the remaining dataset is selected. The C4.5 algorithm appears in Algorithm \ref{alg:c45}.
+We denote by $D^{(i)}_{x}$ to be the subset of $D$ which attains value $j$ on attribute $i$ and $D^{(i)}_{x,y}$ to be the subset of $D^{(i)}_{x}$ which also has class $y$. Let's let $\tau^{(i)}_{x,y}$ be the size of $D^{(i)}_{x,y}$. In the code, we represent this as \texttt{D[i=x]} and \texttt{D[class=y]}, respectively. Defining conditional entropy in our new notation, we get, for attribute with index $i$:
+\begin{equation}\label{eq:cond_ent}
+H_i(D) = 
+\sum_{j\in \mathcal{A}_i} \frac{\tau^{(i)}_{j}}{\tau}\sum_{c \in \mathcal{C}} \frac{\tau^{(i)}_{j,c}}{\tau^{(i)}_{j}}\ln\left(\frac{\tau^{(i)}_{j}}{\tau^{(i)}_{j,c}}\right) \rightarrow \sum_{j\in \mathcal{A}_i}\sum_{c \in \mathcal{C}} {\tau^{(i)}_{j,c}}\ln\left(\frac{\tau^{(i)}_{j}}{\tau^{(i)}_{j,c}}\right)
+\end{equation}
+We omit a $\frac{1}{|D|}$ factor on the right side as we often simply compare computations on a fixed $D$. Two other estimates for the quality of a split which are generally less good in the non-private setting are Gini and Max:
+\begin{align}
+G_i(D) &= \sum_{j \in A_i} \tau^{(i)}_j\left(1-\sum_{c \in C}\left(\frac{\tau^{(i)}_{j,c}}{\tau^{(i)}_{j}}\right)^2\right)\label{eq:gini} \\
+M_i(D) &= \sum_{j \in A_i} \max_c(\tau^{(i)}_{j,c})
+\label{eq:max}
+\end{align}
+\begin{figure}
+
+\lstinputlisting[language=Python, firstline=1, lastline=10]{./DTree.py}
 \caption{C4.5 Algorithm.}\label{alg:c45}
 \end{figure}
+
 When converting this mechanism to the differentially-private version, the user is left with several questions as noted in \cite{Fletcher:2016}:
 \begin{itemize}
 \item How large of a budget has been alotted or should be alotted? There isn't a clear way to decide the budget, as the performance of the algorithm may vary wildly with the budget.
@@ -253,22 +298,22 @@ When converting this mechanism to the differentially-private version, the user i
 \item Might the sensitivity of some of the queries prevent an accurate choice? Specifically, even though it is widely agreed that the entropy function performs best in the non-private setting, could a lower-quality function be substituted because its computation is more accurate?
 \item How does the size of $D$ impact performance? Is there enough data to provide accurate results in the private setting?
 \end{itemize}
-As we will see, the answers to these questions are data-dependent and there is never one answer that always dominates.
+As we will see, the answers to these questions are data-dependent and the there is never one answer that always dominates.
 
 \section{Decision Tree Examples}
+\subsection{Private Decision Trees}
+We assume, as does most of the literature, that the $\mathcal{A}_i$ and $\mathcal{C}$ are public and $D$ is private. Also, denote our total privacy budget to be $\beta$.
 For recursive decision tree algorithms set up like \ref{alg:c45}, the recursive calls on the same depth of the tree all operate on disjoint subsets of $D$. Therefore, a conservative estimate of the privacy usage, using composition and disjointness, is
-\begin{equation}
+\begin{equation}\label{eq:priv_est}
 \sum_{i=0}^d \max_{n \in \texttt{Nodes on lvl }i} \epsilon_{n}
 \end{equation}
-where $\epsilon_n$ is the privacy used by node $n$. We will go into details on how to pick $\epsilon_n$ later
-The most naive way to create a DP version of C4.5 is to take all the histogram queries in algorithm \ref{alg:c45} and change them to \texttt{NoisyCount}. This results in the following code for \texttt{c\_entropy}
-\begin{lstlisting}
-def c_entropy(D, class, attribute):
-    N = NoisyCount(D)
-    for a in attribute:
-        count_a = NoisyCount(D[attribute == a])
-\end{lstlisting}
-\begin{theorem}
+where $\epsilon_n$ is the privacy used by node $n$. We will go into details on how to pick $\epsilon_n$ later.
+
+The most naive way to create a DP version of C4.5 is to take all the histogram queries in algorithm \ref{alg:c45} and change them to \texttt{NoisyCount}. This amounts to computing the dataset size, the most common class of a leaf, and the conditional entropy \ref{eq:cond_ent} of a branch. Due to the disjointness of the $D^{(i)}_{j,c}$ with each other and the $D^{(i)}_j$ with each other with a fixed $i$, we can do a noisy count on each $|D^{(i)}_j|$ and $|D^{(i)}_{j,c}|$ with $\frac{\epsilon'}{2}$ budget (sensitivity 1), and compute the conditional entropy spending just $\epsilon'$ budget. Unfortunately, doing this over all attributes is not disjoint, so we have to split our $\epsilon_n$ budget over up to $k$ attributes and use composition. This adds a lot of noise to our computations, namely each NoisyCount gets $\frac{\beta}{dk}$ budget. This method is presented in \cite{Blum:2005} as a proof of concept rather than a high-performing algorithm.
+
+To fix this accuracy problem, Friedman and Schuster \cite{Friedman:2010} use entropy as a utility function on a call to the exponential mechanism. Specifically, they operate over the domain $\{1,2,\ldots, k\}$, the indices of the attributes, and utility function $u(D, i) = -H_i(D)$, where the entropy is negated because we want to find the attribute with greatest entropy reduction. They also try functions other than entropy as a quality estimator because entropy has a rather high sensitivity, shown in Theorem \ref{thm:ent_sens}.
+
+\begin{theorem}\label{thm:ent_sens}
 The entropy function on disjoint histogram counts $a_1,a_2,\ldots, a_n$ produced from a database $D$ has sensitivity bounded by $\frac{1}{|D|}\left(\frac{1}{\ln(2)} + \log(|D|) \right)$.
 \end{theorem}
 \begin{proof}
@@ -282,8 +327,71 @@ Suppose bucket $a_j$ is reduced by 1, and the entropy change is
 &\leq \frac{1}{\ln(2)(A-1)} -\frac{1}{A}(a_j-1)\log(a_j-1) + \frac{1}{A-1}(a_j-1)\log(a_j-1) \\
 &= \frac{1}{\ln(2)(A-1)}+\frac{1}{A(A-1)}(a_j-1)\log(a_j-1) \leq \frac{1}{\ln(2)(A-1)} + \frac{1}{A}\log(A)
 \end{align*}
-
 \end{proof}
+Another big change is the stopping criteria (Line 2 in Figure \ref{alg:c45}). As noted in \cite{Fletcher:2016}, the stopping criteria could be different in differential privacy versus the regular setting because $\text{Laplace}\left(\frac{1}{\epsilon}\right)$ creates much higher error in smaller leaves, and the depth of a tree affects the amount noise added. On a high level, this suggests that shorter, sparser trees will perform better in the DP setting, but the ultimate relationship remains unclear. In \cite{Friedman:2010}, an additional stopping parameter depending on the NoisySize of $D$ and some other public parameters are used in addition to the stopping parameters in C4.5. Their goal is to ensure that a certain signal is larger than the noise of NoisyCount:
+\[
+\frac{|D|}{t|C|} < \frac{\sqrt{2}}{\epsilon}
+\]
+where $\frac{|D|}{t|C|}$ is a signal for how large the partitions that the children nodes will make. The sizes of $D$ for each node is used again when doing the standard C4.5Prune algorithm \cite{Quinlan:1993} which doesn't use a validation set but estimates a confidence interval from the results of the training set. To do this, it needs an estimate on the sizes of $D[class=c]$ for each $C \in \mathcal{C}$ at each node, and knowing the size of $D$ helps Friedman and Schuster estimate this. Their algorithm is shown in Figure \ref{alg:pc45}.
+\begin{figure}
+\lstinputlisting[language=Python, firstline=12, lastline=28]{./DTree.py}
+\caption{Private C4.5 proposed by Friedman and Schuster \cite{Friedman:2010}. } \label{alg:pc45}
+\end{figure}
+We've seen that Friedman and Schuster make three big design choices that are based on experimentation and heuristics:
+\begin{itemize}
+\item \textbf{Stopping Criteria} The \texttt{if} statement on Line 4 decides whether to continue branching or to stop, and in particular, the comparison of the signal to the noise is, in the words of the authors, ``arbitrary''. Also, the second pass done in \texttt{C4.5\_Prune} (Line 17) may clip a branch and is based on the noisy sizes collected in Line 3. 
+\item \textbf{Non-Leaf Queries} For nodes that are not leaves, the exponential mechanism is used with different utility functions. The question of which utility function to use arises, as this is unclear given their different sensitivities.
+\item \textbf{Number of Trees} It's well-known that a decision forest $\tau$ trees and a simple majority vote can often outperform a single decision tree. The number of trees to train in the DP setting could be much different than the answer in the non-private setting.
+\end{itemize}
+Another very important question is how much privacy budget to give to each of these components. If we give $0$ budget to the exponential mechanism, then we are essentially picking a random attribute. Random decision forests have been known to outperform decision trees in the non-private setting.
+A summary of other works and their decisions on the above three criteria appear in the table below:
+\begin{center}
+\begin{tabular}{|p{2cm}|p{3cm}|l|p{3cm}|l|l|l|}
+\hline
+\; & Stopping Criteria in addition to $d = 0 || k=0$& $\epsilon_{stop}$ & Non-Leaf-Queries & $\epsilon_{NLQ}$ & $\epsilon_{LQ}$ & $\tau$ \\ \hline
+Friedman \& Schuster \cite{Friedman:2010} & $\frac{D}{t*|C|} < \frac{\sqrt{2}}{\epsilon}$; $d'$ user-defined; second pass with C4.5Prune & $\frac{\beta}{2d'}$ & Exp. Mech with entropy, Gini, max & $\frac{\beta}{2d'}$ & $\frac{\beta}{2d'}$ & 1 \\ \hline
+Mohammed et al. \cite{Mohammed:2015} & $d'$ user-defined & 0 & Exp. Mech with entropy & $\frac{\beta}{d'}$ & $\frac{\beta}{d'}$ & 1 \\ \hline
+Jagannathan et al. \cite{Jagannathan:2009} & $d'=$ min of $\frac{k}{2}$ and $\log_b(|D|)-1$ & 0 & Random & 0 & $\frac{\beta}{\tau}$ & 10 \\ \hline
+Patil \& Singh \cite{Singh:2014} & $\frac{D}{t*|C|} < \frac{\sqrt{2}}{\epsilon}$; $d'$ user-defined; second pass with C4.5Prune & $\frac{\beta}{2d'}$ & Exp. Mech with entropy & $\frac{\beta}{2d'\tau}$ & $\frac{\beta}{2d'\tau}$ & 10 \\ \hline
+Fletcher \& Islam \cite{Fletcher:2015} & $\log_b(|D|) < \frac{\sqrt{2}|C|}{\epsilon}$ & 0 & Random & 0 & $\frac{\beta}{\tau}$ & $m$ \\ \hline
+\end{tabular}
+\end{center}
+Mohammed et al. \cite{Mohammed:2015} propose not collecting the size (Line 3) and eliminating the size criterion on Line 4. This allows us to use the entire $\epsilon$ budget for the node on the exponential mechanism and on the NoisyCount (Lines 10 and 6, respectively). Jagannathan et al. \cite{Jagannathan:2009} propose choosing a random attribute on Line 9, spending no budget, and setting $d = \min\{\frac{k}{2}, \log_b(|D|)-1\}$ where $b$ is the average branching factor of the attributes, $\frac{1}{k}\sum_{i=1}^k |\mathcal{A}_i|$. Patil and Singh \cite{Singh:2014} do the same thing as Fletcher and Schuster but use multiple trees. Finally, Fletcher et al. \cite{Fletcher:2015} do random trees but without a predefined depth; instead, they estimate the support at each node by assuming that datapoints are cut uniformly at each branch, and they stop when the support is less than the noise, similar to Friedman and Schuster.
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[node distance=2cm]
+\node (data_in) [io] {Data};
+\node (xs_in) [io, right=0.5em of data_in] {Xs};
+\node (ys_in) [io, right=0.5em of xs_in] {Ys};
+\node (dep_in) [io, right=0.5em of ys_in] {dep};
+\node (L1) [decision, below=0.5em of xs_in] {L1: Collect size?};
+\draw [arrow] (data_in) -- (L1);
+\draw [arrow] (xs_in) -- (L1);
+\draw [arrow] (ys_in) -- (L1);
+\draw [arrow] (dep_in) -- (L1);
+\node (collect_yes) [process, below=3em of data_in] {$S \leftarrow \text{Count}_\epsilon(Data)$};
+\node (collect_no) [io, below=3em of dep_in] {$S \leftarrow \infty$};
+\draw [arrow] (L1) -- node {yes} (collect_yes);
+\draw [arrow] (L1) -- node {no} (collect_no);
+\node (stop) [decision, below=6em of xs_in] {dep=0 or $S < c$?};
+\draw [arrow] (collect_no) -- node {yes} (stop);
+\draw [arrow] (collect_yes) -- node {no} (stop);
+\node (stop_yes) [process, below=1em of stop] {Leaf(most common Ys)};
+\node (stop_no) [decision, right=2em of stop] {L2: Use Exp Mech?};
+\draw [arrow] (stop) -- node {yes} (stop_yes);
+\draw [arrow] (stop) -- node {no} (stop_no);
+\node (exp_yes) [process, below=2em of stop_no] {$B \leftarrow \text{exp\_mech}_\epsilon$};
+\node (exp_no) [io, right=0.5em of exp_yes] {$B \leftarrow \text{rand}$};
+\draw [arrow] (stop_no) -- node {yes} (exp_yes);
+\draw [arrow] (stop_no) -- node {no} (exp_no);
+\node (wrap_up) [io, below=1em of exp_yes] {For each $D \in \text{Split}(Data, B)$: do $DTree(D, Xs\setminus B, Ys, dep-1)$};
+\draw [arrow] (exp_yes) -- (wrap_up);
+\draw [arrow] (exp_no) -- (wrap_up);
+\end{tikzpicture}
+\end{center}
+\caption{Our decision tree algorithm with NoisyConditionals which learn the execution path from past histories. Depending on what the NoisyConditionals say, this algorithm is capable of expressing all the decision tree algorithms in \cite{Fletcher:2016}.}\label{alg:dtree}
+\end{figure}
+\subsection{Experiments}
 
 \bibliographystyle{plain}
 \bibliography{Thesis}
