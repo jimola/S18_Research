@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.8.24)  1 MAR 2018 16:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.8.24)  3 MAR 2018 01:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -969,7 +969,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [10]
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 290.
+nput line 293.
  (./DTree.py)
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -985,14 +985,14 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [12]
-Overfull \hbox (3.53435pt too wide) in paragraph at lines 317--318
+Overfull \hbox (3.53435pt too wide) in paragraph at lines 320--321
 [][]\OT1/lmr/bx/n/10.95 Theorem 5. []\OT1/lmr/m/it/10.95 The en-tropy func-tion
  on dis-joint his-togram counts $\OML/lmm/m/it/10.95 a[]\OT1/lmr/m/n/10.95 , \O
 ML/lmm/m/it/10.95 a[]\OT1/lmr/m/n/10.95 , [] , \OML/lmm/m/it/10.95 a[]$
  []
 
 
-Overfull \hbox (5.97348pt too wide) detected at line 323
+Overfull \hbox (5.97348pt too wide) detected at line 326
 [] [] [] [] \OT1/zplm/m/n/10.95 = [] [] \OML/lmm/m/it/10.95 a[] [] A \OMS/lmsy/
 m/n/10.95 ^^@ [] [] \OML/lmm/m/it/10.95 a[] []\OT1/zplm/m/n/10.95 (\OML/lmm/m/i
 t/10.95 a[]\OT1/zplm/m/n/10.95 ) = [](\OML/lmm/m/it/10.95 A\OT1/zplm/m/n/10.95 
@@ -1001,7 +1001,7 @@ t/10.95 a[]\OT1/zplm/m/n/10.95 ) = [](\OML/lmm/m/it/10.95 A\OT1/zplm/m/n/10.95
  []
 
 
-Overfull \hbox (3.55849pt too wide) in paragraph at lines 329--329
+Overfull \hbox (3.55849pt too wide) in paragraph at lines 332--332
 [] 
  []
 
@@ -1028,36 +1028,6 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [14]
-Underfull \hbox (badness 1303) in paragraph at lines 352--352
-[]$[] \OML/lmm/m/it/10.95 < []$\OT1/lmr/m/n/10.95 ; $\OML/lmm/m/it/10.95 d[]$
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 352--352
-\OT1/lmr/m/n/10.95 user-defined;
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 352--352
-\OT1/lmr/m/n/10.95 en-tropy, Gini,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 353--353
-[]\OT1/lmr/m/n/10.95 Mohammed
- []
-
-
-Overfull \hbox (4.68811pt too wide) in paragraph at lines 354--354
-[]\OT1/lmr/m/n/10.95 Jagannathan
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 355--355
-[]\OT1/lmr/m/n/10.95 Patil &
- []
-
-
 Underfull \hbox (badness 1303) in paragraph at lines 355--355
 []$[] \OML/lmm/m/it/10.95 < []$\OT1/lmr/m/n/10.95 ; $\OML/lmm/m/it/10.95 d[]$
  []
@@ -1068,17 +1038,42 @@ Underfull \hbox (badness 10000) in paragraph at lines 355--355
  []
 
 
-Underfull \hbox (badness 2913) in paragraph at lines 356--356
+Underfull \hbox (badness 10000) in paragraph at lines 355--355
+\OT1/lmr/m/n/10.95 en-tropy, Gini,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 356--356
+[]\OT1/lmr/m/n/10.95 Mohammed
+ []
+
+
+Overfull \hbox (4.68811pt too wide) in paragraph at lines 357--357
+[]\OT1/lmr/m/n/10.95 Jagannathan
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 358--358
+[]\OT1/lmr/m/n/10.95 Patil &
+ []
+
+
+Underfull \hbox (badness 1303) in paragraph at lines 358--358
+[]$[] \OML/lmm/m/it/10.95 < []$\OT1/lmr/m/n/10.95 ; $\OML/lmm/m/it/10.95 d[]$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 358--358
+\OT1/lmr/m/n/10.95 user-defined;
+ []
+
+
+Underfull \hbox (badness 2913) in paragraph at lines 359--359
 []\OT1/lmr/m/n/10.95 Fletcher &
  []
 
 
-Overfull \hbox (26.32756pt too wide) in paragraph at lines 349--358
- [] 
- []
-
-
-Overfull \hbox (7.10487pt too wide) in paragraph at lines 390--391
+Overfull \hbox (26.32756pt too wide) in paragraph at lines 352--361
  [] 
  []
 
@@ -1088,7 +1083,23 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[15] (./Thesis.bbl
+[15]
+Underfull \hbox (badness 10000) in paragraph at lines 369--369
+[]\OT1/lmr/m/n/10.95 HIV-1 pro-tease
+ []
+
+
+Overfull \hbox (12.32721pt too wide) in paragraph at lines 365--374
+[]
+ []
+
+<Graph_Performances.png, id=285, 505.89pt x 505.89pt>
+File: Graph_Performances.png Graphic file (type png)
+
+<use Graph_Performances.png>
+Package pdftex.def Info: Graph_Performances.png used on input line 380.
+(pdftex.def)             Requested size: 354.12057pt x 354.12057pt.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1096,34 +1107,53 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [16]
+Overfull \hbox (7.10487pt too wide) in paragraph at lines 418--419
+ [] 
+ []
+
+(./Thesis.bbl
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[17])
+[17]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[18]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 398.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 398.
+[18 <./Graph_Performances.png (PNG copy)>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[19])
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[20]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 424.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 424.
  (./Thesis.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 398.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 398.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 424.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 424.
 Package rerunfilecheck Info: File `Thesis.out' has not changed.
 (rerunfilecheck)             Checksum: 2ED6333B9F34E721F200554A0A9B818F;561.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 398.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 424.
  ) 
 Here is how much of TeX's memory you used:
- 20847 strings out of 493029
- 384073 string characters out of 6136234
- 523149 words of memory out of 5000000
- 23862 multiletter control sequences out of 15000+600000
+ 20862 strings out of 493029
+ 384326 string characters out of 6136234
+ 522481 words of memory out of 5000000
+ 23870 multiletter control sequences out of 15000+600000
  74107 words of font info for 90 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,12n,68p,1429b,1330s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1151,10 +1181,10 @@ hare/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/type1/publi
 c/lm/lmtt8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbo
 ls/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplr8a.pf
 b></usr/share/texlive/texmf-dist/fonts/type1/public/wasy2-ps/wasy10.pfb>
-Output written on Thesis.pdf (18 pages, 534782 bytes).
+Output written on Thesis.pdf (20 pages, 636828 bytes).
 PDF statistics:
- 419 PDF objects out of 1000 (max. 8388607)
- 363 compressed objects within 4 object streams
- 116 named destinations out of 1000 (max. 500000)
- 90 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 439 PDF objects out of 1000 (max. 8388607)
+ 380 compressed objects within 4 object streams
+ 122 named destinations out of 1000 (max. 500000)
+ 95 words of extra memory for PDF output out of 10000 (max. 10000000)
 

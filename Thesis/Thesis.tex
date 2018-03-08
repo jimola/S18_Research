@@ -184,7 +184,7 @@ double NoisyCount(double epsilon){
 \caption{NoisyCount Implemented in PINQ.}
 \label{fig:PINQNoisyCount}
 \end{figure}
-The functionality of PINQ is limited, although a lot of code can still be written, and McSherry provides $k$-means and Social Networking examples to prove its power. Also, the interface is a step in the right direction of thinking about privacy as a black box. However, the drawback of PINQ is that an analyst must still think about noise at every step of the computation. If an \texttt{Access is denied} error is thrown or the results are unacceptably noisy, the analyst will have no idea how to fix their code without diving into privacy.
+The amount of code that can be written in PINQ is surprisingly large; indeed, McSherry provides implementations of $k$-means and Social Networking. Also, the interface is a step in the right direction of thinking about privacy as a black box. However, the drawback of PINQ is that an analyst must still think about noise at every step of the computation. If an \texttt{Access is denied} error is thrown or the results are unacceptably noisy, the analyst will have no idea how to fix their code without diving into privacy.
 
 Several languages have been built off PINQ to try to increase its functionality \cite{Proserpio:2014} \cite{Johnson:2017}. wPINQ \cite{Proserpio:2014} uses a weighted database which is a function $f : \mathcal{D}^n \rightarrow \mathbb{R}$, which can be thought of a generalization of regular databases where each element appears a natural number of times. Proserpio et al. define \texttt{Join} on two weighted databases in a way that greatly reduces the weights of elements that appear many times in the resulting join.
 
@@ -192,13 +192,14 @@ For instance, in a complete bipartite graph with $n$ vertices, there are no tria
 
 The authors of \cite{Johnson:2017} overcome the large sensitivity of \texttt{Join} by forcing the predicate of the Join to be just equality of keys. This greatly reduces the amount that a single record can change the result of \texttt{Join}.
 
-In Fuzz \cite{Reed:2010}, a type system is implemented to guarantee differential privacy and sensitivity. Each type is endowed with a metric, and judgments are given for sums, products, recursive types, and lambda expressions to types for richer expressions. Once a final type is produced, its metric is known and its sensitivity can be inferred from the input variables. Sensitivity allows us to add the proper amount of noise via the Laplace Mechanism. To go from an $\epsilon$-sensitive function to an $\epsilon$-DP function, noise is added via a monad by applying the function $add\_noise : \mathbb{R} \multimap \fullmoon\mathbb{R}$.
+In Fuzz \cite{Reed:2010}, a type system is implemented to guarantee differential privacy and sensitivity. Each type is endowed with a metric, and judgments are given for richer programming constructs such as sums, products, recursive types, and lambda expressions. Once the type of the program is known, its metric is known and its sensitivity can be inferred from the input variables. Sensitivity allows us to add the proper amount of noise via the Laplace Mechanism. To go from an $\epsilon$-sensitive function to an $\epsilon$-DP function, noise is added via a monad by applying the function $add\_noise : \mathbb{R} \multimap \fullmoon\mathbb{R}$.
 
 For instance, counting the number of people in a database older than 40 could be achieved by:
 \[
-add\_noise (size (filter over_{40} db)) : db \multimap \fullmoon\mathbb{R}
+add\_noise\;(size\;(filter\;over_{40}\;db)) : db \multimap \fullmoon\mathbb{R}
 \]
 
+However, there are two shortcomings with this method. First, the analyst is still responsible for adding noise and making decisions that affect the sensitivity of a computation. Perhaps it's better to defer the adding of noise of the 
 \subsection{Existing Methods for Algorithmic Choice}
 
 Limited versions of algorithmic choice have been demonstrated in previous work. These methods focus on giving the analyst the ability to choose an $\epsilon$, evaluate whether the computations is satisfactory, and then have the option of increasing $\epsilon$ if the computation is deemed unsatisfactory.
@@ -211,6 +212,8 @@ We notice the following problems with the methods addressed above:
 \item AboveThreshold does not work on releasing $(\epsilon, \delta)$-DP mechanisms with $\delta > 0$.
 \item A privacy and accuracy penalty is taken when selecting the best algorithm. This method is rather arbitrary; how do we select $\epsilon_A$? Is this even the optimal way of algorithm selection?
 \item The papers only work on the specialized case of the Laplace Mechanism.
+
+More papers to talk about: \cite{Winograd-Cort:2017}, \cite{Liu:2018}, \cite{Hsu:2014}.
 \end{itemize}
 \subsection{Decision Trees}
 
@@ -356,7 +359,33 @@ Patil \& Singh \cite{Singh:2014} & $\frac{D}{t*|C|} < \frac{\sqrt{2}}{\epsilon}$
 Fletcher \& Islam \cite{Fletcher:2015} & $\log_b(|D|) < \frac{\sqrt{2}|C|}{\epsilon}$ & 0 & Random & 0 & $\frac{\beta}{\tau}$ & $m$ \\ \hline
 \end{tabular}
 \end{center}
-Mohammed et al. \cite{Mohammed:2015} propose not collecting the size (Line 3) and eliminating the size criterion on Line 4. This allows us to use the entire $\epsilon$ budget for the node on the exponential mechanism and on the NoisyCount (Lines 10 and 6, respectively). Jagannathan et al. \cite{Jagannathan:2009} propose choosing a random attribute on Line 9, spending no budget, and setting $d = \min\{\frac{k}{2}, \log_b(|D|)-1\}$ where $b$ is the average branching factor of the attributes, $\frac{1}{k}\sum_{i=1}^k |\mathcal{A}_i|$. Patil and Singh \cite{Singh:2014} do the same thing as Fletcher and Schuster but use multiple trees. Finally, Fletcher et al. \cite{Fletcher:2015} do random trees but without a predefined depth; instead, they estimate the support at each node by assuming that datapoints are cut uniformly at each branch, and they stop when the support is less than the noise, similar to Friedman and Schuster.
+Mohammed et al. \cite{Mohammed:2015} propose not collecting the size (Line 3) and eliminating the size criterion on Line 4. This allows us to use the entire $\epsilon$ budget for the node on the exponential mechanism and on the NoisyCount (Lines 10 and 6, respectively). Jagannathan et al. \cite{Jagannathan:2009} propose choosing a random attribute on Line 9, spending no budget, and setting $d = \min\{\frac{k}{2}, \log_b(|D|)-1\}$ where $b$ is the average branching factor of the attributes, $\frac{1}{k}\sum_{i=1}^k |\mathcal{A}_i|$. Patil and Singh \cite{Singh:2014} do the same thing as Fletcher and Schuster but use multiple trees. Finally, Fletcher and Islam \cite{Fletcher:2015} do random trees but without a predefined depth; instead, they estimate the support at each node by assuming that datapoints are cut uniformly at each branch, and they stop when the support is less than the noise, similar to Friedman and Schuster.
+
+\subsection{Experiments}
+In this section, we plot the performances of the five algorithms on different datasets to highlight the existence of data dependence. Graphs of the data for different datasets appear in Figure \ref{fig:datadep}. The datasets are described below:
+\begin{tabular}{|p{3cm}|l|l|l|l|}
+\hline
+Name & No. Points & No. Attrs & Avg. Branch Size & Class size \\ \hline
+HIV-1 protease cleavage & 1625 & 8 & 20 & 2 \\ \hline
+Nursery & 12960 & 8 & 3.375 & 5 \\ \hline
+Contraceptive & 1473 & 9 & 4.88 & 3 \\ \hline
+\end{tabular}
+The HIV dataset is a sparse dataset; there are far more possible attribute values than the number of data points actually in the dataset. As we go farther down the decision tree, after only a short while, the vast majority of nodes will have no training data at all---after just 3 branches, there are $20^3$ possible nodes which means almost $80\%$ of the nodes have to be empty, and most of the nodes have large support [insert a graph of this]. As is well known in decision trees, low-support nodes give noisier estimates of the classes, and it rarely pays to branch at these nodes. This explains the performances of the algorithms: A1, having the most sophisticated stopping criteria, performs the best because it knows which nodes have low support. A2, having almost no stopping criteria at all, performs the worst (and takes the longest to train, going to all $20^d$ leaves), and A5, with a stopping criterion almost as weak, took too long to train.
+
+The Nursery dataset, on the other hand, is dense. The stopping criteria does not matter as much as all nodes have a healthy support (in fact, the dataset has points for every possible value of the attributes). Thus, A2, which doesn't waste any budget on the stopping criterion, performs best.
+
+The Contraceptive dataset is a mix between the two other datasets. Here, one advantage of A3 is very pronounced: its excellent performances at small values of $\epsilon$. A3 gives the most budget to its leaf nodes, resulting in very accurate predictions at even small $\epsilon$ assuming the random trees are chosen in a fairly simple way. Because Contraceptive has no ``bogus'' attributes [insert graph of this], a randomly-chosen subset of the attributes is a fair set to work with, until the other, biased algorithms have enough budget to catch up.
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.7]{Graph_Performances}
+\end{center}
+\caption{Performances of the five decision tree algorithms. The performance is measured from the prediction success rate on a validation set using a 30/70 validation to training split. Graph 1 does not have A5 because it takes such a long time to train, having a weak stopping criterion.}
+\label{fig:datadep}
+\end{figure}
+
+In light of these experiments, we notice that stopping criteria, non-leaf-queries, and number of trees in the forest have a huge impact on the performance of the algorithm. What an analyst would really like to do is to shed light on these complicated relationships in an automated way. It would be easy for her to summarize all of the decision tree algorithms in a chart as in Figure \ref{alg:dtree}. Each of the two places where she is uncertain is marked with a label, L1 or L2. The goal of \Jostle{} is to learn automatically properties of the database that may lend to a certain decision at L1 or L2.
+
+Our goal is to decide which heuristic is best
 \begin{figure}
 \begin{center}
 \begin{tikzpicture}[node distance=2cm]
@@ -391,8 +420,6 @@ Mohammed et al. \cite{Mohammed:2015} propose not collecting the size (Line 3) an
 \end{center}
 \caption{Our decision tree algorithm with NoisyConditionals which learn the execution path from past histories. Depending on what the NoisyConditionals say, this algorithm is capable of expressing all the decision tree algorithms in \cite{Fletcher:2016}.}\label{alg:dtree}
 \end{figure}
-\subsection{Experiments}
-
 \bibliographystyle{plain}
 \bibliography{Thesis}
 \end{document}

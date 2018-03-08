@@ -39,6 +39,12 @@ Michael Hay, Ashwin Machanavajjhala, Gerome Miklau, Yan Chen, Dan Zhang, and
   Management of Data}, SIGMOD '16, pages 2101--2104, New York, NY, USA, 2016.
   ACM.
 
+\bibitem{Hsu:2014}
+Justin Hsu, Marco Gaboardi, Andreas Haeberlen, Sanjeev Khanna, Arjun Narayan,
+  Benjamin~C. Pierce, and Aaron Roth.
+\newblock Differential privacy: An economic method for choosing epsilon.
+\newblock {\em CoRR}, abs/1402.3329, 2014.
+
 \bibitem{Jagannathan:2009}
 Geetha Jagannathan, Krishnan Pillaipakkamnatt, and Rebecca~N. Wright.
 \newblock A practical differentially private random decision tree classifier.
@@ -68,6 +74,11 @@ Katrina Ligett, Seth Neel, Aaron Roth, Bo~Waggoner, and Zhiwei~Steven Wu.
 \newblock Accuracy first: Selecting a differential privacy level for
   accuracy-constrained {ERM}.
 \newblock {\em CoRR}, abs/1705.10829, 2017.
+
+\bibitem{Liu:2018}
+Xiaoqian Liu, Qianmu Li, Tao Li, and Dong Chen.
+\newblock Differentially private classification with decision tree ensemble.
+\newblock {\em Applied Soft Computing}, 62:807 -- 816, 2018.
 
 \bibitem{McSherry:2010}
 Frank McSherry.
@@ -108,5 +119,10 @@ Jason Reed and Benjamin~C. Pierce.
 \bibitem{Singh:2014}
 Sanjay Singh and Abhijit Patil.
 \newblock Differential private random forest, 09 2014.
+
+\bibitem{Winograd-Cort:2017}
+Daniel Winograd-Cort, Andreas Haeberlen, Aaron Roth, and Benjamin~C. Pierce.
+\newblock A framework for adaptive differential privacy.
+\newblock {\em Proc. ACM Program. Lang.}, 1(ICFP):10:1--10:29, August 2017.
 
 \end{thebibliography}

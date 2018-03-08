@@ -10,45 +10,45 @@ Warning--entry type for "Fletcher:2015" isn't style-file defined
 A bad cross reference---entry "Friedman:2010"
 refers to entry "DBLP:conf/kdd/2010", which doesn't exist
 Warning--I didn't find a database entry for "DBLP:conf/kdd/2010"
-You've used 18 entries,
+You've used 21 entries,
             2118 wiz_defined-function locations,
-            626 strings with 7573 characters,
-and the built_in function-call counts, 6267 in all, are:
-= -- 621
-> -- 301
+            646 strings with 8162 characters,
+and the built_in function-call counts, 7490 in all, are:
+= -- 735
+> -- 385
 < -- 6
-+ -- 121
-- -- 100
-* -- 427
-:= -- 1029
-add.period$ -- 56
-call.type$ -- 18
-change.case$ -- 103
++ -- 155
+- -- 130
+* -- 534
+:= -- 1243
+add.period$ -- 65
+call.type$ -- 21
+change.case$ -- 127
 chr.to.int$ -- 0
-cite$ -- 18
-duplicate$ -- 247
-empty$ -- 481
-format.name$ -- 100
-if$ -- 1333
+cite$ -- 21
+duplicate$ -- 279
+empty$ -- 556
+format.name$ -- 130
+if$ -- 1572
 int.to.chr$ -- 0
-int.to.str$ -- 18
-missing$ -- 17
-newline$ -- 91
-num.names$ -- 36
-pop$ -- 109
+int.to.str$ -- 21
+missing$ -- 20
+newline$ -- 106
+num.names$ -- 42
+pop$ -- 127
 preamble$ -- 1
-purify$ -- 86
+purify$ -- 107
 quote$ -- 0
-skip$ -- 194
+skip$ -- 216
 stack$ -- 0
-substring$ -- 334
-swap$ -- 64
+substring$ -- 411
+swap$ -- 67
 text.length$ -- 6
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 70
+type$ -- 82
 warning$ -- 0
-while$ -- 57
-width$ -- 20
-write$ -- 203
+while$ -- 66
+width$ -- 23
+write$ -- 236
 (There was 1 error message)

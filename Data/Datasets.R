@@ -87,3 +87,20 @@ student <- fread('../data-unsorted/student/student-processed.csv') %>%
   lapply(to_num_fac) %>% data.frame %>% randomize
 student <- student[sample(1:nrow(student), nrow(student)), ]
 student <- list(data=student, x_names=names(student)[-30], y_names=names(student)[30])
+
+split_data <- function(D, cutoff=0.8){
+    cutoff <- as.integer(nrow(D$data)*cutoff)
+    D1 <- D
+    D2 <- D
+    D1$data <- D$data[1:cutoff, ]
+    D2$data <- D$data[(cutoff+1):nrow(D$data), ]
+    return(list(train=D1, test=D2))
+}
+
+bind_s <- split_data(bind, 0.7)
+ttt_s <- split_data(ttt, 0.7)
+nurs_s <- split_data(nurs, 0.7)
+contra_s <- split_data(contra, 0.7)
+loan_s <- split_data(loan, 0.7)
+student_s <- split_data(student, 0.7)
+

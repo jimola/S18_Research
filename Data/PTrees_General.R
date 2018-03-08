@@ -1,49 +1,34 @@
 library(parallel)
 library(class)
 
-predict <- function(t, D, default){
-    preds <- rep(default, nrow(D))
-    if(nrow(D) == 0)
-        return(preds) 
-    if(!is.null(t$guess)){
-        return(rep(t$guess, nrow(D)))
+predict <- function(t, D, default, y_name=NULL){
+  preds <- rep(default, nrow(D))
+  if(nrow(D) == 0){
+    return(preds) 
+  }
+  if(!is.null(t$guess)){
+    if(!is.null(y_name)){
+      ys <- get(y_name, D)
+      acc <- sum(ys == t$guess) / length(ys)
+      t$acc <- acc
+      t$tot <- length(ys)
     }
-    for(i in 1:length(t$pars)){
-        mask <- t$pars[[i]]$fn(get(t$attr, D))
-        preds[mask] <- predict(t$children[[i]], D[mask, ], default)
-    }
-    return(preds)
+    return(rep(t$guess, nrow(D)))
+  }
+  for(i in 1:length(t$pars)){
+    mask <- t$pars[[i]]$fn(get(t$attr, D))
+    preds[mask] <- predict(t$children[[i]], D[mask, ], default, y_name)
+  }
+  return(preds)
 }
 
-split_data <- function(D, cutoff=0.8){
-    cutoff <- as.integer(nrow(D$data)*cutoff)
-    D1 <- D
-    D2 <- D
-    D1$data <- D$data[1:cutoff, ]
-    D2$data <- D$data[(cutoff+1):nrow(D$data), ]
-    return(list(train=D1, test=D2))
-}
 num_matching <- function(D, y_hat){
   ys <- get(D$y_names, D$data)
   return(sum(y_hat == ys) / length(ys))
 }
-test <- function(D, B, dep, dt_gen){
-    dt <- dt_gen(D$train, B, dep)
-    ys <- get(D$test$y_names, D$test$data)
-    default <- ys[1]
-    p <- predict(dt, D$test$data, default)
-    return(sum(p == ys) / length(ys))
-}
-test_tree <- function(t, D){
-    ys <- get(D$y_names, D$data)
-    default <- ys[1]
-    p <- predict(t, D$data, default)
-    return(sum(p == ys) / length(ys))
-}
-predict_maj <- function(ts, D){
+get_maj <- function(p, D){
   ys <- get(D$y_names, D$data)
   default <- ys[1]
-  p <- sapply(ts, function(t) predict(t, D$data, default))
   N <- nrow(D$data)
   pred <- rep(default, N)
   freq <- integer(N)
@@ -52,44 +37,66 @@ predict_maj <- function(ts, D){
     pred[votes > freq] <- clss
     freq[votes > freq] <- votes[votes > freq]
   }
-  return(pred)
+  return(sum(pred == ys) / length(ys))
 }
-get_data <- function(dset, eps_test, predictor, description, d=5, reps=10){
-  G <- mcmapply(function(...) sapply(eps_test, function(e){
-          t <- dtree_outer(dset$train, d, e, predictor)
-          return(test_tree(t, dset$test))
-        }), 1:reps)
-  return(data.frame(eps=eps_test, performance=rowMeans(G), desc=description))
+test_forest <- function(ts, D){
+  ys <- get(D$y_names, D$data)
+  default <- ys[1]
+  p <- sapply(ts, function(t) predict(t, D$data, default, D$y_names))
+  N <- nrow(D$data)
+  pred <- rep(default, N)
+  freq <- integer(N)
+  for(clss in levels(ys)){
+    votes <- rowSums(p == clss)
+    pred[votes > freq] <- clss
+    freq[votes > freq] <- votes[votes > freq]
+  }
+  return(sum(pred == ys) / length(ys))
+}
+get_data <- function(dset, eps_test, alg, d=5, reps=10){
+  G <- 0
+  if(is.null(alg$pruner)){
+    G <- mcmapply(function(...) sapply(eps_test, function(e){
+      preds <- dtree_outer_nt(dset, d, e, alg)
+      return(get_maj(preds, dset$test))
+    }), 1:reps, mc.cores=6)
+  }else{
+    G <- mcmapply(function(...) sapply(eps_test, function(e){
+      t <- dtree_outer(dset, d, e, alg)
+      return(test_forest(t, dset$test))
+    }), 1:reps, mc.cores=6)
+  }
+  return(data.frame(eps=eps_test, performance=rowMeans(G), desc=alg$name))
 }
 get_plot <- function(df) ggplot(df, aes(x=eps, y=performance, color=desc))+geom_line()
 
 get_leaf_node <- function(ys, node, eps){
-    m <- data.frame(table(ys))
-    node$counts <- hist_noiser(m$Freq, eps)
-    idx <- which.max(node$counts)
-    guess <- m$ys[idx]
-    node$guess <- guess
-    node$name <- paste(node$name, guess, sep=';')
+  m <- data.frame(table(ys))
+  node$counts <- hist_noiser(m$Freq, eps)
+  idx <- which.max(node$counts)
+  guess <- m$ys[idx]
+  node$guess <- guess
+  node$name <- paste(node$name, guess, sep=';')
 }
 
 split <- function(attr){
-    if(attr$type == 'numeric'){
-        s <- attr$split
-        return(c(list(name=paste('<=', s), fn=function(d){return(d <= s)}),
-                 list(name=paste('>', s), fn=function(d){return(d > s)})))
-    }else
-        return(lapply(attr$split, function(a) list(name=a, fn=equality(a))))
+  if(attr$type == 'numeric'){
+    s <- attr$split
+    return(c(list(name=paste('<=', s), fn=function(d){return(d <= s)}),
+             list(name=paste('>', s), fn=function(d){return(d > s)})))
+  }else
+    return(lapply(attr$split, function(a) list(name=a, fn=equality(a))))
 }
 
 get_sigma <- function(data, attrs, y_name){
-    sizes <- lapply(data, function(col){
-        if(class(col) == 'numeric')
-            return(2)
-        return(length(levels(col)))
-    })
-    t <- sizes[attrs] %>% reduce(`max`)
-    C <- get(y_name, sizes)
-    return(C*t*sqrt(2))
+  sizes <- lapply(data, function(col){
+    if(class(col) == 'numeric')
+        return(2)
+    return(length(levels(col)))
+  })
+  t <- sizes[attrs] %>% reduce(`max`)
+  C <- get(y_name, sizes)
+  return(C*t*sqrt(2))
 }
 
 generate_data_helper <- function(attr_names, class, attr_sizes, cur_val, nrow, d_continue, p_stop){
@@ -173,33 +180,34 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 }
 #params needs to have epsilon, dep, node_qb
 dtree_helper <- function(t, dataset, params, alg){
-    data <- dataset$data
-    x_names <- dataset$x_names
-    y_names <- dataset$y_names
-    rng <- dataset$rng
-    ys <- get(y_names, data)
-    params <- alg$update(t, dataset, params)
-    if(params$action == 'stop'){
-        get_leaf_node(ys, t, params$epsilon)
-        return()
-    }
-    atp <- lapply(x_names, function(name) cond_eval(name, data, rng, ys))
-    utilities <- sapply(atp, function(x) -x$ent)
-    params$attr_best <- exp_mech(atp, utilities, params$node_qb, ent_util$sens)
-    params$epsilon <- params$epsilon-params$node_qb
-    t$name <- paste(t$name, params$attr_best$name, sep=';')
-    t$pars <- split(params$attr_best)
-    t$attr <- params$attr_best$name
-    col <- get(params$attr_best$name, data)
-    dataset$x_names <- x_names[x_names != params$attr_best$name]
-    for(fn in t$pars){
-        subset <- (fn$fn)(col)
-        dataset$data <- data[subset, ]
-        dtree_helper(t$AddChild(fn$name), dataset, params, alg)
-    }
+  data <- dataset$data
+  x_names <- dataset$x_names
+  y_names <- dataset$y_names
+  rng <- dataset$rng
+  ys <- get(y_names, data)
+  params <- alg$update(t, dataset, params)
+  if(params$action == 'stop'){
+    get_leaf_node(ys, t, params$epsilon)
+    return()
+  }
+  atp <- lapply(x_names, function(name) cond_eval(name, data, rng, ys))
+  utilities <- sapply(atp, function(x) -x$ent)
+  params$attr_best <- exp_mech(atp, utilities, params$node_qb, ent_util$sens)
+  params$epsilon <- params$epsilon-params$node_qb
+  t$name <- paste(t$name, params$attr_best$name, sep=';')
+  t$pars <- split(params$attr_best)
+  t$attr <- params$attr_best$name
+  col <- get(params$attr_best$name, data)
+  dataset$x_names <- x_names[x_names != params$attr_best$name]
+  for(fn in t$pars){
+    subset <- (fn$fn)(col)
+    dataset$data <- data[subset, ]
+    dtree_helper(t$AddChild(fn$name), dataset, params, alg)
+  }
 }
 
 dtree_outer <- function(dataset, dep, epsilon, alg){
+    dataset <- dataset$train
     params <- alg$init(dataset, epsilon, dep)
     if(is.null(params$epsilon))
       params$epsilon <- epsilon
@@ -213,13 +221,42 @@ dtree_outer <- function(dataset, dep, epsilon, alg){
       function(...){
         dt <- Node$new('')
         dtree_helper(dt, dataset,  params, alg)
-        if(params$collect_size){
-            prune_tree(dt, dataset$y_name %>% get(dataset$data) %>% levels)
+        if(!is.null(alg$pruner)){
+            alg$pruner(dt, dataset, params)
         }
         return(dt)
       })
     return(L)
 }
+prune_fh <- function(t, k, lvls){
+  if(is.null(t$counts)){
+    cnts <- 0
+    for(c in t$children){
+      cnts <- cnts + prune_fh(c, k, lvls)
+    }
+    t$counts <- cnts
+  }
+  S <- sum(t$counts)
+  if(k*S / sqrt(t$children %>% length) < 1){
+    t$children <- NULL
+    t$guess <- lvls[t$counts == max(t$counts)][[1]]
+  }
+  return(t$counts)
+}
+
+prune_fletcher <- function(t, dataset, params){
+  lvls <- dataset$y_name %>% get(dataset$data) %>% levels %>% as.factor
+  k <- params$epsilon /(lvls %>% length*sqrt(2))
+  prune_fh(t, k, lvls)
+}
+
+prune_friedman <- function(t, dataset, params){
+  lvls <- dataset$y_name %>% get(dataset$data) %>% levels %>% as.factor
+  top_down(t, 1)
+  bottom_up(t)
+  prune(t, lvls)
+}
+
 #Friedman and Schuster
 alg_1 <- list(
   init=function(dataset, epsilon, dep){
@@ -235,7 +272,9 @@ alg_1 <- list(
       params$action <- 'exp'
     params$dep <- params$dep-1
     return(params)
-  }
+  },
+  pruner=prune_friedman,
+  name="Friedman & Schuster"
 )
 
 #Mohammed et al.
@@ -250,14 +289,15 @@ alg_2 <- list(
       params$action <- 'exp'
     params$dep <- params$dep-1
     return(params)
-  }
+  },
+  name="Mohammed et al."
 )
 
 #Jagannathan et al.
 alg_3 <- list(
   init=function(dataset, epsilon, dep){
     b <- sapply(dataset$data[dataset$x_names], function(r) levels(r) %>% length) %>% mean
-    dep_branch <- log(dataset$data %>% length) / log(b) - 1
+    dep_branch <- log(dataset$data %>% nrow) / log(b) - 1
     dep <- min(length(dataset$x_names)/2, dep_branch) %>% as.integer
     return(list(collect_size=FALSE, dep=dep, num_trees=10, epsilon=epsilon/10))
   },
@@ -267,37 +307,45 @@ alg_3 <- list(
       params$action <- 'exp'
     params$dep <- params$dep-1
     return(params)
-  }
+  },
+  name="Jagannathan et al."
 )
 
 #Patil & Singh
 alg_4 <- list(
-  init=function(dataset, epsilon, dep){
-    params <- alg_1$init(dataset, epsilon, dep)
-    params$num_trees <- 4
+  init=function(dataset, epsilon, dep, nt=3){
+    params <- alg_1$init(dataset, epsilon/nt, dep)
+    params$num_trees <- nt
     return(params)
   },
   update=function(t, dataset, params){
     return(alg_1$update(t, dataset, params))
-  }
+  },
+  pruner=prune_friedman,
+  name="Patil & Singh"
 )
 
 #Fletcher & Islam
 alg_5 <- list(
   init=function(dataset, epsilon, dep){
     C <- get(dataset$y_names, dataset$data) %>% levels %>% length
-    return(list(collect_size=FALSE, nrow=length(dataset$data), node_qb=0, epsilon=epsilon,
-                stop_pt=sqrt(2)*C / epsilon, num_trees=5))
+    nt <- 5
+    epsilon <- epsilon/nt
+    return(list(collect_size=FALSE, nrow=nrow(dataset$data), node_qb=0, epsilon=epsilon,
+                stop_pt=sqrt(2)*C / epsilon, num_trees=nt))
   },
   update=function(t, dataset, params){
     if(!is.null(params$attr_best)){
       S <- get(params$attr_best$name, dataset$data) %>% levels %>% length
       params$nrow <- params$nrow / S
     }
-    if(params$nrow < params$stop_pt)
+    if(params$nrow < params$stop_pt || length(dataset$x_names) == 0)
       params$action <- 'stop'
     else
       params$action <- 'exp'
     return(params)
-  }
+  },
+  pruner=prune_fletcher,
+  name='Fletcher & Islam'
 )
+

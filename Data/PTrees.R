@@ -308,5 +308,5 @@ prune_tree <- function(t, lvls){
 test_private <- function(dtp, data, y_name, cutoff=0.8){
     ys <- get(y_name, data)
     pres <- predict(dtp, data, as.factor(levels(ys)))
-    return(sum(pres == ys) / nrow(data))
+    return(sum(pres == ys) / knrow(data))
 }
