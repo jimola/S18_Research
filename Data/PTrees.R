@@ -1,4 +1,5 @@
 library(data.table)
+library(plyr)
 library(dplyr)
 library(ggplot2)
 library(stringr)
@@ -105,6 +106,7 @@ decision_tree <- function(data, pred, attrs, node, d){
         m <- data.frame(table(p))
         idx <- which.max(m$Freq)
         guess <- m$p[idx]
+        node$counts <- m$Freq
         node$guess <- guess
         node$name <- paste(node$name, guess, sep=';')
         return()

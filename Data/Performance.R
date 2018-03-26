@@ -57,4 +57,7 @@ dtree_outer_nt <- function(dataset, dep, epsilon, alg){
   return(L)
 }
 
+#Don't think about pruning for now
+#Let's test each algorithm and keep track of critical values of the dataset.
 
+#get_pts <- function(dataset, dep, epsilon, algs){

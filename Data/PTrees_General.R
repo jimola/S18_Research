@@ -205,28 +205,27 @@ dtree_helper <- function(t, dataset, params, alg){
     dtree_helper(t$AddChild(fn$name), dataset, params, alg)
   }
 }
-
 dtree_outer <- function(dataset, dep, epsilon, alg){
-    dataset <- dataset$train
-    params <- alg$init(dataset, epsilon, dep)
-    if(is.null(params$epsilon))
-      params$epsilon <- epsilon
-    if(is.null(params$dep))
-      params$dep <- dep
-    if(is.null(params$node_qb))
-      params$node_qb <- 0
-    if(is.null(params$num_trees))
-      params$num_trees <- 1
-    L <- sapply(1:params$num_trees,
-      function(...){
-        dt <- Node$new('')
-        dtree_helper(dt, dataset,  params, alg)
-        if(!is.null(alg$pruner)){
-            alg$pruner(dt, dataset, params)
-        }
-        return(dt)
-      })
-    return(L)
+  dataset <- dataset$train
+  params <- alg$init(dataset, epsilon, dep)
+  if(is.null(params$epsilon))
+    params$epsilon <- epsilon
+  if(is.null(params$dep))
+    params$dep <- dep
+  if(is.null(params$node_qb))
+    params$node_qb <- 0
+  if(is.null(params$num_trees))
+    params$num_trees <- 1
+  L <- sapply(1:params$num_trees,
+    function(...){
+      dt <- Node$new('')
+      dtree_helper(dt, dataset,  params, alg)
+      if(!is.null(alg$pruner)){
+          alg$pruner(dt, dataset, params)
+      }
+      return(dt)
+    })
+  return(L)
 }
 prune_fh <- function(t, k, lvls){
   if(is.null(t$counts)){
