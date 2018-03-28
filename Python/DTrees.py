@@ -1,23 +1,3 @@
-d = pd.read_csv('../datasets/nursery.data', header=None)
-
-#Class representing a Database
-class Database:
-    def __init__(self, train, test, x_names, y_name):
-        self.train=train
-        self.test=test
-        self.y_name=y_name
-        self.x_names=x_names
-    @classmethod
-    def from_file(cls, name, y_idx, cutoff=0.7, header=None):
-        d = pd.read_csv(name, header=header)
-        for x in d.columns:
-            d[x] = np.unique(d[x], return_inverse=True)[1]
-        d = d.reindex(np.random.permutation(d.index))
-        cutoff = int(cutoff*len(d))
-        y_name = d.columns[y_idx]
-        x_names = d.columns[d.columns != y_name]
-        return cls(d[:cutoff], d[cutoff:], x_names, y_name)
-
 class Controller:
     def __init__(self, db, max_depth, budget, nt=1):
         self.max_depth = max_depth
@@ -76,6 +56,26 @@ class NonPrivate(Controller):
         idx = exp_mech(utils, 0, None)
         return (0, db.x_names[idx])
 
+def get_gini(sample, num_zeros=0):
+    tot_size = num_zeros + len(sample)
+    B = np.sort(sample).cumsum().sum() / sample.sum()
+    A = (tot_size+1)/2
+    return (A-B) / A
+
+#TODO: How important are some features over others?
+def get_feat_imp(db):
+    pass    
+
+#How important is it to measure the size of the dataset?
+#We spend epsilon budget to get info on slice_size budget
+def get_size_gini(db, slice_size=4):
+    cols = list(np.random.choice(db.x_names, slice_size, False))
+    attr_sizes = list(map(lambda x: len(np.unique(db.train[x])), cols))
+    prods = np.array(attr_sizes).prod()
+    sizes = np.array(db.train.groupby(cols)[db.y_name].count())
+    skew = sizes / len(db.train)
+    return get_gini(skew, prods - len(sizes))
+
 #Friedman and Schuster
 class FS(Controller):
     def __init__(self, db, budget, max_depth):
@@ -85,7 +85,8 @@ class FS(Controller):
         t = max(col_sizes[db.x_names])
         self.stop_const = np.sqrt(2)*t*col_sizes[db.y_name] / self.calc_budget
         self.util_func = ConditionalEntropy(len(db.train))
-    def eval_annotation(self):
+        self.name = 'Friedman and Schuster'
+    def eval_annotation(feat):
         pass
     def get_action(self, db):
         nrow = hist_noiser(len(db.train), self.calc_budget)
@@ -97,11 +98,19 @@ class FS(Controller):
         idx = exp_mech(utils, self.calc_budget, self.util_func.sens)
         return (2*self.calc_budget, db.x_names[idx])
 
+def fs_get_acc(db, budget, max_depth):
+    fs = FS(db, budget, max_depth)
+    return fs.get_accuracy()
+
+#Mohammed et al.
 class MA(Controller):
     def __init__(self, db, budget, max_depth):
         Controller.__init__(self, db, max_depth, budget)
         self.calc_budget = budget/(max_depth+1)
         self.util_func = ConditionalEntropy(len(db.train))
+        self.name = 'Mohammed et al.'
+    def eval_annotation(feat):
+        pass
     def get_action(self, db):
         depth = self.init_numcols - len(db.x_names)
         if(depth >= self.max_depth):
@@ -111,6 +120,11 @@ class MA(Controller):
         idx = exp_mech(utils, self.calc_budget, self.util_func.sens)
         return (self.calc_budget, db.x_names[idx])
 
+def ma_get_acc(db, budget, max_depth):
+    ma = MA(db, budget, max_depth)
+    return ma.get_accuracy()
+
+#Jagannathan et al.
 class Jag(Controller):
     def __init__(self, db, budget, nt):
         k = len(db.x_names)
@@ -118,6 +132,9 @@ class Jag(Controller):
         b = b / k
         max_dep = min([np.log(len(db.train))/np.log(b)-1, k/2])
         Controller.__init__(self, db, max_dep, budget, nt)
+        self.name = 'Mohammed et al.'
+    def eval_annotation(feat):
+        pass
     def get_action(self, db):
         depth = self.init_numcols - len(db.x_names)
         if(depth >= self.max_depth):
@@ -125,10 +142,39 @@ class Jag(Controller):
         idx = int(np.random.uniform() * len(db.x_names))
         return (0, db.x_names[idx])
 
-#Read paper first
+def jag_get_acc(db, budget, nt):
+    jag = Jag(db, budget, nt)
+    return jag.get_accuracy()
+
+#Fletcher and Islam
+#Work In Progress
 class FI(Controller):
     def __init__(self, db, budget, nt):
         Controller.__init__(self, db, 0, budget, nt)
+        self.name = 'Fletcher and Islam'
+    def eval_annotation(feat):
+        pass
     def get_action(self, db):
         pass
-#PyTorch
+#TODO: Implement other algos
+
+#TODO: Python Profile the code
+
+
+def get_stats(db):
+    FS_stats = []
+    for e in eps_vals:
+        fs = FS(db, e, 5)
+        FS_stats.append(fs.get_accuracy())
+    MA_stats = []
+    for e in eps_vals:
+        ma = MA(db, e, 5)
+        MA_stats.append(ma.get_accuracy())
+    Jag_stats = []
+
+eps_vals = np.concatenate(([0.5], np.arange(1,10)))
+
+
+import cProfile
+ma = MA(dblist['bind'], 5, 5,)
+cProfile.run('ma.get_accuracy()')
