@@ -1,3 +1,6 @@
+import DPrivacy
+import numpy as np
+import pandas as pd
 class Controller:
     def __init__(self, db, max_depth, budget, nt=1):
         self.max_depth = max_depth
@@ -7,9 +10,11 @@ class Controller:
         self.nt = nt
     def leaf(self, db, eps):
         freq_table = pd.value_counts(db.train[db.y_name])
-        noisy_counts = hist_noiser(freq_table, eps)
+        noisy_counts = DPrivacy.hist_noiser(freq_table, eps)
         return freq_table.keys()[noisy_counts.argmax()]
     def decision_helper(self, db, eps):
+        if(len(db.test) == 0):
+            return np.array([])
         (used, attr) = self.get_action(db)
         eps -= used
         if(attr == None):
@@ -21,7 +26,8 @@ class Controller:
             for att in iter(np.unique(db.train[attr])):
                 train_split = db.train[db.train[attr] == att]
                 test_split_loc = db.test[attr] == att
-                db_new = Database(train_split, db.test[test_split_loc], new_x, db.y_name)
+                db_new = DPrivacy.Database(
+                        train_split, db.test[test_split_loc], new_x, db.y_name)
                 preds[test_split_loc] = self.decision_helper(db_new, eps)
             return preds
     def get_preds(self):
@@ -46,14 +52,14 @@ class Controller:
 class NonPrivate(Controller):
     def __init__(self, db, max_depth):
         Controller.__init__(self, db, max_depth, 0)
-        self.util_func = ConditionalEntropy(len(db.train))
+        self.util_func = DPrivacy.ConditionalEntropy(len(db.train))
     def get_action(self, db):
         depth = self.init_numcols - len(db.x_names)
         y = db.train[db.y_name]
         if(depth >= self.max_depth or len(y.unique()) <= 1):
             return(0, None)
         utils = list(map(lambda x: self.util_func.eval(db.train[x], y), db.x_names))
-        idx = exp_mech(utils, 0, None)
+        idx = DPrivacy.exp_mech(utils, 0, None)
         return (0, db.x_names[idx])
 
 def get_gini(sample, num_zeros=0):
@@ -64,7 +70,7 @@ def get_gini(sample, num_zeros=0):
 
 #TODO: How important are some features over others?
 def get_feat_imp(db):
-    pass    
+    pass
 
 #How important is it to measure the size of the dataset?
 #We spend epsilon budget to get info on slice_size budget
@@ -84,45 +90,38 @@ class FS(Controller):
         col_sizes = db.train.apply(lambda x: len(x.unique()))
         t = max(col_sizes[db.x_names])
         self.stop_const = np.sqrt(2)*t*col_sizes[db.y_name] / self.calc_budget
-        self.util_func = ConditionalEntropy(len(db.train))
+        self.util_func = DPrivacy.ConditionalEntropy(len(db.train))
         self.name = 'Friedman and Schuster'
+    #return a number from 0 to 1
     def eval_annotation(feat):
-        pass
+        return feat.gini
     def get_action(self, db):
-        nrow = hist_noiser(len(db.train), self.calc_budget)
+        nrow = DPrivacy.hist_noiser(len(db.train), self.calc_budget)
         depth = self.init_numcols - len(db.x_names)
         if(depth >= self.max_depth or nrow < self.stop_const):
             return (self.calc_budget, None)
         y = db.train[db.y_name]
         utils = list(map(lambda x: self.util_func.eval(db.train[x], y), db.x_names))
-        idx = exp_mech(utils, self.calc_budget, self.util_func.sens)
+        idx = DPrivacy.exp_mech(utils, self.calc_budget, self.util_func.sens)
         return (2*self.calc_budget, db.x_names[idx])
-
-def fs_get_acc(db, budget, max_depth):
-    fs = FS(db, budget, max_depth)
-    return fs.get_accuracy()
 
 #Mohammed et al.
 class MA(Controller):
     def __init__(self, db, budget, max_depth):
         Controller.__init__(self, db, max_depth, budget)
         self.calc_budget = budget/(max_depth+1)
-        self.util_func = ConditionalEntropy(len(db.train))
+        self.util_func = DPrivacy.ConditionalEntropy(len(db.train))
         self.name = 'Mohammed et al.'
     def eval_annotation(feat):
-        pass
+        return (1-feat.gini)
     def get_action(self, db):
         depth = self.init_numcols - len(db.x_names)
         if(depth >= self.max_depth):
             return (0, None)
         y = db.train[db.y_name]
         utils = list(map(lambda x: self.util_func.eval(db.train[x], y), db.x_names))
-        idx = exp_mech(utils, self.calc_budget, self.util_func.sens)
+        idx = DPrivacy.exp_mech(utils, self.calc_budget, self.util_func.sens)
         return (self.calc_budget, db.x_names[idx])
-
-def ma_get_acc(db, budget, max_depth):
-    ma = MA(db, budget, max_depth)
-    return ma.get_accuracy()
 
 #Jagannathan et al.
 class Jag(Controller):
@@ -134,17 +133,13 @@ class Jag(Controller):
         Controller.__init__(self, db, max_dep, budget, nt)
         self.name = 'Mohammed et al.'
     def eval_annotation(feat):
-        pass
+        return (1-feat.gini)
     def get_action(self, db):
         depth = self.init_numcols - len(db.x_names)
         if(depth >= self.max_depth):
             return(0, None)
         idx = int(np.random.uniform() * len(db.x_names))
         return (0, db.x_names[idx])
-
-def jag_get_acc(db, budget, nt):
-    jag = Jag(db, budget, nt)
-    return jag.get_accuracy()
 
 #Fletcher and Islam
 #Work In Progress
@@ -158,9 +153,6 @@ class FI(Controller):
         pass
 #TODO: Implement other algos
 
-#TODO: Python Profile the code
-
-
 def get_stats(db):
     FS_stats = []
     for e in eps_vals:
@@ -172,9 +164,8 @@ def get_stats(db):
         MA_stats.append(ma.get_accuracy())
     Jag_stats = []
 
-eps_vals = np.concatenate(([0.5], np.arange(1,10)))
 
 
-import cProfile
-ma = MA(dblist['bind'], 5, 5,)
-cProfile.run('ma.get_accuracy()')
+#import cProfile
+#ma = MA(dblist['bind'], 5, 5,)
+#cProfile.run('ma.get_accuracy()')

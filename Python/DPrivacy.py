@@ -1,6 +1,22 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
+
+#Class representing a Database
+class Database:
+    def __init__(self, train, test, x_names, y_name):
+        self.train=train
+        self.test=test
+        self.y_name=y_name
+        self.x_names=x_names
+    @classmethod
+    def from_dataframe(cls, d, y_idx=-1, cutoff=0.7):
+        for x in d.columns:
+            d[x] = np.unique(d[x], return_inverse=True)[1]
+        d = d.reindex(np.random.permutation(d.index))
+        cutoff = int(cutoff*len(d))
+        y_name = d.columns[y_idx]
+        x_names = d.columns[d.columns != y_name]
+        return cls(d[:cutoff], d[cutoff:], x_names, y_name)
 
 #returns laplacian noise that should be added given sensitivity and epsilon
 def laplacian(epsilon, n=1, sensitivity=1):
