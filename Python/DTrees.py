@@ -12,6 +12,7 @@ class Controller:
         freq_table = pd.value_counts(db.train[db.y_name])
         noisy_counts = DPrivacy.hist_noiser(freq_table, eps)
         return freq_table.keys()[noisy_counts.argmax()]
+
     def decision_helper(self, db, eps):
         if(len(db.test) == 0):
             return np.array([])
@@ -23,13 +24,14 @@ class Controller:
         else:
             new_x = db.x_names[db.x_names != attr]
             preds = np.repeat(db.train[db.y_name].iloc[0], len(db.test))
-            for att in iter(np.unique(db.train[attr])):
-                train_split = db.train[db.train[attr] == att]
-                test_split_loc = db.test[attr] == att
+            for cat in iter(np.unique(db.train[attr])):
+                train_split = db.train[db.train[attr] == cat]
+                test_split_loc = db.test[attr] == cat
                 db_new = DPrivacy.Database(
                         train_split, db.test[test_split_loc], new_x, db.y_name)
                 preds[test_split_loc] = self.decision_helper(db_new, eps)
             return preds
+
     def get_preds(self):
         nrow = len(db.test)
         L = np.array(list(map(lambda x: non.decision_helper(db, 5), np.arange(1,10))))
@@ -68,19 +70,27 @@ def get_gini(sample, num_zeros=0):
     A = (tot_size+1)/2
     return (A-B) / A
 
-#TODO: How important are some features over others?
-def get_feat_imp(db):
-    pass
-
 #How important is it to measure the size of the dataset?
 #We spend epsilon budget to get info on slice_size budget
-def get_size_gini(db, slice_size=4):
+def get_size_gini(db, eps, slice_size=4):
     cols = list(np.random.choice(db.x_names, slice_size, False))
     attr_sizes = list(map(lambda x: len(np.unique(db.train[x])), cols))
     prods = np.array(attr_sizes).prod()
     sizes = np.array(db.train.groupby(cols)[db.y_name].count())
+    sizes = DPrivacy.hist_noiser(sizes, 0.75*eps)
+    num_zeros = int(DPrivacy.hist_noiser(prods - len(sizes), 0.25*eps))
     skew = sizes / len(db.train)
-    return get_gini(skew, prods - len(sizes))
+    return get_gini(skew, num_zeros)
+
+def get_density(db):
+    b = list(map(lambda x: len(db.train[x].unique()), db.x_names))
+    r = len(db.train) / np.array(b).prod()
+    return np.tanh(r/2)
+
+def get_features(db, eps):
+    B = min(1, 0.1*eps)
+    feats = {'density': [get_density(db)], 'disuniformity': [get_size_gini(db, B)]}
+    return (pd.DataFrame(feats), B)
 
 #Friedman and Schuster
 class FS(Controller):
@@ -93,8 +103,8 @@ class FS(Controller):
         self.util_func = DPrivacy.ConditionalEntropy(len(db.train))
         self.name = 'Friedman and Schuster'
     #return a number from 0 to 1
-    def eval_annotation(feat):
-        return feat.gini
+    def eval_annotation(self, feat):
+        return float(feat.disuniformity*feat.density)
     def get_action(self, db):
         nrow = DPrivacy.hist_noiser(len(db.train), self.calc_budget)
         depth = self.init_numcols - len(db.x_names)
@@ -112,8 +122,8 @@ class MA(Controller):
         self.calc_budget = budget/(max_depth+1)
         self.util_func = DPrivacy.ConditionalEntropy(len(db.train))
         self.name = 'Mohammed et al.'
-    def eval_annotation(feat):
-        return (1-feat.gini)
+    def eval_annotation(self, feat):
+        return float((1-feat.disuniformity)*feat.density)
     def get_action(self, db):
         depth = self.init_numcols - len(db.x_names)
         if(depth >= self.max_depth):
@@ -132,8 +142,9 @@ class Jag(Controller):
         max_dep = min([np.log(len(db.train))/np.log(b)-1, k/2])
         Controller.__init__(self, db, max_dep, budget, nt)
         self.name = 'Mohammed et al.'
-    def eval_annotation(feat):
-        return (1-feat.gini)
+    def eval_annotation(self, feat):
+        dens = float(feat.density)
+        return max(1-3*dens, 0.33*(1-dens))
     def get_action(self, db):
         depth = self.init_numcols - len(db.x_names)
         if(depth >= self.max_depth):
@@ -147,7 +158,7 @@ class FI(Controller):
     def __init__(self, db, budget, nt):
         Controller.__init__(self, db, 0, budget, nt)
         self.name = 'Fletcher and Islam'
-    def eval_annotation(feat):
+    def eval_annotation(self, feat):
         pass
     def get_action(self, db):
         pass
@@ -164,8 +175,18 @@ def get_stats(db):
         MA_stats.append(ma.get_accuracy())
     Jag_stats = []
 
-
+#TODO: Features should be used to help set algorithmic parameters
+class ChoiceMaker:
+    def __init__(self, db, budget, nt, depth):
+        (feats, used) = get_features(db, budget)
+        budget -= used
+        alglist = [FS(db, budget, 5), MA(db, budget, 5), Jag(db, budget, nt)]
+        perfs = np.array(list(map(lambda x: x.eval_annotation(feats), alglist) ))
+        self.alg = alglist[perfs.argmax()]
+    def get_accuracy(self):
+        return self.alg.get_accuracy()
 
 #import cProfile
 #ma = MA(dblist['bind'], 5, 5,)
 #cProfile.run('ma.get_accuracy()')
+#Email Justin for a Skype

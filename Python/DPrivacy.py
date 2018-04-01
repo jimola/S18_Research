@@ -40,7 +40,7 @@ def exp_mech(utils, eps, sens):
     utils = np.array(utils, ndmin=1)
     if(eps == 0):
         return utils.argmax()
-    utils= utils-max(utils)
+    utils = utils-max(utils)
     n = len(utils)
     weights = np.exp(eps*utils / (2*sens))
     prob = weights / sum(weights)
