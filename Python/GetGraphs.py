@@ -1,6 +1,9 @@
 import DTrees
 import DPrivacy
-import numpy as np
+
+import importlib
+importlib.reload(DTrees)
+importlib.reload(DPrivacy)
 
 from multiprocessing import Pool
 import pickle

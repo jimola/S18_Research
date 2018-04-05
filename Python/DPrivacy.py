@@ -11,7 +11,8 @@ class Database:
     @classmethod
     def from_dataframe(cls, d, y_idx=-1, cutoff=0.7):
         for x in d.columns:
-            d[x] = np.unique(d[x], return_inverse=True)[1]
+            #d[x] = np.unique(d[x], return_inverse=True)[1]
+            d[x] = d[x].astype('category')
         d = d.reindex(np.random.permutation(d.index))
         cutoff = int(cutoff*len(d))
         y_name = d.columns[y_idx]
@@ -25,7 +26,8 @@ def laplacian(epsilon, n=1, sensitivity=1):
     return np.random.exponential(1/lam, n) * sign
 
 def hist_noiser(vals, epsilon=0):
-    vals = np.array(vals, ndmin=1)
+    if(isinstance(vals, int)):
+        vals = np.array(vals, ndmin=1)
     if(epsilon == 0):
         return vals
     n = len(vals)
@@ -51,6 +53,7 @@ class ConditionalEntropy:
     def __init__(self, nrow):
         self.sens = (np.log(nrow)+1)/np.log(2)
     def get_ent(self, cnts):
+        cnts = cnts[cnts > 0]
         p = cnts / sum(cnts)
         ent = p*np.log(p) / np.log(2)
         return(sum(ent))
