@@ -76,6 +76,7 @@ class NonPrivate(Controller):
         if(depth >= self.max_depth or len(y.unique()) <= 1):
             return(0, None)
         utils = list(map(lambda x: self.util_func.eval(db.train[x], y), db.x_names))
+        print(utils)
         idx = DPrivacy.exp_mech(utils, 0, None)
         return (0, db.x_names[idx])
 
