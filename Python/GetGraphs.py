@@ -29,46 +29,44 @@ german[1] = (german[1] / 6).astype('int')
 german[4] = (german[4] / 100).astype('int')
 german[12] = (german[12] / 7).astype('int')
 german = DPrivacy.Database.from_dataframe(german, 0)
-#TODO: implement more dbs
 
+#TODO: implement more dbs
 dblist = {'nurs': nurs, 'ttt': ttt, 'bind': bind, 'contra': contra, 
         'loan': loan, 'student': student}
 
 alglist = {'Friedman and Schuster': DTrees.FS, 
-        'Mohammed et al.': DTrees.MA, 'Jagannathan et al.': DTrees.Jag,
-        'ChoiceMaker': DTrees.ChoiceMaker}
+        'Mohammed et al.': DTrees.MA, 'Jagannathan et al.': DTrees.Jag}
 
 paramlist = {'Friedman and Schuster': [(2,),(3,),(5,)],
              'Mohammed et al.': [(2,),(3,),(5,)],
-        'Jagannathan et al.': [(3,),(5,),(9,)], 'ChoiceMaker': [(2,2), (3,3), (5,5)]}
+        'Jagannathan et al.': [(3,),(5,),(8,)], 'ChoiceMaker': [(2,2), (3,3), (5,5)]}
 
 eps_vals = np.concatenate(([0.5], np.arange(1,10)))
+
 def get_acc(args):
-    alg, nm, e, p, i = args
+    alg, nm, e, p = args
     return alglist[alg](dblist[nm], e, *p).get_accuracy()
+
 def collect_data(alglist, dblist, eps_vals, paramlist, reps=10):
     try:
         data = pickle.load(open('data.p', 'rb'))
     except:
         data = pd.DataFrame()
         data['alg'] = data['database'] = ''
-        data['eps'] = data['iter'] = data['perf'] = 0
+        data['eps'] = data['perf'] = 0
         data['params'] = ''
     l = []
     for a in alglist:
         for nm in dblist:
             for e in eps_vals:
                 for p in paramlist[a]:
-                    i = data[(data.alg == a) & (data.database == nm) & (data.eps == e) & (data.params == p)].iter.max()+1
-                    if(np.isnan(i)):
-                        i = 0
-                    for i in range(i, i+reps):
-                        l.append((a, nm, e, p, i))
+                    for i in range(0, reps):
+                        l.append((a, nm, e, p))
     if(__name__ == '__main__'):
         pool = Pool(processes=10)
         res = pool.map(get_acc, l)
         new_db = pd.DataFrame(l)
-        new_db.columns = ['alg', 'database', 'eps', 'params', 'iter']
+        new_db.columns = ['alg', 'database', 'eps', 'params']
         new_db['perf'] = res
         data = data.append(new_db)
         pickle.dump(data, open('data.p', 'wb'))
@@ -80,9 +78,9 @@ def select_db_split_algos(dg, dbname, params):
     mat = []
     for a in alglist:
         mat.append(np.array(dg2['perf'][(dg2.index.get_level_values('alg') == a) &
-                                         dg2.index.get_level_values('params') == params[a]]))
-    mat = np.array(mat)
-    return mat.T
+                                        (dg2.index.get_level_values('params') == params[a])]))
+    return np.array(mat).T
+
 """
 grps = data.groupby(['alg', 'database', 'eps'])
 dgm = grps.mean()
@@ -115,7 +113,6 @@ plt.title('student')
 plt.plot(eps_vals, select_db_split_algos(dgm, 'student').T)
 plt.legend(list(alglist.keys()))
 """
-
 
 params = {'Friedman and Schuster': (5,), 'Mohammed et al.': (5,), 'Jagannathan et al.': (5,), 
         'ChoiceMaker': (5,5)}
