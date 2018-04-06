@@ -11,7 +11,7 @@ class Database:
     @classmethod
     def from_dataframe(cls, d, y_idx=-1, cutoff=0.7):
         for x in d.columns:
-            #d[x] = np.unique(d[x], return_inverse=True)[1]
+            d[x] = np.unique(d[x], return_inverse=True)[1]
             d[x] = d[x].astype('category')
         d = d.reindex(np.random.permutation(d.index))
         cutoff = int(cutoff*len(d))
@@ -32,10 +32,12 @@ def hist_noiser(vals, epsilon=0):
         return vals
     n = len(vals)
     fuzz = vals + laplacian(epsilon, n)
+    """
     count = (fuzz < 0).sum()
     while(count > 0):
         fuzz[fuzz < 0] = laplacian(epsilon, count)
         count = (fuzz < 0).sum()
+    """
     return fuzz
 
 def exp_mech(utils, eps, sens):

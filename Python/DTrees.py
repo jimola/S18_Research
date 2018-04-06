@@ -16,6 +16,9 @@ class Controller:
     def decision_helper(self, db, eps):
         if(len(db.test) == 0):
             return np.array([])
+        #if(len(db.train) == 0):
+        #    pred = np.random.choice(db.train[db.y_name].cat.categories)
+        #    return np.repeat(pred, len(db.test))
         (used, col_name) = self.get_action(db)
         eps -= used
         if(col_name == None):
@@ -76,7 +79,6 @@ class NonPrivate(Controller):
         if(depth >= self.max_depth or len(y.unique()) <= 1):
             return(0, None)
         utils = list(map(lambda x: self.util_func.eval(db.train[x], y), db.x_names))
-        print(utils)
         idx = DPrivacy.exp_mech(utils, 0, None)
         return (0, db.x_names[idx])
 
@@ -193,7 +195,8 @@ class Jag(Controller):
         return pred
 
 #Fletcher and Islam
-#Work In Progress
+#This is a Work In Progress
+#TODO: Fix this work in progress
 class FI(Controller):
     def __init__(self, db, budget, nt):
         Controller.__init__(self, db, 0, budget, nt)
@@ -202,7 +205,6 @@ class FI(Controller):
         self.name = 'Fletcher and Islam'
     def leaf(self, db, eps):
         freq_table = pd.value_counts(db.train[db.y_name])
-        print(freq_table)
         noisy_counts = DPrivacy.hist_noiser(freq_table, eps)
         return (noisy_counts.argmax(), noisy_counts)
     #Return (preds, num_leaves, size_est)
@@ -211,18 +213,31 @@ class FI(Controller):
         if(len(db.test) == 0):
             return np.array([])
         """
+        if(len(db.train) == 0):
+            p = np.random.permutation(db.x_names)
+            idx = 0
+            num_leaves = 1
+            while(idx < len(db.x_names) and size_est >= self.noise_est):
+                A = len(db.train[p[idx]].cat.categories)
+                size_est /= A
+                idx += 1
+                num_leaves *= A
+            #Central Limit Theorem. Sum up num_leaves laplace vars with 2/eps^2 variance
+            size = np.random.normal(0, np.sqrt(2*num_leaves)/eps, self.C)
+            pred = np.random.choice(db.train[db.y_name].cat.categories)
+            return (np.repeat(pred, len(db.test)), num_leaves, size)
         if(len(db.x_names) == 0 or size_est < self.noise_est):
-            print('Enter')
             (pred, size) = self.leaf(db, eps)
             return (np.repeat(pred, len(db.test)), 1, size)
         else:
             idx = int(np.random.uniform() * len(db.x_names))
             attr = db.x_names[idx]
             new_x = db.x_names[db.x_names != attr]
+
             preds = np.repeat(db.train[db.y_name].iloc[0], len(db.test))
             num_leaves = 0
-            cnts = pd.Series()
-            new_size_est = size_est / (db.train[attr].cat.categories)
+            cnts = pd.Series(0, db.train[db.y_name].cat.categories)
+            new_size_est = size_est / len(db.train[attr].cat.categories)
             for att in db.train[attr].cat.categories:
                 train_split = db.train[db.train[attr] == att]
                 test_split_loc = db.test[attr] == att
@@ -231,11 +246,10 @@ class FI(Controller):
                 p, nl, c = self.decision_helper(db_new, eps, new_size_est)
                 num_leaves += nl
                 preds[test_split_loc] = p
-                cnts = cnts.add(c, fill_value=0)
+                cnts += c
 
             SNR = eps*cnts.sum() / (self.C * np.sqrt(2*num_leaves))
             if(SNR < 1):
-                print('Low')
                 pred = cnts.keys()[cnts.argmax()]
                 return (np.repeat(pred, len(db.test)), num_leaves, cnts)
             else:
@@ -244,7 +258,6 @@ class FI(Controller):
         return self.decision_helper(self.db, self.budget, len(self.db.train))
     def eval_annotation(self, feat):
         pass
-#TODO: Implement other algos
 
 #TODO: Features should be used to help set algorithmic parameters
 class ChoiceMaker:

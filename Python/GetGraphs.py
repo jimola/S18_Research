@@ -8,7 +8,7 @@ importlib.reload(DPrivacy)
 from multiprocessing import Pool
 import pickle
 
-np.random.seed(123456)
+np.random.seed(1234)
 nurs = pd.read_csv('../datasets/nursery.data', header=None)
 nurs = DPrivacy.Database.from_dataframe(nurs)
 ttt = pd.read_csv('../datasets/tic-tac-toe.data', header=None)
@@ -37,12 +37,12 @@ german = DPrivacy.Database.from_dataframe(german, 0)
 dblist = {'nurs': nurs, 'ttt': ttt, 'bind': bind, 'contra': contra, 
         'loan': loan, 'student': student}
 
-alglist = {'Friedman and Schuster': DTrees.FS, 
-        'Mohammed et al.': DTrees.MA, 'Jagannathan et al.': DTrees.Jag}
+alglist = {'FS': DTrees.FS, 
+        'MA': DTrees.MA, 'Jag': DTrees.Jag}
 
-paramlist = {'Friedman and Schuster': [(2,),(3,),(5,)],
-             'Mohammed et al.': [(2,),(3,),(5,)],
-        'Jagannathan et al.': [(3,),(5,),(8,)], 'ChoiceMaker': [(2,2), (3,3), (5,5)]}
+paramlist = {'FS': [(2,),(3,),(5,)],
+             'MA': [(2,),(3,),(5,)],
+        'Jag': [(3,),(5,),(8,)]}
 
 eps_vals = np.concatenate(([0.5], np.arange(1,10)))
 
@@ -76,6 +76,27 @@ def collect_data(alglist, dblist, eps_vals, paramlist, reps=10):
         return(data)
 
 #Selects a db, select param values, sorts by epsilon, and splits by the algorithms
+#DB has: alg, database, eps, params, performance
+"""
+When we plot the datasets, we can show three dimensions in addition to performance (y-axis):
+    x-axis, different plots on the same graph, and different graphs. Since the data
+    has 4 dimensions, one has to be ignored.
+"""
+#We ignore the first element of the permutation by taking the the value specified by
+#ignore_value. If None is specified, we take the first one
+def split_data(data, col_perm, ignore_value=None):
+    D = data.groupby(col_perm).mean()
+    D = D.loc[D.index.levels[0][0]]
+    i = 1
+    L = (len(D.index.levels[0]) + 1) // 2
+    print(L)
+    for g in D.index.levels[0]:
+        plt.subplot(L, 2, i)
+        plot = []
+        for p in D.index.levels[1]:
+            plot.append(np.array(D.loc[g,p]['perf']))
+        plt.plot(D.index.levels[2], np.array(plot).T)
+        i += 1
 def select_db_split_algos(dg, dbname, params):
     dg2 = dg[dg.index.get_level_values('database') == dbname]
     mat = []
