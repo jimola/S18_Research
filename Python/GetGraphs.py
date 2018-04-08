@@ -73,7 +73,29 @@ def collect_data(alglist, dblist, eps_vals, paramlist, reps=10):
         new_db['perf'] = res
         data = data.append(new_db)
         pickle.dump(data, open('data.p', 'wb'))
-        return(data)
+        return data
+
+def get_annotations(alglist, dblist, eps_vals, paramlist):
+    try:
+        data = pickle.load(open('annot.p', 'rb'))
+    except:
+        data = pd.DataFrame()
+        data['alg'] = data['database'] = ''
+        data['eps'] = data['annotation'] = 0
+        data['params'] = ''
+    l = []
+    for a in alglist:
+        for nm in dblist:
+            for e in eps_vals:
+                for p in paramlist[a]:
+                    F = DTrees.get_features(dblist[nm], e)[0]
+                    l.append((a, nm, e, p, 
+                        alglist[a](dblist[nm], e, *p).eval_annotation(F)))
+    new_db = pd.DataFrame(l)
+    new_db.columns = ['alg', 'database', 'eps', 'params', 'annotation']
+    data = data.append(new_db)
+    pickle.dump(data, open('annot.p', 'wb'))
+    return data
 
 #Selects a db, select param values, sorts by epsilon, and splits by the algorithms
 #DB has: alg, database, eps, params, performance
@@ -84,19 +106,24 @@ When we plot the datasets, we can show three dimensions in addition to performan
 """
 #We ignore the first element of the permutation by taking the the value specified by
 #ignore_value. If None is specified, we take the first one
-def split_data(data, col_perm, ignore_value=None):
+def split_data(data, col_perm, y_key = 'perf'):
     D = data.groupby(col_perm).mean()
     D = D.loc[D.index.levels[0][0]]
     i = 1
     L = (len(D.index.levels[0]) + 1) // 2
-    print(L)
+    A = 2
+    if(len(D.index.levels[0]) == 1):
+        A = 1
     for g in D.index.levels[0]:
-        plt.subplot(L, 2, i)
+        plt.subplot(L, A, i)
         plot = []
         for p in D.index.levels[1]:
-            plot.append(np.array(D.loc[g,p]['perf']))
+            plot.append(np.array(D.loc[g,p][y_key]))
         plt.plot(D.index.levels[2], np.array(plot).T)
+        plt.legend(D.index.levels[1])
         i += 1
+
+"""
 def select_db_split_algos(dg, dbname, params):
     dg2 = dg[dg.index.get_level_values('database') == dbname]
     mat = []
@@ -105,7 +132,6 @@ def select_db_split_algos(dg, dbname, params):
                                         (dg2.index.get_level_values('params') == params[a])]))
     return np.array(mat).T
 
-"""
 grps = data.groupby(['alg', 'database', 'eps'])
 dgm = grps.mean()
 dgs = grps.agg(np.std)

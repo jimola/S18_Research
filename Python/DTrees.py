@@ -16,9 +16,9 @@ class Controller:
     def decision_helper(self, db, eps):
         if(len(db.test) == 0):
             return np.array([])
-        #if(len(db.train) == 0):
-        #    pred = np.random.choice(db.train[db.y_name].cat.categories)
-        #    return np.repeat(pred, len(db.test))
+        if(len(db.train) == 0):
+            pred = np.random.choice(db.train[db.y_name].cat.categories)
+            return np.repeat(pred, len(db.test))
         (used, col_name) = self.get_action(db)
         eps -= used
         if(col_name == None):
@@ -28,6 +28,7 @@ class Controller:
             new_x = db.x_names[db.x_names != col_name]
             preds = np.repeat(db.train[db.y_name].iloc[0], len(db.test))
             for att in db.train[col_name].cat.categories:
+            #for att in db.train[col_name].unique():
                 train_split = db.train[db.train[col_name] == att]
                 test_split_loc = db.test[col_name] == att
                 db_new = DPrivacy.Database(
@@ -182,7 +183,7 @@ class Jag(Controller):
             L.append(self.decision_helper(self.db, self.budget))
             self.treecnt+=1
         L = np.array(L)
-        U = db.train[db.y_name].cat.categories
+        U = self.db.train[self.db.y_name].cat.categories
         pred = np.repeat(U[0], nrow)
         freq = np.repeat(0, nrow)
         for clss in U:
@@ -259,12 +260,12 @@ class FI(Controller):
     def eval_annotation(self, feat):
         pass
 
-#TODO: Features should be used to help set algorithmic parameters
+#TODO: Features should be used to help set algorithmic parameters (Big task)
 class ChoiceMaker:
     def __init__(self, db, budget, nt, depth):
         (feats, used) = get_features(db, budget)
         budget -= used
-        alglist = [FS(db, budget, 5), MA(db, budget, 5), Jag(db, budget, nt)]
+        alglist = [FS(db, budget, depth), MA(db, budget, depth), Jag(db, budget, nt)]
         perfs = np.array(list(map(lambda x: x.eval_annotation(feats), alglist) ))
         self.alg = alglist[perfs.argmax()]
     def get_accuracy(self):

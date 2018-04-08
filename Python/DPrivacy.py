@@ -26,7 +26,7 @@ def laplacian(epsilon, n=1, sensitivity=1):
     return np.random.exponential(1/lam, n) * sign
 
 def hist_noiser(vals, epsilon=0):
-    if(isinstance(vals, int)):
+    if(np.isscalar(vals)):
         vals = np.array(vals, ndmin=1)
     if(epsilon == 0):
         return vals
