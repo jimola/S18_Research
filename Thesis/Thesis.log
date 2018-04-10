@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.8.24)  7 MAR 2018 20:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.8.24)  9 APR 2018 22:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -863,7 +863,13 @@ LaTeX Font Info:    Try loading font information for OT1+lmtt on input line 55.
  (/usr/share/texmf/tex/latex/lm/ot1lmtt.fd
 File: ot1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-<DPComp.png, id=59, 1127.21124pt x 561.09625pt>
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[2] <DPComp.png, id=68, 1127.21124pt x 561.09625pt>
 File: DPComp.png Graphic file (type png)
  <use DPComp.png>
 Package pdftex.def Info: DPComp.png used on input line 59.
@@ -886,16 +892,9 @@ LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 8.33606pt on input line 61.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 6.25204pt on input line 61.
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[2]
 LaTeX Font Info:    Try loading font information for OMS+lmr on input line 64.
- (/usr/share/texmf/tex/latex/lm/omslmr.fd
+
+(/usr/share/texmf/tex/latex/lm/omslmr.fd
 File: omslmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <10.95> not available
@@ -968,9 +967,6 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [10]
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 293.
- (./DTree.py)
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -978,6 +974,9 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [11]
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
+nput line 293.
+ (./DTree.py)
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1001,17 +1000,17 @@ t/10.95 a[]\OT1/zplm/m/n/10.95 ) = [](\OML/lmm/m/it/10.95 A\OT1/zplm/m/n/10.95
  []
 
 
-Overfull \hbox (3.55849pt too wide) in paragraph at lines 332--332
-[] 
- []
-
-
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[13] (./DTree.py
+[13]
+Overfull \hbox (3.55849pt too wide) in paragraph at lines 332--332
+[] 
+ []
+
+(./DTree.py
 LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <9> not available
 (Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 15.
 LaTeX Font Info:    Try loading font information for OML+lmr on input line 15.
@@ -1093,25 +1092,19 @@ Overfull \hbox (12.32721pt too wide) in paragraph at lines 365--374
 []
  []
 
-<Graph_Performances.png, id=285, 505.89pt x 505.89pt>
-File: Graph_Performances.png Graphic file (type png)
-
-<use Graph_Performances.png>
-Package pdftex.def Info: Graph_Performances.png used on input line 380.
-(pdftex.def)             Requested size: 354.12057pt x 354.12057pt.
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[16]
-Overfull \hbox (7.10487pt too wide) in paragraph at lines 419--420
- [] 
- []
+[16] <Graph_Performances.png, id=291, 505.89pt x 505.89pt>
+File: Graph_Performances.png Graphic file (type png)
 
-(./Thesis.bbl
+<use Graph_Performances.png>
+Package pdftex.def Info: Graph_Performances.png used on input line 380.
+(pdftex.def)             Requested size: 354.12057pt x 354.12057pt.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1126,6 +1119,11 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [18 <./Graph_Performances.png (PNG copy)>]
+Overfull \hbox (7.10487pt too wide) in paragraph at lines 424--425
+ [] 
+ []
+
+(./Thesis.bbl
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1147,19 +1145,23 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [21]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 425.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 425.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 430.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 430.
  (./Thesis.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 425.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 425.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 430.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 430.
 Package rerunfilecheck Info: File `Thesis.out' has not changed.
 (rerunfilecheck)             Checksum: 2ED6333B9F34E721F200554A0A9B818F;561.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 425.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 430.
  ) 
 Here is how much of TeX's memory you used:
  20863 strings out of 493029
  384333 string characters out of 6136234
- 522613 words of memory out of 5000000
+ 529440 words of memory out of 5000000
  23870 multiletter control sequences out of 15000+600000
  74107 words of font info for 90 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1188,7 +1190,7 @@ hare/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/type1/publi
 c/lm/lmtt8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbo
 ls/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplr8a.pf
 b></usr/share/texlive/texmf-dist/fonts/type1/public/wasy2-ps/wasy10.pfb>
-Output written on Thesis.pdf (21 pages, 637194 bytes).
+Output written on Thesis.pdf (21 pages, 637977 bytes).
 PDF statistics:
  443 PDF objects out of 1000 (max. 8388607)
  383 compressed objects within 4 object streams
