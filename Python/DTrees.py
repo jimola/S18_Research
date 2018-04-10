@@ -107,7 +107,7 @@ def get_density(db):
     return np.tanh(r/2)
 
 def get_features(db, eps):
-    B = min(1, 0.1*eps)
+    B = min(0.5, 0.1*eps)
     feats = {'density': [get_density(db)], 'disuniformity': [get_size_gini(db, B)]}
     return (pd.DataFrame(feats), B)
 
@@ -121,9 +121,11 @@ class FS(Controller):
         self.stop_const = np.sqrt(2)*t*col_sizes[db.y_name] / self.calc_budget
         self.util_func = DPrivacy.ConditionalEntropy(len(db.train))
         self.name = 'Friedman and Schuster'
-    #return a number from 0 to 1
+    #Consistently affected in a small way by epsilon
+    #Likes higher levels of disuniformity
+    #Likes lower density
     def eval_annotation(self, feat):
-        return float(feat.disuniformity*feat.density)
+        return float(feat.disuniformity*(1-feat.density))
     def get_action(self, db):
         nrow = DPrivacy.hist_noiser(len(db.train), self.calc_budget)
         depth = self.init_numcols - len(db.x_names)
@@ -141,8 +143,11 @@ class MA(Controller):
         self.calc_budget = budget/(max_depth+1)
         self.util_func = DPrivacy.ConditionalEntropy(len(db.train))
         self.name = 'Mohammed et al.'
+    #Sensitive to epsilon
+    #Likes low levels of disuniformity. Very sensitive
+    #Likes high density
     def eval_annotation(self, feat):
-        return float((1-feat.disuniformity)*feat.density)
+        return float(np.tanh(self.budget/2)*(1-feat.disuniformity)*(1+feat.density)/2)
     def get_action(self, db):
         depth = self.init_numcols - len(db.x_names)
         if(depth >= self.max_depth):
@@ -164,9 +169,12 @@ class Jag(Controller):
         self.name = 'Jagannathan et al.'
         self.starters = np.random.choice(db.x_names, nt, False)
         self.treecnt = 0
+    #Sensitive to very small values of epsilon when disuniformity is high
+    #Likes low density
+    #Likes epsilon to be reasonably high
     def eval_annotation(self, feat):
         dens = float(feat.density)
-        return max(1-3*dens, 0.33*(1-dens))
+        return float(np.sqrt(1-dens)*feat.disuniformity*min(self.budget, 1.0))
     def get_action(self, db):
         depth = self.init_numcols - len(db.x_names)
         if(depth >= self.max_depth):

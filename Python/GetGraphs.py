@@ -18,16 +18,20 @@ bind = pd.DataFrame(np.array(list(map(lambda x: bind_raw[0].str.slice(x, x+1),
     np.arange(0, 8)))).T)
 bind[9] = bind_raw[1]
 bind = DPrivacy.Database.from_dataframe(bind)
-contra = pd.read_csv('../data-unsorted/contra/cmc.data', header=None)
+contra = pd.read_csv('../datasets/cmc.data', header=None)
+#contra = pd.read_csv('../data-unsorted/contra/cmc.data', header=None)
 contra[0] = contra[0] / 5
 contra = DPrivacy.Database.from_dataframe(contra)
-loan = pd.read_csv('../data-unsorted/loan/student-loan.csv')
+#loan = pd.read_csv('../data-unsorted/loan/student-loan.csv')
+loan = pd.read_csv('../datasets/student-loan.csv')
 loan = DPrivacy.Database.from_dataframe(loan)
-student = pd.read_csv('../data-unsorted/student/student-processed.csv')
+#student = pd.read_csv('../data-unsorted/student/student-processed.csv')
+student = pd.read_csv('../datasets/student-processed.csv')
 student = DPrivacy.Database.from_dataframe(student)
 votes = pd.read_csv('../datasets/house-votes-84.data', header=None)
 votes = DPrivacy.Database.from_dataframe(votes)
-german = pd.read_csv('../data-unsorted/german/german.data', sep=' ', header=None)
+#german = pd.read_csv('../data-unsorted/german/german.data', sep=' ', header=None)
+german = pd.read_csv('../datasets/german.data', sep=' ', header=None)
 german[1] = (german[1] / 6).astype('int')
 german[4] = (german[4] / 100).astype('int')
 german[12] = (german[12] / 7).astype('int')
@@ -38,7 +42,7 @@ dblist = {'nurs': nurs, 'ttt': ttt, 'bind': bind, 'contra': contra,
         'loan': loan, 'student': student}
 
 alglist = {'FS': DTrees.FS, 
-        'MA': DTrees.MA, 'Jag': DTrees.Jag}
+        'MA': DTrees.MA, 'Jag': DTrees.Jag, 'CM': DTrees.ChoiceMaker}
 
 paramlist = {'FS': [(2,),(3,),(5,)],
              'MA': [(2,),(3,),(5,)],
@@ -65,6 +69,7 @@ def collect_data(alglist, dblist, eps_vals, paramlist, reps=10):
                 for p in paramlist[a]:
                     for i in range(0, reps):
                         l.append((a, nm, e, p))
+                        print(a, nm, e, p)
     if(__name__ == '__main__'):
         pool = Pool(processes=10)
         res = pool.map(get_acc, l)
@@ -104,11 +109,12 @@ When we plot the datasets, we can show three dimensions in addition to performan
     x-axis, different plots on the same graph, and different graphs. Since the data
     has 4 dimensions, one has to be ignored.
 """
+
 #We ignore the first element of the permutation by taking the the value specified by
 #ignore_value. If None is specified, we take the first one
-def split_data(data, col_perm, y_key = 'perf'):
-    D = data.groupby(col_perm).mean()
-    D = D.loc[D.index.levels[0][0]]
+#TODO: Make sure epsilon is ordered
+def graph_data(data, col_perm, y_key = 'perf'):
+    D = data.drop(col_perm[0], 1).groupby(col_perm[1:]).mean()
     i = 1
     L = (len(D.index.levels[0]) + 1) // 2
     A = 2
@@ -119,10 +125,29 @@ def split_data(data, col_perm, y_key = 'perf'):
         plot = []
         for p in D.index.levels[1]:
             plot.append(np.array(D.loc[g,p][y_key]))
+        plt.title(g)
         plt.plot(D.index.levels[2], np.array(plot).T)
         plt.legend(D.index.levels[1])
         i += 1
 
+
+def do_graphs():
+    data = pickle.load(open('data.p', 'rb'))
+    data = split_by_params(data, 
+            {'FS': {'bind': (5,), 'ttt': (5,), 'nurs': (5,)},
+             'MA': {'bind': (3,), 'ttt': (5,), 'nurs': (5,)},
+             'Jag': {'bind': (5,), 'ttt': (5,), 'nurs': (5,)}})
+    graph_data(data, ['params', 'database', 'alg', 'eps'])
+
+
+def do_graphs2():
+    data = pickle.load(open('data.p', 'rb'))
+    data = split_by_params(data, 
+            {'FS': {'bind': (5,), 'ttt': (5,), 'nurs': (5,), 'loan': (5,)},
+                'MA': {'bind': (3,), 'ttt': (5,), 'nurs': (5,), 'loan': (5,)},
+                'Jag': {'bind': (5,), 'ttt': (5,), 'nurs': (5,), 'loan': (5,)},
+                'CM': {'bind': (5,5), 'ttt': (5,5), 'nurs': (5,5), 'loan': (5,5)}})
+    graph_data(data, ['params', 'database', 'alg', 'eps'])
 """
 def select_db_split_algos(dg, dbname, params):
     dg2 = dg[dg.index.get_level_values('database') == dbname]
@@ -162,7 +187,8 @@ plt.subplot(326)
 plt.title('student')
 plt.plot(eps_vals, select_db_split_algos(dgm, 'student').T)
 plt.legend(list(alglist.keys()))
-"""
 
 params = {'Friedman and Schuster': (5,), 'Mohammed et al.': (5,), 'Jagannathan et al.': (5,), 
         'ChoiceMaker': (5,5)}
+"""
+
