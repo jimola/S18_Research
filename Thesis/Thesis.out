@@ -1,9 +1,12 @@
-\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
-\BOOKMARK [1][-]{section.2}{Background}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{Differential Privacy}{section.2}% 3
-\BOOKMARK [2][-]{subsection.2.2}{Related Work}{section.2}% 4
-\BOOKMARK [2][-]{subsection.2.3}{Existing Methods for Algorithmic Choice}{section.2}% 5
-\BOOKMARK [2][-]{subsection.2.4}{Decision Trees}{section.2}% 6
-\BOOKMARK [1][-]{section.3}{Decision Tree Examples}{}% 7
-\BOOKMARK [2][-]{subsection.3.1}{Private Decision Trees}{section.3}% 8
-\BOOKMARK [2][-]{subsection.3.2}{Experiments}{section.3}% 9
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
+\BOOKMARK [0][-]{chapter.2}{Background}{}% 2
+\BOOKMARK [1][-]{section.2.1}{Differential Privacy}{chapter.2}% 3
+\BOOKMARK [1][-]{section.2.2}{Related Work}{chapter.2}% 4
+\BOOKMARK [2][-]{subsection.2.2.1}{Existing Programming Languages}{section.2.2}% 5
+\BOOKMARK [2][-]{subsection.2.2.2}{Existing Methods for Algorithmic Choice}{section.2.2}% 6
+\BOOKMARK [0][-]{chapter.3}{Experiments and Implementation}{}% 7
+\BOOKMARK [1][-]{section.3.1}{Decision Trees}{chapter.3}% 8
+\BOOKMARK [0][-]{chapter.4}{Solution Overview}{}% 9
+\BOOKMARK [1][-]{subsection.4.0.1}{Private Decision Trees}{chapter.4}% 10
+\BOOKMARK [2][-]{subsection.4.0.2}{Experiments}{subsection.4.0.1}% 11
+\BOOKMARK [0][-]{chapter.5}{Future Work}{}% 12

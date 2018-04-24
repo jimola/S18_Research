@@ -7,6 +7,17 @@ Avrim Blum, Cynthia Dwork, Frank McSherry, and Kobbi Nissim.
   Data / Principles of Database Systems, Baltimore (PODS 2005)}, Baltimore,
   Maryland, USA, June 2005.
 
+\bibitem{Chaudhuri:2014}
+Kamalika Chaudhuri, Daniel Hsu, and Shuang Song.
+\newblock The large margin mechanism for differentially private maximization.
+\newblock 2, 09 2014.
+
+\bibitem{Chaudhuri:2013}
+Kamalika Chaudhuri and Staal~A. Vinterbo.
+\newblock A stability-based validation procedure for differentially private
+  machine learning.
+\newblock In {\em NIPS}, 2013.
+
 \bibitem{Dwork:2006}
 Cynthia Dwork.
 \newblock Differential privacy.
