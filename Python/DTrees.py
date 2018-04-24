@@ -36,33 +36,6 @@ class Controller:
                 preds[test_split_loc] = self.decision_helper(db_new, eps)
             return preds
     
-    #Used for collecting runtime information
-    def collect_info_helper(self, db, eps):
-        if(len(db.test) == 0):
-            return np.array([0, 0, 0])
-        (used, col_name) = self.get_action(db)
-        eps -= used
-        if(col_name == None):
-            pred = self.leaf(db, eps)
-            freqs = pd.value_counts(db.test[db.y_name])
-            if(pred in freqs):
-                return np.array([freqs[pred], 0, 1])
-            else:
-                return np.array([0, 0, 1])
-        else:
-            new_x = db.x_names[db.x_names != col_name]
-            ret = np.array([0, 0, 1])
-            for att in db.train[col_name].cat.categories:
-                train_split = db.train[db.train[col_name] == att]
-                test_split = db.test[db.test[col_name] == att]
-                db_new = DPrivacy.Database(
-                        train_split, test_split, new_x, db.y_name)
-                ret += self.collect_info(db_new, eps)
-            self_leaf_cnt = pd.value_counts(db.test[db.y_name]).max()
-            ret[1] += int(self_leaf_cnt > ret[0])
-            return ret
-    def collect_info(self):
-        return self.collect_info_helper(self.db, self.budget)
     def get_preds(self):
         return self.decision_helper(self.db, self.budget)
     def get_accuracy(self):
@@ -79,7 +52,7 @@ class NonPrivate(Controller):
         y = db.train[db.y_name]
         if(depth >= self.max_depth or len(y.unique()) <= 1):
             return(0, None)
-        utils = list(map(lambda x: self.util_func.eval(db.train[x], y), db.x_names))
+        utils = [self.util_func.eval(db.train[x], y) for x in db.x_names]
         idx = DPrivacy.exp_mech(utils, 0, None)
         return (0, db.x_names[idx])
 
@@ -93,7 +66,7 @@ def get_gini(sample, num_zeros=0):
 #We spend epsilon budget to get info on slice_size budget
 def get_size_gini(db, eps, slice_size=4):
     cols = list(np.random.choice(db.x_names, slice_size, False))
-    attr_sizes = list(map(lambda x: len(np.unique(db.train[x])), cols))
+    attr_sizes = [len(db.train[x].unique()) for x in db.x_names]
     prods = np.array(attr_sizes).prod()
     sizes = np.array(db.train.groupby(cols)[db.y_name].count())
     sizes = DPrivacy.hist_noiser(sizes, 0.75*eps)
@@ -102,7 +75,7 @@ def get_size_gini(db, eps, slice_size=4):
     return get_gini(skew, num_zeros)
 
 def get_density(db):
-    b = list(map(lambda x: len(db.train[x].unique()), db.x_names))
+    b = [len(db.train[x].unique()) for x in db.x_names]
     r = len(db.train) / np.array(b).prod()
     return np.tanh(r/2)
 
@@ -132,7 +105,7 @@ class FS(Controller):
         if(depth >= self.max_depth or nrow < self.stop_const):
             return (self.calc_budget, None)
         y = db.train[db.y_name]
-        utils = list(map(lambda x: self.util_func.eval(db.train[x], y), db.x_names))
+        utils = [self.util_func.eval(db.train[x], y) for x in db.x_names]
         idx = DPrivacy.exp_mech(utils, self.calc_budget, self.util_func.sens)
         return (2*self.calc_budget, db.x_names[idx])
 
@@ -153,7 +126,7 @@ class MA(Controller):
         if(depth >= self.max_depth):
             return (0, None)
         y = db.train[db.y_name]
-        utils = list(map(lambda x: self.util_func.eval(db.train[x], y), db.x_names))
+        utils = [self.util_func.eval(db.train[x], y) for x in db.x_names]
         idx = DPrivacy.exp_mech(utils, self.calc_budget, self.util_func.sens)
         return (self.calc_budget, db.x_names[idx])
 
@@ -162,7 +135,7 @@ class MA(Controller):
 class Jag(Controller):
     def __init__(self, db, budget, nt):
         k = len(db.x_names)
-        b = sum(map(lambda x: len(db.train[x].cat.categories), db.x_names))
+        b = sum([len(db.train[x].cat.categories) for x in db.x_names])
         b = b / k
         max_dep = min([np.log(len(db.train))/np.log(b)-1, k/2])
         Controller.__init__(self, db, max_dep, budget, nt)
@@ -274,7 +247,7 @@ class ChoiceMaker:
         (feats, used) = get_features(db, budget)
         budget -= used
         alglist = [FS(db, budget, depth), MA(db, budget, depth), Jag(db, budget, nt)]
-        perfs = np.array(list(map(lambda x: x.eval_annotation(feats), alglist) ))
+        perfs = np.array([x.eval_annotation(feats) for x in alglist])
         self.alg = alglist[perfs.argmax()]
     def get_accuracy(self):
         return self.alg.get_accuracy()

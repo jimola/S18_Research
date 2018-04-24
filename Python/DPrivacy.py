@@ -45,7 +45,6 @@ def exp_mech(utils, eps, sens):
     if(eps == 0):
         return utils.argmax()
     utils = utils-max(utils)
-    n = len(utils)
     weights = np.exp(eps*utils / (2*sens))
     prob = weights / sum(weights)
     u = np.random.rand()
@@ -60,7 +59,7 @@ class ConditionalEntropy:
         ent = p*np.log(p) / np.log(2)
         return(sum(ent))
     def eval(self, r1, r2):
-        parts = map(lambda x: len(x) * self.get_ent(pd.value_counts(r2[x])),
-                r2.groupby(r1).groups.values())
+        parts = [len(x) * self.get_ent(pd.value_counts(r2[x])) for x in
+                r2.groupby(r1).groups.values()]
         return sum(parts)
 

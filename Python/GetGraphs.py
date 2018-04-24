@@ -129,7 +129,13 @@ def graph_data(data, col_perm, y_key = 'perf'):
         plt.plot(D.index.levels[2], np.array(plot).T)
         plt.legend(D.index.levels[1])
         i += 1
-
+def split_by_params(db, algdb_to_params):
+    ans = pd.DataFrame()
+    for a in algdb_to_params:
+        for d in algdb_to_params[a]:
+            ans = ans.append(db[(db.alg == a) & (db.params == algdb_to_params[a][d]) & 
+                (db.database == d)])
+    return ans
 
 def do_graphs():
     data = pickle.load(open('data.p', 'rb'))
