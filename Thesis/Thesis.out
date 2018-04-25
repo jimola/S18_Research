@@ -4,9 +4,14 @@
 \BOOKMARK [1][-]{section.2.2}{Related Work}{chapter.2}% 4
 \BOOKMARK [2][-]{subsection.2.2.1}{Existing Programming Languages}{section.2.2}% 5
 \BOOKMARK [2][-]{subsection.2.2.2}{Existing Methods for Algorithmic Choice}{section.2.2}% 6
-\BOOKMARK [0][-]{chapter.3}{Experiments and Implementation}{}% 7
-\BOOKMARK [1][-]{section.3.1}{Decision Trees}{chapter.3}% 8
-\BOOKMARK [0][-]{chapter.4}{Solution Overview}{}% 9
-\BOOKMARK [1][-]{subsection.4.0.1}{Private Decision Trees}{chapter.4}% 10
-\BOOKMARK [2][-]{subsection.4.0.2}{Experiments}{subsection.4.0.1}% 11
-\BOOKMARK [0][-]{chapter.5}{Future Work}{}% 12
+\BOOKMARK [0][-]{chapter.3}{Solution Overview}{}% 7
+\BOOKMARK [1][-]{section.3.1}{Formal Description}{chapter.3}% 8
+\BOOKMARK [1][-]{section.3.2}{Generality}{chapter.3}% 9
+\BOOKMARK [2][-]{subsection.3.2.1}{Generality over PINQ}{section.3.2}% 10
+\BOOKMARK [2][-]{subsection.3.2.2}{Generality over Ligett}{section.3.2}% 11
+\BOOKMARK [2][-]{subsection.3.2.3}{Generality over DTree Algorithms}{section.3.2}% 12
+\BOOKMARK [0][-]{chapter.4}{Experiments and Implementation}{}% 13
+\BOOKMARK [1][-]{section.4.1}{Decision Trees}{chapter.4}% 14
+\BOOKMARK [2][-]{subsection.4.1.1}{Private Decision Trees}{section.4.1}% 15
+\BOOKMARK [2][-]{subsection.4.1.2}{Experiments}{section.4.1}% 16
+\BOOKMARK [0][-]{chapter.5}{Future Work}{}% 17

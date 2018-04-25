@@ -11,9 +11,20 @@
 \usepackage{tikz}
 \usepackage{hyperref}
 \usepackage{listings}
-\lstset
+\lstdefinestyle{MyPythonStyle}
 {
     language=Python,
+    basicstyle=\footnotesize,
+    numbers=left,
+    stepnumber=1,
+    showstringspaces=false,
+    tabsize=1,
+    breaklines=true,
+    breakatwhitespace=false,
+}
+\lstdefinestyle{MyCStyle}
+{
+    language=[Sharp]C,
     basicstyle=\footnotesize,
     numbers=left,
     stepnumber=1,
@@ -44,7 +55,7 @@
 \author{Jacob Imola\\ School of Computer Science, Carnegie Mellon University\and Jean Yang\\ School of Computer Science, Carnegie Mellon University}
 \begin{document}
 \maketitle
-\chapter{Introduction}
+\chapter{Introduction}\label{ch:intro}
 The rapid technological increase in data collection, speed, and storage has brought about revolutionary insights and ideas and will continue to do so. However, with huge amounts of private data comes the concern of preventing data from ending up in the wrong hands. In order to prevent data leakage, we must lay a strong privacy foundation and give data programmers tools for implementing privacy both efficiently and correctly.
 
 Consider a healthcare database with records like patient weight, age, genetic information, and whether they are HIV positive. Granting access rights, or policies, to just patients and their doctors protects as much privacy as possible, and developing tools for verifying information flow policies is an interesting question in its own right that has been studied immensely. However, sometimes it's okay to release some statistics about the database so that a programmer can find risk factors for people who have HIV. Publicly releasing the entire database doesn't protect privacy at all, yet it would be a programmer's dream. In order to appease both data programmers and patients, a middle ground area must be chosen where a blurry snapshot of the database is released, comprehensive enough so that meaningful conclusions may be drawn yet blurry enough so that individuals are mostly protected. We call this the \emph{privacy-accuracy} tradeoff. We can always sacrifice one for the other before we disclose our database snapshot. However, after we disclose, it is impossible to take any privacy back, so we have to be absolutely sure that privacy guarantee will not fail under any attack. The most promising method for doing such a disclosure is Differential Privacy~\cite{Dwork:2006}.
@@ -64,7 +75,7 @@ This problem is noted by the authors of DPComp~\cite{Hay:2016}, who comment that
 \caption{A screenshot of a DPComp graph depicting the original dataset and the noise that a DP algorthm, DAWA~\cite{Li:2014}, adds at $\epsilon=0.01$. This would help a programmer decide whether to apply DAWA on his own dataset.}\label{fig:dpcomp}
 \end{figure}
 \begin{enumerate}
-\item \textbf{Correctness} A \Jostle{} program enjoys the correctness guarantees that existing DP programming languages give. Correctness in the area of privacy is particularly important because privacy breaches are costly.
+\item \textbf{Correctness} A \Jostle{} program enjoys the DP correctness guarantees that existing DP programming languages give. Correctness in the area of privacy is particularly important because privacy breaches are costly.
 \label{itm:adv_correct}
 \item \textbf{Generalization} The DPComp study of 2D histograms does not easily generalize to other DP algorithms. A programming language is far more general as arbitrary code can be analyzed. Concretely, DPComp can be implemented as a specific \Jostle{} program, and not the other way round.
 \label{itm:adv_general}
@@ -72,38 +83,47 @@ This problem is noted by the authors of DPComp~\cite{Hay:2016}, who comment that
 \label{itm:adv_insight}
 \end{enumerate}
 
-Even though programming languages exist which address benefit Item \ref{itm:adv_correct} and DPComp addresses Items \ref{itm:adv_general} and \ref{itm:adv_insight}, no works enjoy all three benefits at the same time. Having all three benefits is important because of programmer burden. Doing a DPComp-style analysis every time algorithmic choice needs to be explored requires doing data analysis on all algorithms and then implementing the insights by hand. Once algorithms are implemented, there is a small overhead writing \Jostle{} code to make the choice. The algorithmic insights come for free via the \Jostle{} trace.
+Even though programming languages exist which confer benefit \ref{itm:adv_correct} and DPComp confers benefits \ref{itm:adv_general} and \ref{itm:adv_insight}, no works enjoy all three benefits at the same time. Having all three benefits is important because of programmer burden. Doing a DPComp-style analysis every time algorithmic choice needs to be explored requires doing data analysis on all algorithms and then implementing the insights by hand. Once algorithms are implemented, there is a small overhead writing \Jostle{} code to make the choice. The algorithmic insights come for free via the \Jostle{} trace.
 
 \Jostle{} will represent algorithmic choice with the \t{MakeChoice} statement, illustrated in Figure~\ref{fig:1}.
 \begin{figure}
-\begin{lstlisting}
+\begin{lstlisting}[style=MyCStyle]
 trainingSet = {US Census, ... #Public Databases}
-def uniformity(db):
+
+uniformity = Feature(data){
+    db = data.database
     xgrp = sqrt(db.x_range)
     ygrp = sqrt(db.y_range)
     return {{stddev(select sum(values) from db 
                     groupby x/xgrp, y/ygrp)}}
-def sparsity(db): 
+}
+sparsity = Feature(data){
+    db = data.database
     num_nonzero = {{select count(values) from db 
                     where values > 0}}
     domain_size = db.x_range * db.y_range
     return num_nonzero/domain_size
+}
 
-#Option
-def DAWA(db, queries):
-    #DAWA Implementation
-#Option
-def MWEM(db, queries):
-    #MWEM Implementation
+DAWA = Option(data){
+    //DAWA Implementation
+}
+MWEM = Option(data){
+    //MWEM Implementation
+}
+
+scoreFunc = Utility(data, answers){
+    //compare answers to data.queries run on non-private data.answers
+}
 
 noisyHistChoice = MkChoiceMaker among {DAWA, MWEM}
                     informed by {uniformity, sparsity}
-                    trained on trainingSet
-
-def answerHistQueries(db, queries):
-    answers = noisyHistChoice(db, queries)
-
+                    trained on trainingSet 
+                    wrt ScoreFunc
+def answerHistQueries(data):
+    answers = noisyHistChoice(data)
 \end{lstlisting}
+
 \caption{\Jostle{} code demonstrating the use of \t{ChoiceMaker} object, called \t{noisyHistChoice}. In this case, the options are the \t{DAWA} and \t{MWEM} 2D Histogram algorithms.}
 \label{fig:1}
 \end{figure}
@@ -115,7 +135,7 @@ The above design is inspired by DPComp. Suppose we are a programmer deciding whe
 
 We will begin with a background section on DP and related work. Then, we will present a formal outline of how \Jostle{} runs. Thirdly, we will implement Decision Tree choice with \Jostle{} and provide empirical evidence for the claimed benefits (Page~\pageref{itm:adv_correct}) of \Jostle{}. Finally, we will discuss future directions for \Jostle{}.
 
-\chapter{Background}
+\chapter{Background}\label{ch:background}
 \section{Differential Privacy}
 Differential Privacy makes the following promise to data subjects: ``You will not be affected, adversely or otherwise, by allowing your data to be used in any study or analysis, no matter what other studies, data sets, or information sources, are available''~\cite{Dwork:2006}. To make this more formal, we must analyze two databases, $D$ and $D'$, differing in only one row which represents a database before and after a user participates. We call such databases neighbors. Suppose we are running a algorithm $\mathcal{M}$ on the database. If an attacker is able to discern with confidence $\mathcal{M}(D)$ and $\mathcal{M}(D')$, then this poses a privacy threat. The strength of this confidence is quantified a real number $\epsilon$ such that small $\epsilon$ corresponds to low attacker confidence. This means that deterministic algorithms are already unacceptable if it's possible for $\mathcal{M}(D) \neq \mathcal{M}(D')$. We necessarily must output a probability distribution, and once we view $\mathcal{M})(D)$ as a distribution, we can finally pin down the definition:
 
@@ -177,11 +197,11 @@ This gives us the following algorithm:
 \Output{An estimate for $f(D)$ satisfying $\epsilon$-DP.}
 $X$, a vector of $n$ i.i.d. variables drawn from $\text{Laplace}\left(\frac{\Delta(f)}{\epsilon}\right)$\;
 \Return{X+f(D)}
-\caption{Laplace algorithm}
+\caption{Laplace Mechanism}
 \end{algorithm}
 
 \begin{theorem}
-The Laplace algorithm~\ref{alg:1} satisfies $(\epsilon, 0)$-DP~\cite{Dwork:2006}.
+The Laplace mechanism~\ref{alg:1} satisfies $(\epsilon, 0)$-DP~\cite{Dwork:2006}.
 \end{theorem}
 For the counting or histogram queries such as our example above, we have $\Delta = 1$ so we add $\text{Laplace}\left(\frac{1}{\epsilon}\right)$ noise to our function.
 
@@ -195,7 +215,7 @@ $X$, a vector of $|\mathcal{X}|$ i.i.d. variables drawn from $\text{Laplace}\lef
 \Return{$\arg\max_{i=1}^{|\mathcal{X}|}\{ X+f(\mathcal{X})\}$}
 \caption{ReportNoisyMax}
 \end{algorithm}
-However, ReportNoisyMax only works on monotone queries, or where $f(x, D) < f(x, D')$ for all $x \in X'$. A version that works on queries in general is the exponential mechanism~\ref{alg:exp}.
+However, ReportNoisyMax only works on monotone queries, meaning $f(x, D) < f(x, D')$ for all $x \in X'$. A version that works on queries in general is the exponential mechanism~\ref{alg:exp}.
 \begin{algorithm}\label{alg:exp}
 \SetAlgoLined
 \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
@@ -208,9 +228,10 @@ Pick $x \in \mathcal{X}$ where $\Pr(x=k) \propto \exp\left(\frac{\epsilon f(k, D
 ReportNoisyMax doesn't have a factor of 2 in its Laplacian noise, and this means a lighter tail. Thus, for monotone queries, we use ReportNoisyMax.
 \section{Related Work}
 \subsection{Existing Programming Languages}
-Existing programming languages for differential privacy leave algorithmic choice up to the programmer. The most prominent example for a language with a DP runtime is PINQ~\cite{McSherry:2010}. PINQ provides an interface of DP primitives between the database and the programmer. These primitives include aggregations, database splitting, and the exponential mechanism. PINQ uses the Laplace algorithm to compute the aggregations. To string together many commands, PINQ gives the user the ability to define a PINQAgent which keeps track of budgets in a compositional way. For example, the \t{NoisyCount} function is implemented in Figure~\ref{fig:PINQNoisyCount}
+Existing programming languages for differential privacy leave algorithmic choice up to the programmer. Languages with DP runtimes give the programmer certain DP primitives to use and compose them together~\cite{McSherry:2010}~\cite{Proserpio:2014}~\cite{Johnson:2017}. For example, in PINQ~\cite{McSherry:2010}, the primitives are aggregations, database splitting, and the exponential mechanism. Aggregations use the Laplace mechanism, and database splitting uses disjointness. To string together many commands, PINQ gives the user the ability to define a PINQAgent which keeps track of budgets in a compositional way. For example, the \t{NoisyCount} function is implemented in Figure~\ref{fig:PINQNoisyCount}.
+
 \begin{figure}
-\begin{verbatim}
+\begin{lstlisting}[style=myCStyle]
 double NoisyCount(double epsilon){
     if(myagent.apply(epsilon)){
         return mysource.Count() + Laplace(1.0/epsilon);
@@ -218,52 +239,118 @@ double NoisyCount(double epsilon){
         throw new Exception("Access Denied")
     }
 }
-\end{verbatim}
+\end{lstlisting}
 \caption{NoisyCount Implemented in PINQ.}
 \label{fig:PINQNoisyCount}
 \end{figure}
-PINQ includes the most basic privacy primitives for simplicity, and lots of work has gone into including more sophisticated algorithms into its runtime such as \t{Join}~\cite{Proserpio:2014}~\cite{Johnson:2017}. However, in the absence of automatic algorithmic choice, a programmer will not know 
 
-In Fuzz~\cite{Reed:2010}, a type system is implemented to guarantee differential privacy and sensitivity. Each type is endowed with a metric, and judgments are given for richer programming constructs such as sums, products, recursive types, and lambda expressions. Once the type of the program is known, its metric is known and its sensitivity can be inferred from the input variables. Sensitivity allows us to add the proper amount of noise via the Laplace algorithm. To go from an $\epsilon$-sensitive function to an $\epsilon$-DP function, noise is added via a monad by applying the function $add\_noise : \mathbb{R} \multimap \fullmoon\mathbb{R}$.
+If we wanted to count the number of patients in a database who are over 40, we would use \t{NoisyCount}, and an error would be thrown if the budget were to run out.
+
+In Fuzz~\cite{Reed:2010}, a type system is implemented to guarantee differential privacy and sensitivity. Each type is endowed with a metric, and judgments are given for richer programming constructs such as sums, products, recursive types, and lambda expressions. Once the type of the program is known, its metric is known and its sensitivity can be inferred from the input variables. Sensitivity allows us to add the proper amount of noise via the Laplace mechanism. To go from an $\epsilon$-sensitive function to an $\epsilon$-DP function, noise is added via a monad by applying the function $add\_noise : \mathbb{R} \multimap M\;\mathbb{R}$.
 
 For instance, counting the number of people in a database older than 40 could be achieved by:
 \[
-add\_noise\;(size\;(filter\;over_{40}\;db)) : db \multimap \fullmoon\mathbb{R}
+\lambda db.add\_noise\;(size\;(filter\;over_{40}\;db)) : db \multimap M\;\mathbb{R}
 \]
 
-However, there are two shortcomings with this method. First, the programmer is still responsible for adding noise and making decisions that affect the sensitivity of a computation. Perhaps it's better to defer the adding of noise of the 
+The final type determined by Fuzz contains the differential privacy guarantee of the program. As opposed to throwing errors, Fuzz's sacrifice is making suboptimal typing judgments when computing the sensitivity as well as an undecidable type system. After all, there's no such thing as free lunch.
+
+While algorithmic choice could be manually implemented in PINQ or Fuzz, this programmer burden will be eliminated in \Jostle{}. We design \Jostle{} to resemble PINQ with a \t{MakeChoice} construct rather than Fuzz because more accurate algorithmic choices can be done during runtime rather than compile-time.
+
 \subsection{Existing Methods for Algorithmic Choice}
 
-Versions of algorithmic choice have been demonstrated in previous work. Each work provides a way of overcoming the fact that the choice of algorithm releases information about that dataset in a way that is more intelligent than simply using composition for each algorithm. We set up the the problem in the following way: Given some model space $\mathcal{M}$, a model set $M \subseteq \mathcal{M}$, a database $D$, and a score function $q: \mathcal{R} \times \mathcal{M} \rightarrow \mathbb{R}$, maximize $q$ over $\mathcal{M}$ privately.
+Versions of algorithmic choice have been demonstrated in previous work. Algorithmic choice involves picking an algorithm from a set that maximizes a score function. The problem can be set up in the following way: Given some answer space $\mathcal{M}$, a answer set $M \subseteq \mathcal{M}$, a database $D$, and a score function $q: \mathcal{R} \times \mathcal{M} \rightarrow \mathbb{R}$, maximize $q$ over $\mathcal{M}$ privately.
 
-For instance, if the programmer is training a private linear regression model, then $\mathcal{M}$ is the space of all linear functions and $q$ is, most commonly, a validation score on some unused part of the database. This problem is extra subtle as changing $D$ to $D'$ changes the model set from $M$ to $M'$, as the models are determined on the database, and also changes $D$ to $D'$ when evaluating $q(D, m)$. There is no complete answer to this problem; most commonly, an assumption must be made about $q$, usually relating to its sensitivity. We now explore proposed solutions to this problem.
+For instance, if the programmer is training a private logistic regression as an answer, then $\mathcal{M}$ is the space of all linear functions and $q$ is, most commonly, a validation score on some unused part of the database. This problem is extra subtle as changing $D$ to $D'$ changes the answer set from $M$ to $M'$, as the answers are determined on the database, and also changes $D$ to $D'$ when evaluating $q(D, m)$. There is no complete answer to this problem; most commonly, an assumption must be made about $q$, usually relating to its sensitivity. We now explore proposed solutions to this problem.
 
-In~\cite{Chaudhuri:2013}, a solution based on the exponential mechanism is proposed where $q$ is the utility function. Since the exponential mechanism requires a sensitivity bound, a bound on $q$ must be ascertained. As mentioned, in order to bound $|q(D, m) - q(D', m')|$ where $m \in M$ and $m' \in M'$, two inequalities are needed:
+In~\cite{Chaudhuri:2013}, a solution based on the exponential mechanism is proposed where $q$ is the utility function used in the exponential mechanism. When we do this, we necessarily limit ourselves to manually picking $\epsilon$ both for the algorithms we are picking and for the final application of the exponential mechanism. We call this approach privacy-first, since privacy must be fixed first.
+
+Since the exponential mechanism requires a sensitivity bound, a bound on $q$ must be ascertained. As mentioned, in order to bound $|q(D, m) - q(D', m')|$ where $m \in M$ and $m' \in M'$, two inequalities are needed:
 \begin{align*}
 \forall m\in M,\forall |D-D'|=1:\;\|q(D, m) - q(D', m)\| &\leq \beta_1 \\
 \forall D\in \mathcal{R},\forall m \in M,\forall m'\in M':\;\|q(D, m) -  q(D, m')\| &\leq \beta_2
 \end{align*}
 
-If these bounds are established, then it's relatively easy to show that the exponential mechanism can output an answer that is close to optimal (compare to the guarantee of the exponential mechanism):
+If these bounds are established, then it's relatively easy to show that the exponential mechanism can output an answer that is close to optimal (compare to the guarantee of the exponential mechanism [Ask Matt about a citation for this]):
 \begin{theorem}\label{thm:dependent_exp}
-(Utility guarantee~\cite{Chaudhuri:2013}) Let $M = m_1, m_2, \ldots, m_k$. Then, with probability at least $1-\delta$, $q(D, m_{i^*}) \geq \max_{1\leq i \leq k} q(D, h_i) - \frac{2\max\{\beta_1, \beta_2\}\log(k/\delta)}{\epsilon}$.
+(Utility guarantee~\cite{Chaudhuri:2013}) Let $M = m_1, m_2, \ldots, m_k$. Then, with probability at least $1-\delta$, $q(D, m_{i^*}) \geq \max_{1\leq i \leq k} q(D, m_i) - \frac{2\max\{\beta_1, \beta_2\}\log(k/\delta)}{\epsilon}$.
 \end{theorem}
-We can see that the bound degrades logarithmically in the size $k$ of the universe. A fix to this was made in~\cite{Chaudhuri:2014}. Suppose there is a relatively small subset of models $M' \subseteq M$ which perform much better than the rest of $M$, so $\min_{m \in M'} q(D, m') \geq \max_{m \in M} q(D, m) + \delta$. It's possible to find such an $M'$ with the sparse vector technique. With a smaller subset of better-performing algorithms, the exponential mechanism works will produce a much better result.
 
-However, neither paper gives insight into how to choose $\epsilon$. How much $\epsilon$ should we use for the exponential mechanism, and how much should be used for actually computing the models? How much $\epsilon$ should be given to the sparse vector computation before we even do the exponential mechanism? Different frameworks are needed to eliminate the need to pick $\epsilon$.
+Going back to the logistic regression example, a programmer may be unsure of which linear separator to pick as logistic regression depends on a hyperparameter. Therefore, they may split $D$ into a training set $T$ and validation set $V$. Then, they pick a set of hyperparameters $C$, set $M = \{w_D^{(c)}: c \in C\}$ and set 
+\[
+q(w, V) = -\frac{1}{|V|}\sum_{(x, y) \in V} g(w, x, y)
+\] 
+The function $g$ could be any function with bounded sensitivity; for instance, they could make it the logistic loss function $\log\left(1+e^{-yw^Tx}\right)$ which has sensitivity 1, so $\beta_1 = \beta_2 = 1$.
 
-The framework developed in~\cite{Ligett:2017} allows the programmer to experimentally pick $\epsilon$ in certain cases. Critical to the framework is the method of picking correlated Laplacian noise described in~\cite{Koufogiannis:2015}. In this version of the Laplace algorithm, a programmer selects a set of increasing $\epsilon$ values, $(\epsilon_1, \epsilon_2, \ldots, \epsilon_T)$, corresponding to the different budgets they want to try. Correlated Laplace variables $(v_1, v_2, \ldots, v_T)$ are then generated such that knowing a prefix $(v_1, v_2, \ldots, v_t)$ is $\epsilon_t$-differentially private and the noise present in $v_t$ is similar to the noise that a standard Laplace algorithm would add. The framework in~\cite{Ligett:2017} uses this algorithm to add noise to models $m_1, m_2, \ldots, m_T$ when the sensitivities of the models are known. For instance, if the task is linear regression, then the describing a way to iterate through the $v_i$'s until a suitably accurate algorithm is selected. Accuracy can be specified by the programmer as an arbitrary function that takes in a $v_i$. Of course, the release of the most-accurate algorithm has to be done in a differentially-private manner as well, and Ligett et. al use an adaptation of the AboveThreshold algorithm~\cite{Dwork:2006}. This results in an additional privacy and accuracy penalty over simply using the Laplace algorithm with a fixed $\epsilon$. Specifically, if $v_t$ is chosen, then the computation is $\epsilon_t+\epsilon_{Above}$-DP, still a huge improvement over the bound obtained when applying $\sum_{i=1}^t \epsilon_i$ with nearly the same accuracy.
+A small improvement to Theorem~\ref{thm:dependent_exp} is shown in~\cite{Chaudhuri:2014}. Suppose there is a relatively small subset of answers $M' \subseteq M$ which perform much better than the rest of $M$, so $\min_{m \in M'} q(D, m') \geq \max_{m \in M} q(D, m) + \delta$. It's possible to approximately find such an $M'$ with a complicated method called the sparse vector technique. With a smaller subset of better-performing algorithms, the exponential mechanism can be applied and the bound in Theorem \ref{thm:dependent_exp} will degrade proportionally to $\log{|M'|}$ rather than $\log{|M|}$.
 
-We notice the following problems with the methods addressed above:
+Another example of a privacy-first framework is DPComp \cite{Hay:2016} and its extension, Pythia \cite{Kotsogiannis:2017}. DPComp allows programmers to visualize performances of histogram algorithms on public datasets so they can evaluate themselves which algorithm to deploy on their own dataset. The hope is that the programmer will know enough about their own dataset to find a similar public dataset and obtain an accurate visualization. An example visualization is shown in Figure~\ref{fig:dpcomp}.
+
+Pythia takes this one step further in a similar way to \Jostle{}. A programmer will take ``features'' of their database---for example, the number of points, the number of zeros, the range of each database column---and Pythia will train a model that tells which algorithm does the best. Because of their simplicity and high interpretability, Pythia trains decision trees using algorithm runs gathered from public datasets. An example decision tree is shown in Figure~\ref{fig:pythia}. The leaves of the decision tree are the best algorithm to deploy, and the branches are comparisions done on the provided features.
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+\begin{center}
+\includegraphics[scale=0.5]{PythiaDTree}
+\end{center}
+\caption{Example Decision Tree trained by Pythia with features in branches and algorithms in leaves.}\label{fig:pythia}
+\end{wrapfigure}
+On the other hand, the framework developed in~\cite{Ligett:2017} puts accuracy first. The programmer decides when accuracy is sufficiently high, and privacy usage is then minimized. Critical to the framework is the method of picking correlated Laplacian noise described in~\cite{Koufogiannis:2015}. In this version of the Laplace mechanism, a programmer selects a set of increasing $\epsilon$ values, $(\epsilon_1, \epsilon_2, \ldots, \epsilon_T)$, corresponding to the different budgets they want to try. Correlated Laplace variables $(v_1, v_2, \ldots, v_T)$ are then generated such that knowing a prefix $(v_1, v_2, \ldots, v_t)$ is $\epsilon_t$-differentially private and the noise present in $v_t$ is similar to the noise that a standard Laplace mechanism would add. The framework in~\cite{Ligett:2017} uses this algorithm to add noise to models $m_1, m_2, \ldots, m_T$ when the sensitivities of the models are known. For instance, if the task is linear regression, then the describing a way to iterate through the $v_i$'s until a suitably accurate algorithm is selected. Accuracy can be specified by the programmer as an arbitrary function that takes in a $v_i$. Of course, the release of the most-accurate algorithm has to be done in a differentially-private manner as well, and Ligett et. al use an adaptation of the AboveThreshold algorithm~\cite{Dwork:2006}. This results in an additional privacy and accuracy penalty over simply using the Laplace mechanism with a fixed $\epsilon$. Specifically, if $v_t$ is chosen, then the computation is $\epsilon_t+\epsilon_{Above}$-DP.
+
+The first and third frameworks make assumptions about the algorithms, specifically the score function. Even though Pythia's algorithmic choice is similar to Jostle, Pythia is not a programming language. Pythia loses out on PL generality as mentioned in the Introduction. Indeed, we will see that Pythia and the other two frameworks can be implemented in \Jostle{} in Chapter \ref{ch:solution}.
+
+Possibly more papers to talk about:~\cite{Winograd-Cort:2017},~\cite{Liu:2018},~\cite{Hsu:2014}.
+
+\chapter{Solution Overview}\label{ch:solution}
+\section{Formal Description}
+Here, we describe in detail how \Jostle{} is implemented. Let the database space be $\mathcal{R}$, the metafeature space be $\mathcal{X}$, and the answer space be $\mathcal{M}$. $\mathcal{X}$ includes a private database as well as public information such as the number of columns in the database. Any argument passed to the algorithms is also included in $\mathcal{R}$, for example, 2D histogram queries to answer. \Jostle{} uses aggregations and database splits much like PINQ. More capabilities are possible as well as long as any time private data is touched, $\epsilon$ is specified. Additionally, \Jostle{} introduces the \t{Features}, \t{Option}, and \t{Score} types, and implements constructors with the following types:
+
+\begin{center}
+\begin{tabular}{|l|p{7cm}|}
+\hline
+Name & Type \\ \hline
+\t{Features} & $\mathcal{R} \rightarrow \mathcal{X}$ \\ \hline
+\t{MkFeatures} & $(\mathcal{R} \rightarrow x_i) \t{ list} \rightarrow \t{Features}$ \\ \hline
+\t{Option} & $\mathcal{R} \rightarrow \mathcal{M}$ \\ \hline
+\t{MkOption} & $\mathcal{R} \rightarrow \mathcal{M} \rightarrow \t{Option}$ \\ \hline
+\t{Score} & $\mathcal{M}\times\mathcal{R} \rightarrow \mathbb{R}$ \\ \hline
+\t{MkScore} & $\mathcal{M}\times\mathcal{R} \rightarrow \mathbb{R} \rightarrow \t{Score}$ \\ \hline
+\t{Model} & $\mathcal{X} \rightarrow \mathbb{R}$ \\ \hline
+\t{MkModel} & $(\mathcal{X} \times \mathbb{R}) \t{ list} \rightarrow \t{Model} $\\ \hline
+\t{ChoiceMaker} & $\mathcal{R} \rightarrow \mathcal{M}$ \\ \hline
+\t{MkChoiceMaker} & $\t{Option list} \times \t{Features}\times \mathcal{R} \t{ list} \times \t{TrainModel} \times \t{Score} \rightarrow \t{ChoiceMaker}$ \\ \hline
+\end{tabular}
+\end{center}
+The functions of each type and the constructors are listed below:
 \begin{itemize}
-\item AboveThreshold does not work on releasing $(\epsilon, \delta)$-DP algorithms with $\delta > 0$.
-\item A privacy and accuracy penalty is taken when selecting the best algorithm. This method is rather arbitrary; how do we select $\epsilon_A$? Is this even the optimal way of algorithm selection?
-\item The papers only work on the specialized case of the Laplace algorithm.
-
-More papers to talk about:~\cite{Winograd-Cort:2017},~\cite{Liu:2018},~\cite{Hsu:2014}.
+\item{\t{Features}} Created by \t{MkFeatures} which takes in a list of functions $f_1,f_2,\ldots,f_n$ where $f_i$ has type $\mathcal{R} \rightarrow x_i$. These are the feature-generating functions. The feature space is then $\mathcal{X} = \prod_{i=1}^n x_i$. \t{MkFeatures} will return a function that applies all $f_i$'s to a database and return the product.
+\item{\t{Option}} Created by \t{MkOption} which takes in the implementation of the algorithm that the \t{Option} represents.
+\item{\t{Score}} Created by \t{MkScore} which takes in the score function. The score function tells us, given an answer and possibly using the database, how well the answer did. Usually, the score will be model performance on a validation set.
+\item{\t{Model}} Created by \t{MkModel}. This is the model which will learn a function from the features to the expected algorithm performance. A programmer could greatly change the performance of \Jostle{} by specifying different models, and different algorithmic insights could be revealed.
+\item{\t{MkChoiceMaker}} Creates a \t{ChoiceMaker}. This constructor is the most complicated, and its implementation is shown in Figure \ref{fig:choicemaker}. First, models for all the inputted \t{Options} are trained. Then, a function returning the highest \t{Option} for an inputted database is returned. This function is the \t{ChoiceMaker}.
 \end{itemize}
 
-\chapter{Experiments and Implementation}
+\begin{figure}
+\begin{lstlisting}[style=MyPythonStyle]
+def MkChoiceMaker(ops, feats, train_dbs, mkmodel, score):
+    models = []
+    for op in ops:
+        xypairs = [(feats(db), score(db, op(db))) for db in train_dbs]
+        models.append(mkmodel(xypairs))
+
+    def GetAlg(db):
+        feat = feats(db)
+        perfs = [m(feat) for m in models]
+        i = idxmax(perfs)
+        return ops[i]
+    return GetAlg
+\end{lstlisting}
+\caption{The implementation of \t{MkChoiceMaker}. }\label{fig:choicemaker}
+\end{figure}
+\section{Generality}
+\subsection{Generality over PINQ}
+\subsection{Generality over Ligett}
+\subsection{Generality over DTree Algorithms}
+\chapter{Experiments and Implementation}\label{ch:experiments}
 \section{Decision Trees}
 
 Decision Trees are a powerful tool for data mining due to their high human interpretability, non-parametric design, low computational cost, ability to discover non-linear relationships among attributes, resilience to missing values, ability to handle both discrete and continuous data, and ability to handle non-binary labels~\cite{Fletcher:2016}. Let our database again be $D$, and suppose it has $k$ columns or attributes, the $i$th of which can take values in $\mathcal{A}_i$. Let $\mathcal{C}$ be the output attribute, or class, which we are trying to predict. We assume for simplicity that $\mathcal{A}_i$ and $\mathcal{C}$ are discrete sets. A decision tree classifies points by branching on attribute $\mathcal{A}_i$, forming $|\mathcal{A}_i|$ subtrees. Once certain criteria are met, no more branching occurs, and instead a leaf node predicts the class. An example Decision Tree is given in Figure~\ref{fig:dt}.
@@ -339,7 +426,7 @@ M_i(D) &= \sum_{j \in A_i} \max_c(\tau^{(i)}_{j,c})
 \end{align}
 \begin{figure}
 
-\lstinputlisting[language=Python, firstline=1, lastline=10]{./DTree.py}
+\lstinputlisting[style=MyPythonStyle, firstline=1, lastline=10]{./DTree.py}
 \caption{C4.5 algorithm.}\label{alg:c45}
 \end{figure}
 
@@ -351,31 +438,6 @@ When converting this algorithm to the differentially-private version, the user i
 \item How does the size of $D$ impact performance? Is there enough data to provide accurate results in the private setting?
 \end{itemize}
 As we will see, the answers to these questions are data-dependent and the there is never one answer that always dominates.
-\chapter{Solution Overview}
-Here, we describe in detail how \Jostle{} is implemented.
-
-\begin{center}
-\begin{tabular}{|l|l|}
-\hline
-Name & Type \\ \hline
-Database Space & $\mathcal{R}$ \\ \hline
-Metafeature Space & $\mathcal{X}$ \\ \hline
-Query Answer Space & $\mathcal{Q}$ \\ \hline
-\t{answer} & $\mathcal{R} \rightarrow \mathcal{Q}$ \\ \hline
-\t{predict} & $\mathcal{X} \rightarrow \mathbb{R}$ \\ \hline
-\t{Option} & $(\mathcal{R} \rightarrow \mathcal{Q}) \times (\mathcal{X} \rightarrow \mathbb{R})$ \\ \hline
-\t{MkChoiceMaker} & $(\t{Option list}\; \times \mathcal{R}\; \t{list}) \rightarrow (\mathcal{R} \rightarrow \mathcal{Q})$ \\ \hline
-\t{ChoiceMaker} & $\mathcal{R} \rightarrow \mathcal{Q}$ \\ \hline
-\end{tabular}
-\end{center}
-
-\begin{itemize}
-\item{\t{answer}} The implementation of the algorithm. Called once the choice has been made.
-\item{\t{predict}} A prediction made by the programmer and by \Jostle{} as to how well an algorithm 
-\item{\t{Option}}
-\item{\t{MkChoiceMaker}}
-\item{\t{ChoiceMaker}}
-\end{itemize}
 
 \subsection{Private Decision Trees}
 We assume, as does most of the literature, that the $\mathcal{A}_i$ and $\mathcal{C}$ are public and $D$ is private. Also, denote our total privacy budget to be $\beta$.
@@ -436,6 +498,7 @@ Mohammed et al.~\cite{Mohammed:2015} propose not collecting the size (Line 3) an
 
 \subsection{Experiments}
 In this section, we plot the performances of the five algorithms on different datasets to highlight the existence of data dependence. Graphs of the data for different datasets appear in Figure~\ref{fig:datadep}. The datasets are described below:
+\begin{center}
 \begin{tabular}{|p{3cm}|l|l|l|l|}
 \hline
 Name & No. Points & No. Attrs & Avg. Branch Size & Class size \\ \hline
@@ -443,6 +506,7 @@ HIV-1 protease cleavage & 1625 & 8 & 20 & 2 \\ \hline
 Nursery & 12960 & 8 & 3.375 & 5 \\ \hline
 Contraceptive & 1473 & 9 & 4.88 & 3 \\ \hline
 \end{tabular}
+\end{center}
 The HIV dataset is a sparse dataset; there are far more possible attribute values than the number of data points actually in the dataset. As we go farther down the decision tree, after only a short while, the vast majority of nodes will have no training data at all---after just 3 branches, there are $20^3$ possible nodes which means almost $80\%$ of the nodes have to be empty, and most of the nodes have large support [insert a graph of this]. As is well known in decision trees, low-support nodes give noisier estimates of the classes, and it rarely pays to branch at these nodes. This explains the performances of the algorithms: A1, having the most sophisticated stopping criteria, performs the best because it knows which nodes have low support. A2, having almost no stopping criteria at all, performs the worst (and takes the longest to train, going to all $20^d$ leaves), and A5, with a stopping criterion almost as weak, took too long to train.
 
 The Nursery dataset, on the other hand, is dense. The stopping criteria does not matter as much as all nodes have a healthy support (in fact, the dataset has points for every possible value of the attributes). Thus, A2, which doesn't waste any budget on the stopping criterion, performs best.
@@ -494,11 +558,11 @@ Our goal is to decide which of the heuristics provided by all the decision trees
 \end{center}
 \caption{Our decision tree algorithm with NoisyConditionals which learn the execution path from past histories. Depending on what the NoisyConditionals say, this algorithm is capable of expressing all the decision tree algorithms in~\cite{Fletcher:2016}.}\label{alg:dtree}
 \end{figure}
-\chapter{Future Work}
-We hope to extend our work to causal inference. We believe our approach is more general than Ashwin's work. We hope to implement synthesis.
+\chapter{Future Work}\label{ch:future}
+We hope to extend our work to causal inference. \cite{Devlin:2017} We believe our approach is more general than Ashwin's work. We hope to implement synthesis.
 
 Synthesis example:
-\begin{lstlisting}
+\begin{lstlisting}[style=MyPythonStyle]
 class DAWA(Option):
     def answer(db, queries):
         #DAWA Implementation
@@ -515,6 +579,7 @@ class MWEM(Option):
 
 However, our insights may not be perfect, and this is where \Jostle{} can help. When public datasets are fed into \t{MkChoiceMaker}, traces on the algorithm are produced which the programmer can analyze and update features.synthesis on the metafeatures and \t{predict} methods is done to try to improve prediction accuracy. Perhaps \Jostle{} realizes that a more accurate prediction for \t{MWEM} is $0.9-(\t{sparsity})^{1.5}$. Or, perhaps it thinks a better definition for \t{sparsity} is the number of points more than one standard deviation higher than the mean. Or, perhaps it decides a metafeature \t{xyz} is better for predicting the accuracy of \t{MWEM}.
 
+Feature Optimization
 \bibliographystyle{plain}
 \bibliography{Thesis}
 \end{document}

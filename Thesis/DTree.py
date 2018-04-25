@@ -17,10 +17,10 @@ def dtree_private(D, atts, clss, d, e):
       noisyCount(len(D[clss=c, ]), e/2)
     return Leaf(pred=best_class, size=size)
   else:
-    U = map(attrs, lambda a: -c_entropy(a, clss, D))
+    U = [-c_entropy(a, clss, D) for a in attrs]
     best_att = exp_mech(domain=attrs, utilities=U, epsilon=e/2)
-    C = map(best_att, lambda a: dtree_private(D[best_att=a, ],
-      att-best_att, clss, d-1, e))
+    C = [dtree_private(D[best_att=a, ], att-best_att, clss, d-1, e)
+            for a in best_att.categories)
     return Node(att=best_att, children=C)
 
 def dtree_pvt_top(D, atts, clss, d, budget):
