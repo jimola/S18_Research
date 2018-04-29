@@ -27,7 +27,11 @@ class Controller:
         else:
             new_x = db.x_names[db.x_names != col_name]
             preds = np.repeat(db.train[db.y_name].iloc[0], len(db.test))
-            for att in db.train[col_name].cat.categories:
+            if(len(db.train) < 100):
+                L = db.train[col_name].unique()
+            else:
+                L = db.train[col_name].cat.categories
+            for att in L:
             #for att in db.train[col_name].unique():
                 train_split = db.train[db.train[col_name] == att]
                 test_split_loc = db.test[col_name] == att
@@ -140,7 +144,9 @@ class Jag(Controller):
         max_dep = min([np.log(len(db.train))/np.log(b)-1, k/2])
         Controller.__init__(self, db, max_dep, budget, nt)
         self.name = 'Jagannathan et al.'
-        self.starters = np.random.choice(db.x_names, nt, False)
+        q = nt // len(db.x_names)
+        r = nt % len(db.x_names)
+        self.starters = list(db.x_names)*q+list(np.random.choice(db.x_names, r, False))
         self.treecnt = 0
     #Sensitive to very small values of epsilon when disuniformity is high
     #Likes low density

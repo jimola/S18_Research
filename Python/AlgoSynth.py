@@ -42,16 +42,21 @@ def gen_data(size, attr_probs, p_drop=0.5, min_dist=2):
 def collect_on_trace(db, eps, tot_dom_size, dep, util_func, mx):
     y = db.train[db.y_name]
     cnts = y.value_counts()
+    #Computataional Efficiency
     if(util_func.get_ent(cnts) == 0 or dep == mx or len(db.test) == 0 or len(db.train) == 0):
         return pd.DataFrame()
+    #acc1: Expected Performance
     pred = y.cat.categories[cnts.idxmax()]
     acc1 = (db.test[db.y_name] == pred).sum()
+    #acc2: Expected performance on greedy splitting
+    #acc3: Expected performance on splitting into 3
     utils = np.array([util_func.eval(db.train[x], y) for x in db.x_names])
     col = db.x_names[utils.argmax()]
     utils = utils-max(utils)
     weights = np.exp(eps*utils / (2*util_func.sens))
     prob = weights / sum(weights)
     acc2 = 0
+    acc3 = 0
     #Compute accuracy of every column
     for i in range(0, len(db.x_names)):
         col_name = db.x_names[i]
@@ -65,15 +70,19 @@ def collect_on_trace(db, eps, tot_dom_size, dep, util_func, mx):
             most_freq_att = Y_train.cat.categories[most_freq_cat_idx]
             a += (Y_test[X_test == C] == most_freq_att).sum()
         acc2 += a*prob[i]
+        acc3 += a
+    acc3 /= len(db.x_names)
+
     #diff is distributed as Laplace(1/eps) centered around acc2 - acc1
-    diff = (acc2 - acc1) / len(db.test)
+    #diff = (acc2 - acc1) / len(db.test)
     szs = [len(db.train[x].cat.categories) for x in db.x_names]
     dom_size = np.array(szs).prod()
     class_size = len(db.train[db.y_name].cat.categories)
     #noisy_cnts = DPrivacy.hist_noiser(cnts, eps)
     #big_frac = noisy_cnts.max() / noisy_cnts.sum()
     #current domain size, total domain size, num y classes, tot_size, epsilon
-    row = pd.DataFrame([(dom_size, tot_dom_size, class_size, len(db.train), eps, diff)])
+    row = pd.DataFrame([(dom_size, tot_dom_size, class_size, len(db.train), eps, 
+            acc1, acc2, acc3)])
     new_x = db.x_names[db.x_names != col]
     for C in db.train[col].cat.categories:
         train_split = db.train[db.train[col] == C]
