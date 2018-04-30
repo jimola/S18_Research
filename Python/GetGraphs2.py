@@ -122,7 +122,7 @@ def collect_on_splits(db, db_name, epsvals, reps):
 
 def f(params):
     return collect_on_splits(*params)
-eps_vals = np.array([0.5] + range(1, 11))
+eps_vals = np.concatenate(([0.5], np.arange(1, 10)))
 def do_nurs(k):
     return (k, collect_data2(nurs[k], 'nurs', eps_vals, 10))
 def do_bind(k):
@@ -133,7 +133,6 @@ def do_ttt(k):
     return (k, collect_data2(ttt[k], 'ttt', eps_vals, 10))
 #nurs2 = DPrivacy.Database(nurs.train.iloc[0:10], nurs.test, nurs.x_names, nurs.y_name)
 #bind2 = DPrivacy.Database(bind.train.iloc[0:10], bind.test, bind.x_names, bind.y_name)
-eps_vals = np.concatenate(([0.5], np.arange(1, 10)))
 
 if(__name__ == '__main__'):
     pool = Pool(processes=10)
