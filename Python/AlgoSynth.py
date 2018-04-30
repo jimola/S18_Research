@@ -92,6 +92,7 @@ def collect_on_trace(db, eps, tot_dom_size, dep, util_func, mx):
     return row
 
 def get_size(db):
+    
     szs = [len(db.train[x].cat.categories) for x in db.x_names]
     return np.array(szs).prod()
 
@@ -101,7 +102,6 @@ def collect(db, eps, max_dep = 5):
     D = collect_on_trace(db, eps, get_size(db), 0, C, max_dep)
     D.columns = ['domsize', 'tot_domsize', 'csize', 'nrow', 'eps', 'acc_diff']
     return D
-    
 """
 L1 = [collect(nurs, eps, 5) for eps in [0.2, 0.4, 0.7, 1.0]]
 L2 = [collect(bind, eps, 5) for eps in [0.2, 0.4, 0.7, 1.0]]
