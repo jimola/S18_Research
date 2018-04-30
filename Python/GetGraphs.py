@@ -1,6 +1,7 @@
 import DTrees
 import DPrivacy
-
+import numpy as np
+import pandas as pd
 import importlib
 importlib.reload(DTrees)
 importlib.reload(DPrivacy)
