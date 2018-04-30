@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 class Controller:
     def __init__(self, db, max_depth, budget, nt=1):
-        self.max_depth = max_depth
+        self.max_depth = min(max_depth, len(db.x_names))
         self.db = db
         self.budget = budget/nt
         self.init_numcols = len(db.x_names)
