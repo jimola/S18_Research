@@ -116,6 +116,10 @@ class FS(Controller):
 #Mohammed et al.
 class MA(Controller):
     def __init__(self, db, budget, max_depth):
+        k = len(db.x_names)
+        b = sum([len(db.train[x].cat.categories) for x in db.x_names])
+        b = b / k
+        max_depth = min(max_depth, np.log(len(db.train))/np.log(b)-1, k/2)
         Controller.__init__(self, db, max_depth, budget)
         self.calc_budget = budget/(max_depth+1)
         self.util_func = DPrivacy.ConditionalEntropy(len(db.train))
