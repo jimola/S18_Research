@@ -136,8 +136,8 @@ def do_ttt(k):
 
 if(__name__ == '__main__'):
     pool = Pool(processes=10)
-    pickle.dump(pool.map(do_bind, bind), open('bind.p', 'wb'))
+    #pickle.dump(pool.map(do_bind, bind), open('bind.p', 'wb'))
     pickle.dump(pool.map(do_nurs, nurs), open('nurs.p', 'wb'))
-    pickle.dump(pool.map(do_ttt, ttt), open('ttt.p', 'wb'))
-    pickle.dump(pool.map(do_loan, loan), open('loan.p', 'wb'))
+    #pickle.dump(pool.map(do_ttt, ttt), open('ttt.p', 'wb'))
+    #pickle.dump(pool.map(do_loan, loan), open('loan.p', 'wb'))
 
