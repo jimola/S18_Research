@@ -10,6 +10,40 @@ importlib.reload(DPrivacy)
 from multiprocessing import Pool
 import pickle
 
+def gen_data_helper(size, i, attr_probs, p_drop, min_dist):
+    if(i == len(attr_probs)-1 or i >= min_dist and p_drop < np.random.uniform()):
+        col = pd.DataFrame()
+        while(i < len(attr_probs) - 1):
+            distr = attr_probs[i]
+            col[i] = np.random.choice(range(0, len(distr)), size, p=distr)
+            i+=1
+        distr = attr_probs[i]
+        perm = np.random.permutation(distr)
+        col[i] = np.random.choice(range(0, len(distr)), size, p=perm)
+        #elem = np.random.choice(range(0, len(distr)), 1, p=distr)
+        #col[i] = np.repeat(elem, size)
+        return col
+    p = attr_probs[i]
+    num_each = np.random.multinomial(size, p)
+    D = pd.DataFrame()
+    for j in range(0, len(num_each)):
+        if(num_each[j] != 0):
+            sub_d = gen_data_helper(num_each[j], i+1, attr_probs, p_drop, min_dist)
+            sub_d[i] = j
+            D = D.append(sub_d)
+    return D
+
+#Size: number of points.
+#Attr_probs[i][j]: probability that attribute i takes value j. Assumed that last point is class
+def gen_data(size, attr_probs, p_drop=0.5, min_dist=2):
+    for i in range(0, len(attr_probs)):
+        p = attr_probs[i]
+        if(np.isscalar(p)):
+            p = np.ones(p)/p
+        attr_probs[i] = p
+    df = gen_data_helper(size, 0, attr_probs, p_drop, min_dist)
+    return df.reindex_axis(sorted(df.columns), axis=1).reset_index()
+
 def rand_subsets(db, db_name):
     D = dict()
     for x in [0.2, 0.4, 0.6, 0.8, 1]:
@@ -23,6 +57,25 @@ def rand_subsets(db, db_name):
                 rows = np.random.choice(db.index.values, sample_size, replace=False)
                 D[(db_name, x, y, i)] = DPrivacy.Database.from_dataframe(db[cols].loc[rows])
     return D
+np.random.seed(12345)
+rand = []
+for sz in np.arange(500, 5500, 500):
+    for cols in np.arange(5, 11):
+        for i in range(0, 3):
+            probs = []
+            for j in range(0, cols-1):
+                p = abs(np.random.normal(0, 1, np.random.randint(2, 10)))
+                p /= p.sum()
+                probs.append(p)
+            prim = 0.7+np.random.uniform()*0.2
+            rest = np.random.uniform(size=np.random.randint(1, 4))
+            rest = rest / rest.sum() * (1-prim)
+            F = np.concatenate(([prim], rest))
+            probs.append(F)
+            drop = 0.3 + np.random.uniform()*0.4
+            G = gen_data(sz, probs, p_drop = drop)
+            rand.append(DPrivacy.Database.from_dataframe(G))
+print('DONE')
 
 np.random.seed(1234)
 nurs = pd.read_csv('../datasets/nursery.data', header=None)
@@ -139,5 +192,5 @@ if(__name__ == '__main__'):
     #pickle.dump(pool.map(do_bind, bind), open('bind.p', 'wb'))
     #pickle.dump(pool.map(do_nurs, nurs), open('nurs.p', 'wb'))
     #pickle.dump(pool.map(do_ttt, ttt), open('ttt.p', 'wb'))
-    pickle.dump(pool.map(do_loan, loan), open('loan.p', 'wb'))
+    #pickle.dump(pool.map(do_loan, loan), open('loan.p', 'wb'))
 
