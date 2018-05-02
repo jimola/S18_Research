@@ -59,7 +59,7 @@ def rand_subsets(db, db_name):
     return D
 np.random.seed(12345)
 rand = []
-for sz in np.arange(2500, 3000, 500):
+for sz in np.arange(4000, 4500, 500):
     for cols in np.arange(5, 11):
         for i in range(0, 3):
             probs = []
@@ -195,4 +195,4 @@ if(__name__ == '__main__'):
     #pickle.dump(pool.map(do_nurs, nurs), open('nurs.p', 'wb'))
     #pickle.dump(pool.map(do_ttt, ttt), open('ttt.p', 'wb'))
     #pickle.dump(pool.map(do_loan, loan), open('loan.p', 'wb'))
-    pickle.dump(pool.map(do_rand, rand), open('rand3.p', 'wb'))
+    pickle.dump(pool.map(do_rand, rand), open('rand4.p', 'wb'))
