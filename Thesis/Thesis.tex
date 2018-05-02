@@ -90,14 +90,14 @@ Even though programming languages exist which confer benefit \ref{itm:adv_correc
 \begin{lstlisting}[style=MyCStyle]
 trainingSet = {US Census, ... #Public Databases}
 
-uniformity = Feature(data){
+uniformity = Metafeature(data){
     db = data.database
     xgrp = sqrt(db.x_range)
     ygrp = sqrt(db.y_range)
     return {{stddev(select sum(values) from db 
                     groupby x/xgrp, y/ygrp)}}
 }
-sparsity = Feature(data){
+sparsity = Metafeature(data){
     db = data.database
     num_nonzero = {{select count(values) from db 
                     where values > 0}}
@@ -127,7 +127,7 @@ def answerHistQueries(data):
 \caption{\Jostle{} code demonstrating the use of \t{ChoiceMaker} object, called \t{noisyHistChoice}. In this case, the options are the \t{DAWA} and \t{MWEM} 2D Histogram algorithms.}
 \label{fig:1}
 \end{figure}
-A programmer will use a \t{ChoiceMaker} when they are unsure of which choice to make at a certain point in their code; in the example, they are choosing between the algorithms \t{DAWA} and \t{MWEM}. The constructor, \t{MkChoiceMaker}, takes in a set of \t{Options}, a set of training databases, and a set of functions from the database to $\mathbb{R}$ called metafeatures.
+A programmer will use a \t{ChoiceMaker} when they are unsure of which choice to make at a certain point in their code; in the example, they are choosing between the algorithms \t{DAWA}~\cite{Li:2014} and \t{MWEM}~\cite{Hardt:2010}. The constructor, \t{MkChoiceMaker}, takes in a set of \t{Options}, a set of training databases, and a set of functions from the database to $\mathbb{R}$ called metafeatures.
 
 The above design is inspired by DPComp. Suppose we are a programmer deciding whether to run the \t{DAWA} algorithm on a public dataset shown in Figure~\ref{fig:dpcomp}. We may notice that the input is a rather sparse and non-uniform---most of the points are 0 (white) and the non-zero points are clustered into groups. Indeed, this dataset is the population distribution for the southwest United States. We decide that these two properties adversely affect the performance for \t{DAWA}, as it predicts many of the white points incorrectly to have a nonzero value. Similarly, \t{sparsity} might affect the performance of \t{MWEM}, but not \t{uniformity}. The set of all properties that may impact performance are the \emph{metafeatures}. They are database properties that we pay attention to when we estimate algorithm performance.
 
@@ -257,13 +257,13 @@ The final type determined by Fuzz contains the differential privacy guarantee of
 
 While algorithmic choice could be manually implemented in PINQ or Fuzz, this programmer burden will be eliminated in \Jostle{}. We design \Jostle{} to resemble PINQ with a \t{MakeChoice} construct rather than Fuzz because more accurate algorithmic choices can be done during runtime rather than compile-time.
 
-\subsection{Existing Methods for Algorithmic Choice}
+\subsection{Existing Methods for Algorithmic Choice}\label{sec:algchoice}
 
 Versions of algorithmic choice have been demonstrated in previous work. Algorithmic choice involves picking an algorithm from a set that maximizes a score function. The problem can be set up in the following way: Given some answer space $\mathcal{M}$, a answer set $M \subseteq \mathcal{M}$, a database $D$, and a score function $q: \mathcal{R} \times \mathcal{M} \rightarrow \mathbb{R}$, maximize $q$ over $\mathcal{M}$ privately.
 
 For instance, if the programmer is training a private logistic regression as an answer, then $\mathcal{M}$ is the space of all linear functions and $q$ is, most commonly, a validation score on some unused part of the database. This problem is extra subtle as changing $D$ to $D'$ changes the answer set from $M$ to $M'$, as the answers are determined on the database, and also changes $D$ to $D'$ when evaluating $q(D, m)$. There is no complete answer to this problem; most commonly, an assumption must be made about $q$, usually relating to its sensitivity. We now explore proposed solutions to this problem.
 
-In~\cite{Chaudhuri:2013}, a solution based on the exponential mechanism is proposed where $q$ is the utility function used in the exponential mechanism. When we do this, we necessarily limit ourselves to manually picking $\epsilon$ both for the algorithms we are picking and for the final application of the exponential mechanism. We call this approach privacy-first, since privacy must be fixed first.
+In~\cite{Chaudhuri:2013}, a solution based on the exponential mechanism is proposed where $q$ is the utility function used in the exponential mechanism. For this reason, we call this solution ExpMS. When we do this, we necessarily limit ourselves to manually picking $\epsilon$ both for the algorithms we are picking and for the final application of the exponential mechanism. We call this approach privacy-first, since privacy must be fixed first.
 
 Since the exponential mechanism requires a sensitivity bound, a bound on $q$ must be ascertained. As mentioned, in order to bound $|q(D, m) - q(D', m')|$ where $m \in M$ and $m' \in M'$, two inequalities are needed:
 \begin{align*}
@@ -294,22 +294,75 @@ Pythia takes this one step further in a similar way to \Jostle{}. A programmer w
 \end{center}
 \caption{Example Decision Tree trained by Pythia with features in branches and algorithms in leaves.}\label{fig:pythia}
 \end{wrapfigure}
-On the other hand, the framework developed in~\cite{Ligett:2017} puts accuracy first. The programmer decides when accuracy is sufficiently high, and privacy usage is then minimized. Critical to the framework is the method of picking correlated Laplacian noise described in~\cite{Koufogiannis:2015}. In this version of the Laplace mechanism, a programmer selects a set of increasing $\epsilon$ values, $(\epsilon_1, \epsilon_2, \ldots, \epsilon_T)$, corresponding to the different budgets they want to try. Correlated Laplace variables $(v_1, v_2, \ldots, v_T)$ are then generated such that knowing a prefix $(v_1, v_2, \ldots, v_t)$ is $\epsilon_t$-differentially private and the noise present in $v_t$ is similar to the noise that a standard Laplace mechanism would add. The framework in~\cite{Ligett:2017} uses this algorithm to add noise to models $m_1, m_2, \ldots, m_T$ when the sensitivities of the models are known. For instance, if the task is linear regression, then the describing a way to iterate through the $v_i$'s until a suitably accurate algorithm is selected. Accuracy can be specified by the programmer as an arbitrary function that takes in a $v_i$. Of course, the release of the most-accurate algorithm has to be done in a differentially-private manner as well, and Ligett et. al use an adaptation of the AboveThreshold algorithm~\cite{Dwork:2006}. This results in an additional privacy and accuracy penalty over simply using the Laplace mechanism with a fixed $\epsilon$. Specifically, if $v_t$ is chosen, then the computation is $\epsilon_t+\epsilon_{Above}$-DP.
-
-The first and third frameworks make assumptions about the algorithms, specifically the score function. Even though Pythia's algorithmic choice is similar to Jostle, Pythia is not a programming language. Pythia loses out on PL generality as mentioned in the Introduction. Indeed, we will see that Pythia and the other two frameworks can be implemented in \Jostle{} in Chapter \ref{ch:solution}.
+On the other hand, the framework developed in~\cite{Ligett:2017} puts accuracy first. The programmer decides when accuracy is sufficiently high, and privacy usage is then minimized. We refer to this method as NAB since it depends on NoisyAboveThreshold. Critical to the framework is the method of picking correlated Laplacian noise described in~\cite{Koufogiannis:2015}. In this version of the Laplace mechanism, a programmer selects a set of increasing $\epsilon$ values, $(\epsilon_1, \epsilon_2, \ldots, \epsilon_T)$, corresponding to the different budgets they want to try. Correlated Laplace variables $(v_1, v_2, \ldots, v_T)$ are then generated such that knowing a prefix $(v_1, v_2, \ldots, v_t)$ is $\epsilon_t$-differentially private and the noise present in $v_t$ is similar to the noise that a standard Laplace mechanism would add. The framework in~\cite{Ligett:2017} uses this algorithm to add noise to models $m_1, m_2, \ldots, m_T$ when the sensitivities of the models are known. For instance, if the task is linear regression, then the describing a way to iterate through the $v_i$'s until a suitably accurate algorithm is selected. Accuracy can be specified by the programmer as an arbitrary function that takes in a $v_i$. Of course, the release of the most-accurate algorithm has to be done in a differentially-private manner as well, and Ligett et. al use an adaptation of the AboveThreshold algorithm~\cite{Dwork:2006}. This results in an additional privacy and accuracy penalty over simply using the Laplace mechanism with a fixed $\epsilon$. Specifically, if $v_t$ is chosen, then the computation is $\epsilon_t+\epsilon_{Above}$-DP.
 
 Possibly more papers to talk about:~\cite{Winograd-Cort:2017},~\cite{Liu:2018},~\cite{Hsu:2014}.
 
 \chapter{Solution Overview}\label{ch:solution}
+\Jostle{} is a differentially-private programming language that introduces a new construct, the \t{ChoiceMaker}. This construct automatically performs meta-machine learning on algorithm input and output pairs and attempts to learn the best-performing algorithm given a private database. This general construct is the first of its kind to automate the process of DP algorithmic choice which normally burdens the programmer. Critical to the success of \Jostle{} is the metafeature, a snapshot of a database, because learning functions from the space of all databases is an intractable problem as the space of databases is large, has little structure, and wouldn't be private. Instead, databases are reduced to their metafeatures, and functions on the metafeature space are learned instead.
+
+First, we present a motivating example for \Jostle{} and then go into a formal description of how the language works. Finally, we discuss what we believe our advantages are over existing solutions.
+\section{Motivating Example}
+Suppose a programmer is writing code that involves training a decision tree. They may be unsure of which of three decision tree implementations to choose for a decision tree classification problem. A representation of the possible executions of their code is in Figure~\ref{fig:dtree_choices}. The main insight of \Jostle{} is that any time a programmer has an uncertainty, he can write a \t{ChoiceMaker} relatively easily. A \t{ChoiceMaker} works by doing meta-machine learning on traces of the algorithms with labeled input and output pairs and will automatically make the choice. In our example, three linear regressions will be fitted with public information for a database as inputs and the score function of each decision tree algorithm as outputs. We now discuss the formal specification of the \t{ChoiceMaker}.
+
+\begin{figure}
+\begin{minipage}{0.5\textwidth}
+\begin{center}
+\begin{tikzpicture}[
+squarednode/.style={rectangle, draw=black!60, very thick, minimum size=7mm, rounded corners=1mm},
+roundnode/.style={circle, draw=black!60, very thick, minimum size=7mm}
+]
+\node[squarednode] (A) {Preprocessing};
+\node (In) [above=2em of A] {Database};
+\node[squarednode] (B2) [below=2em of A]{$A_2$};
+\node[squarednode] (B1) [left=1em of B2]{$A_1$};
+\node[squarednode] (B3) [right=1em of B2]{$A_3$};
+\node[squarednode] (C)  [below=2em of B2]{Prediction};
+\node (Out) [below=2em of C] {Return};
+\node[roundnode] (D) [right=2em of B3]{Data};
+\draw[->] (A) -- (B1);
+\draw[->] (A.south) -- (B2.north);
+\draw[->] (A) -- (B3.north);
+
+\draw[->] (B1) -- (C);
+\draw[->] (B2.south) -- (C.north);
+\draw[->] (B3.south) -- (C);
+
+%\draw[->] (C.west) .. controls+(left:2em) and +(left:2em) .. (A.west);
+\draw[thick] (-2.3,0.7) rectangle(2.1,-3.7);
+\draw[->] (D.west) -- (2.1, -1.5);
+\draw[->] (In) -- (A);
+\draw[->] (C) -- (Out);
+\end{tikzpicture}
+\end{center}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\begin{lstlisting}[style=MyPythonStyle]
+def get_preds(D, eps, test_set):
+    D = Preprocess(D, eps*0.3)
+    DTreeCM = 
+    MkChoiceMaker(
+                  public(D),
+                  score,
+                  dset, 
+                  LinReg){
+        Alg1, Alg2, Alg3
+    }
+    model = DTreeCM(D, eps*0.7)
+    return model.predict(test_set)
+\end{lstlisting}
+\end{minipage}
+\caption{A motivating example for \Jostle{}. A programmer may be unsure about an execution path (left side), and instead writes a \t{ChoiceMaker} to decide (right side). The metafeatures of this problem are public parts of a database such as the number of columns, domain size (Line 5).}\label{fig:dtree_choices}
+\end{figure}
 \section{Formal Description}
-Here, we describe in detail how \Jostle{} is implemented. Let the database space be $\mathcal{R}$, the metafeature space be $\mathcal{X}$, and the answer space be $\mathcal{M}$. $\mathcal{X}$ includes a private database as well as public information such as the number of columns in the database. Any argument passed to the algorithms is also included in $\mathcal{R}$, for example, 2D histogram queries to answer. \Jostle{} uses aggregations and database splits much like PINQ. More capabilities are possible as well as long as any time private data is touched, $\epsilon$ is specified. Additionally, \Jostle{} introduces the \t{Features}, \t{Option}, and \t{Score} types, and implements constructors with the following types:
+Let the database space be $\mathcal{R}$, the metafeature space be $\mathcal{X}$, and the answer space be $\mathcal{M}$. $\mathcal{X}$ includes a private database as well as public information such as the number of columns in the database. Any argument passed to the algorithms is also included in $\mathcal{R}$, for example, 2D histogram queries to answer. \Jostle{} uses aggregations and database splits much like PINQ. More capabilities are possible as well as long as any time private data is touched, $\epsilon$ is specified. Additionally, \Jostle{} introduces the \t{Metafeatures}, \t{Option}, and \t{Score} types, and implements constructors with the following types:
 
 \begin{center}
 \begin{tabular}{|l|p{7cm}|}
 \hline
 Name & Type \\ \hline
-\t{Features} & $\mathcal{R} \rightarrow \mathcal{X}$ \\ \hline
-\t{MkFeatures} & $(\mathcal{R} \rightarrow x_i) \t{ list} \rightarrow \t{Features}$ \\ \hline
+\t{Metafeatures} & $\mathcal{R} \rightarrow \mathcal{X}$ \\ \hline
+\t{MkMetafeatures} & $(\mathcal{R} \rightarrow x_i) \t{ list} \rightarrow \t{Metafeatures}$ \\ \hline
 \t{Option} & $\mathcal{R} \rightarrow \mathcal{M}$ \\ \hline
 \t{MkOption} & $\mathcal{R} \rightarrow \mathcal{M} \rightarrow \t{Option}$ \\ \hline
 \t{Score} & $\mathcal{M}\times\mathcal{R} \rightarrow \mathbb{R}$ \\ \hline
@@ -317,15 +370,15 @@ Name & Type \\ \hline
 \t{Model} & $\mathcal{X} \rightarrow \mathbb{R}$ \\ \hline
 \t{MkModel} & $(\mathcal{X} \times \mathbb{R}) \t{ list} \rightarrow \t{Model} $\\ \hline
 \t{ChoiceMaker} & $\mathcal{R} \rightarrow \mathcal{M}$ \\ \hline
-\t{MkChoiceMaker} & $\t{Option list} \times \t{Features}\times \mathcal{R} \t{ list} \times \t{TrainModel} \times \t{Score} \rightarrow \t{ChoiceMaker}$ \\ \hline
+\t{MkChoiceMaker} & $\t{Option list} \times \t{Metafeatures}\times \mathcal{R} \t{ list} \times \t{TrainModel} \times \t{Score} \rightarrow \t{ChoiceMaker}$ \\ \hline
 \end{tabular}
 \end{center}
 The functions of each type and the constructors are listed below:
 \begin{itemize}
-\item{\t{Features}} Created by \t{MkFeatures} which takes in a list of functions $f_1,f_2,\ldots,f_n$ where $f_i$ has type $\mathcal{R} \rightarrow x_i$. These are the feature-generating functions. The feature space is then $\mathcal{X} = \prod_{i=1}^n x_i$. \t{MkFeatures} will return a function that applies all $f_i$'s to a database and return the product.
+\item{\t{Metafeatures}} Created by \t{MkMetafeatures} which takes in a list of functions $f_1,f_2,\ldots,f_n$ where $f_i$ has type $\mathcal{R} \rightarrow x_i$. These are the metafeature-generating functions. The metafeature space is then $\mathcal{X} = \prod_{i=1}^n x_i$. \t{MkMetafeatures} will return a function that applies all $f_i$'s to a database and return the product.
 \item{\t{Option}} Created by \t{MkOption} which takes in the implementation of the algorithm that the \t{Option} represents.
 \item{\t{Score}} Created by \t{MkScore} which takes in the score function. The score function tells us, given an answer and possibly using the database, how well the answer did. Usually, the score will be model performance on a validation set.
-\item{\t{Model}} Created by \t{MkModel}. This is the model which will learn a function from the features to the expected algorithm performance. A programmer could greatly change the performance of \Jostle{} by specifying different models, and different algorithmic insights could be revealed.
+\item{\t{Model}} Created by \t{MkModel}. This is the model which will learn a function from the metafeatures to the expected algorithm performance. A programmer could greatly change the performance of \Jostle{} by specifying different models, and different algorithmic insights could be revealed.
 \item{\t{MkChoiceMaker}} Creates a \t{ChoiceMaker}. This constructor is the most complicated, and its implementation is shown in Figure \ref{fig:choicemaker}. First, models for all the inputted \t{Options} are trained. Then, a function returning the highest \t{Option} for an inputted database is returned. This function is the \t{ChoiceMaker}.
 \end{itemize}
 
@@ -346,14 +399,27 @@ def MkChoiceMaker(ops, feats, train_dbs, mkmodel, score):
 \end{lstlisting}
 \caption{The implementation of \t{MkChoiceMaker}. }\label{fig:choicemaker}
 \end{figure}
-\section{Generality}
-\subsection{Generality over PINQ}
-\subsection{Generality over Ligett}
-\subsection{Generality over DTree Algorithms}
-\chapter{Experiments and Implementation}\label{ch:experiments}
-\section{Decision Trees}
 
-Decision Trees are a powerful tool for data mining due to their high human interpretability, non-parametric design, low computational cost, ability to discover non-linear relationships among attributes, resilience to missing values, ability to handle both discrete and continuous data, and ability to handle non-binary labels~\cite{Fletcher:2016}. Let our database again be $D$, and suppose it has $k$ columns or attributes, the $i$th of which can take values in $\mathcal{A}_i$. Let $\mathcal{C}$ be the output attribute, or class, which we are trying to predict. We assume for simplicity that $\mathcal{A}_i$ and $\mathcal{C}$ are discrete sets. A decision tree classifies points by branching on attribute $\mathcal{A}_i$, forming $|\mathcal{A}_i|$ subtrees. Once certain criteria are met, no more branching occurs, and instead a leaf node predicts the class. An example Decision Tree is given in Figure~\ref{fig:dt}.
+\section{Challenges}
+Due to the inherent difficulty of performing automatic algorithmic choice as well as its meta-learning design, \Jostle{} presents a unique set of challenges and difficulties over other methods. First, no theoretical guarantees are able to be made about the performance of the \t{NoisyConditional} without further assumptions unlike existing frameworks. This isn't a large problem as algorithmic choice is often solved empirically due to the highly-complex relationships of data-dependent algorithms~\cite{Hay:2016}. More seriously, \Jostle{}'s optimization is limited by the programmer's metafeatures and train databases. If poor metafeatures are inputted or if the public database set is not expansive enough, then the model will almost certainly be impoverished, and the programmer must work to improve it. Luckily, a poor model can be detected after training but before any budget is actually used. We conclude that \Jostle{} removes some of the burden of algorithmic choice from the programmer, but the burden of making a successful model still remains. This is part of the larger problem that doing learning on databases is rather intractable because of the exponential size of the database space; the generality of the \t{ChoiceMaker} forces a difficult learning task.
+
+\section{Advantages}
+We believe \Jostle{} exhibits generality that has never been explored by previous approaches. In comparison to existing algorithm frameworks, \Jostle{} makes no assumptions about the score function or the algorithms. Second, \Jostle{} is a programming language that can be represented  We go into more detail about the two types of generality below.
+
+\subsection{Assumption-less choices}
+Three existing methods for algorithmic choice \cite{Chaudhuri:2013} \cite{Ligett:2017} \cite{Kotsogiannis:2017}  were discussed on page \pageref{sec:algchoice}. Two of these mechanisms require the sensitivity of the score function to be known, which may not always hold. Some error functions have sensitivities that have pessimistic or even infinite. For example, a viable score function to use on decision trees is the number of correctly classified points in the decision tree. Changing one point in the training set of a decision tree may alter the prediction of a leaf and might alter any number of the predictions for points in the validation set. Thus, the worse-case sensitivity of this function is the size of the database even though one point usually won't change the tree structure at all. Thus, these mechanisms will provide poorer performance than \Jostle{}. The third framework \cite{Kotsogiannis} assumes the 
+
+\subsection{Generality as a Programming Language}
+Pythia \cite{Kotsogiannis:2017} is a framework for producing decision trees predicting algorithm selection based on programmer-specified metafeatures. However, one is better off using \Jostle{} every time algorithmic choice is being made rather than instantiating the Pythia framework. \Jostle{} is capable of expressing the entire Pythia framework as a program; indeed, \ref{fig:1} shows one application of the Pythia framework written in \Jostle{}. Repeated uses of algorithmic choice can be succinctly expressed in \Jostle{} rather than Pythia.
+
+\chapter{Experiments and Implementation}\label{ch:experiments}
+We demonstrate the functionality and performance of the \Jostle{} code written in Chapter \ref{ch:solution}. The private decision tree literature provides a good opportunity for making algorithmic choice, and there has yet to be a framework developed for them. Our experiments show that the \Jostle{} decision tree code provides an easy and high-performing framework for this. We begin with a preliminary section on Decision Trees and then discuss our experimental setup and results.
+
+\section{Introduction to Private Decision Trees}\label{sec:pdtrees}
+In this section, define decision trees, and then we discuss different choices that can make when designing public decision tree algorithms. For each choice, we discuss the additional challenges that arise when making these algorithms private.
+
+\subsection{Decision Tree Preliminaries}
+Decision Trees are a powerful tool for data mining due to their high human interpretability, non-parametric design, low computational cost, ability to discover non-linear relationships among attributes, resilience to missing values, ability to handle both discrete and continuous data, and ability to handle non-binary labels~\cite{Fletcher:2016}. Throughout this section, we assume we have a database $D$ with $k$ columns. Suppose the $i$th column can take values in $\mathcal{A}_i$. We call $\mathcal{A}_i$ the attributes of column $i$. Let $c$ be the output column, or ``class'', which we are trying to predict which takes values in $\mathcal{C}$. We assume for simplicity that the $\mathcal{A}_i$ and $\mathcal{C}$ are discrete sets. A decision tree classifies points by branching on attribute $i$, forming $|\mathcal{A}_i|$ subtrees. Once certain criteria are met, no more branching occurs, and instead a leaf node predicts the class. An example Decision Tree is given in Figure~\ref{fig:dt}.
 
 \begin{figure}
 \begin{center}
@@ -401,117 +467,111 @@ Decision Trees are a powerful tool for data mining due to their high human inter
 \end{center}
 \end{figure}
 
-The most widely-used algorithm for training decision trees is the C4.5 algorithm. C4.5 grows trees top-down, and it creates a branch up to a certain depth specified by the user. For each branch, it selects the attribute that produces the lowest conditional entropy and splits the dataset on it. Conditional Entropy is defined as:
-\begin{defn}
-(Entropy) The Entropy of a discrete random variable $X$ which attains $k$ values with probabilities $p_1, p_2, \ldots, p_k$ is
+Decision Trees are made recursively. First, attribute $i$ is chosen, and $D$ is partitioned into groups, one group for each element in $\mathcal{A}_i$. Then, the algorithm is recursively called on each subgroup. When some stopping criteria is met, such as a maximum depth being reached, a leaf is returned which contains some prediction in $\mathcal{C}$. Sometimes, many decision trees are made, and these predictions are aggregated by taking a vote. The general algorithm appears in Figure~\ref{fig:c45}.
+
+The $\mathcal{A}_i$, $\mathcal{C}$, and $k$ are public information. Also, the budget used by recursive calls at the same recursive depth are disjoint. Thus, the total budget usage is
 \[
-H(X) = -\sum_{i=1}^k p_i \log(p_i)
+\sum_{i=0}^k \max_{n \in \t{Nodes }n \t{on lvl }i} \epsilon_n
 \]
-The conditional entropy of $X$ given a discrete random variable $Y$ which attains values $a_1, \ldots, a_\ell$ is
-\[
-H(X\mid Y) = \sum_{i=1}^\ell \Pr[Y=i] H(X\mid Y=i)
-\]
-\end{defn}
-Conditional entropy, being a measure for information, is minimized so as to prioritize those attributes which produce large information gain. For leaf nodes, the class that has the largest representation in the remaining dataset is selected. The C4.5 algorithm appears in algorithm~\ref{alg:c45}.
-We denote by $D^{(i)}_{x}$ to be the subset of $D$ which attains value $j$ on attribute $i$ and $D^{(i)}_{x,y}$ to be the subset of $D^{(i)}_{x}$ which also has class $y$. Let's let $\tau^{(i)}_{x,y}$ be the size of $D^{(i)}_{x,y}$. In the code, we represent this as \t{D[i=x]} and \t{D[class=y]}, respectively. Defining conditional entropy in our new notation, we get, for attribute with index $i$:
-\begin{equation}\label{eq:cond_ent}
-H_i(D) = 
-\sum_{j\in \mathcal{A}_i} \frac{\tau^{(i)}_{j}}{\tau}\sum_{c \in \mathcal{C}} \frac{\tau^{(i)}_{j,c}}{\tau^{(i)}_{j}}\ln\left(\frac{\tau^{(i)}_{j}}{\tau^{(i)}_{j,c}}\right) \rightarrow \sum_{j\in \mathcal{A}_i}\sum_{c \in \mathcal{C}} {\tau^{(i)}_{j,c}}\ln\left(\frac{\tau^{(i)}_{j}}{\tau^{(i)}_{j,c}}\right)
-\end{equation}
-We omit a $\frac{1}{|D|}$ factor on the right side as we often simply compare computations on a fixed $D$. Two other estimates for the quality of a split which are generally less good in the non-private setting are Gini and Max:
-\begin{align}
-G_i(D) &= \sum_{j \in A_i} \tau^{(i)}_j\left(1-\sum_{c \in C}\left(\frac{\tau^{(i)}_{j,c}}{\tau^{(i)}_{j}}\right)^2\right)\label{eq:gini} \\
-M_i(D) &= \sum_{j \in A_i} \max_c(\tau^{(i)}_{j,c})
-\label{eq:max}
-\end{align}
+where $\epsilon_n$ is the budget used on node $n$. It makes sense to use the same amount of budget for nodes on the same level, so this simplifies to $\sum_{i=0}^k \epsilon_{k}$.
+
+There are three places that are unspecified in this general algorithm: The conditional that determines whether we stop growing the tree or not (Line 2, stopping criteria), the splitting column for each node (Line 7, greedy choice), and the number of trees in the forest (Line 14, number of trees). These choices are described below.
 \begin{figure}
 
-\lstinputlisting[style=MyPythonStyle, firstline=1, lastline=10]{./DTree.py}
-\caption{C4.5 algorithm.}\label{alg:c45}
+\lstinputlisting[style=MyPythonStyle, firstline=1, lastline=16]{./DTree.py}
+\caption{Template for a decision tree algorithm. At Lines 2, 7, and 14, algorithmic choice can be made that change the performance.}\label{fig:c45}
 \end{figure}
 
-When converting this algorithm to the differentially-private version, the user is left with several questions as noted in~\cite{Fletcher:2016}:
-\begin{itemize}
-\item How large of a budget has been alotted or should be alotted? There isn't a clear way to decide the budget, as the performance of the algorithm may vary wildly with the budget.
-\item How many times should the data be queried? How would pick $d$ in C4.5? Should one alter line (1) to something different?
-\item Might the sensitivity of some of the queries prevent an accurate choice? Specifically, even though it is widely agreed that the entropy function performs best in the non-private setting, could a lower-quality function be substituted because its computation is more accurate?
-\item How does the size of $D$ impact performance? Is there enough data to provide accurate results in the private setting?
-\end{itemize}
-As we will see, the answers to these questions are data-dependent and the there is never one answer that always dominates.
+\subsection{Greedy Choice}
+The way in which we choose the column on which to branch is a choice that exhibits data-dependence. Equivalently, we can view the problem as picking the attribute that maximizes the reduction in a potential function. The three choices we consider the Conditional Entropy, Gini coefficient, and the Max Operator~\cite{Friedman:2010}. To describe them, we use the following notation:
+We denote by $\tau^{(i)}_{x}$ to be the number of elements of $D$ which have attribute $j$ on column $i$ and $\tau^{(i)}_{x,y}$ to be the number of elements which have attribute $j$ and on column $i$ and class $y$.
+Then, the three values are:
+\begin{align}
+H_i(D) &= \sum_{j\in \mathcal{A}_i}\sum_{c \in \mathcal{C}} {\tau^{(i)}_{j,c}}\ln\left(\frac{\tau^{(i)}_{j}}{\tau^{(i)}_{j,c}}\right) \label{eq:ent} \\
+G_i(D) &= \sum_{j \in \mathcal{A}_i} \tau^{(i)}_j\left(1-\sum_{c \in C}\left(\frac{\tau^{(i)}_{j,c}}{\tau^{(i)}_{j}}\right)^2\right)\label{eq:gini} \\
+M_i(D) &= \sum_{j \in \mathcal{A}_i} \max_c(\tau^{(i)}_{j,c})
+\label{eq:max}
+\end{align}
 
-\subsection{Private Decision Trees}
-We assume, as does most of the literature, that the $\mathcal{A}_i$ and $\mathcal{C}$ are public and $D$ is private. Also, denote our total privacy budget to be $\beta$.
-For recursive decision tree algorithms set up like~\ref{alg:c45}, the recursive calls on the same depth of the tree all operate on disjoint subsets of $D$. Therefore, a conservative estimate of the privacy usage, using composition and disjointness, is
-\begin{equation}\label{eq:priv_est}
-\sum_{i=0}^d \max_{n \in \t{Nodes on lvl }i} \epsilon_{n}
-\end{equation}
-where $\epsilon_n$ is the privacy used by node $n$. We will go into details on how to pick $\epsilon_n$ later.
+Conditional entropy is the most widely-used potential function in practice, but in the private version, sensitivity comes into play. The sensitivities of the functions are described in the table below:
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+Name & Sensitivity \\ \hline
+Conditional Entropy & $\log(N+1) + \frac{1}{\ln(2)}$ \\ \hline
+Gini Index & 2 \\ \hline
+Max Opertator & 1 \\ \hline
+\end{tabular}
+\end{center}
+Because the latter two functions have lower sensitivities, less noise must be added to them to make them $\epsilon$-DP per the exponential mechanism. For example, suppose we are choosing between columns $i$, $j$, and $k$ with scores $(3,2,-1)$ for some scoring function. Suppose that the scores under $H_i$ are $(3.1, 1.9, -1.1)$ and that the scores under $G_i$ are $(2.7, 2.2, -0.5)$. Even though $H_i$ is closer in value to the scoring function, its sensitivity is higher. If we have 100 database rows, the sensitivity of $H_i$ is 4.6 compared to 2 for $G_i$. Under 2-DP, the exponential mechanism releases $(i,j,k)$ with probability $(0.46, 0.35, 0.19)$ under $H_i$ and with probability $(0.5, 0.39, 0.11)$ under $G_i$. The expected score of the released answer is 1.9 for $H_i$ and 2.2 for $G_i$. This is an example of how high sensitivity can kill the accuracy of a function when $\epsilon$ is somewhat low.
 
-The most naive way to create a DP version of C4.5 is to take all the histogram queries in algorithm~\ref{alg:c45} and change them to \t{NoisyCount}. This amounts to computing the dataset size, the most common class of a leaf, and the conditional entropy~\ref{eq:cond_ent} of a branch. Due to the disjointness of the $D^{(i)}_{j,c}$ with each other and the $D^{(i)}_j$ with each other with a fixed $i$, we can do a noisy count on each $|D^{(i)}_j|$ and $|D^{(i)}_{j,c}|$ with $\frac{\epsilon'}{2}$ budget (sensitivity 1), and compute the conditional entropy spending just $\epsilon'$ budget. Unfortunately, doing this over all attributes is not disjoint, so we have to split our $\epsilon_n$ budget over up to $k$ attributes and use composition. This adds a lot of noise to our computations, namely each NoisyCount gets $\frac{\beta}{dk}$ budget. This method is presented in~\cite{Blum:2005} as a proof of concept rather than a high-performing algorithm.
+One last important choice stems from the non-private machine learning literature: picking a random column. This results in less budget expenditure but obviously may lead to poor results. For this reason, random column selection is often combined with multiple trees~\cite{Jagannathan:2009}.
 
-To fix this accuracy problem, Friedman and Schuster~\cite{Friedman:2010} use entropy as a utility function on a call to the exponential mechanism. Specifically, they operate over the domain $\{1,2,\ldots, k\}$, the indices of the attributes, and utility function $u(D, i) = -H_i(D)$, where the entropy is negated because we want to find the attribute with greatest entropy reduction. They also try functions other than entropy as a quality estimator because entropy has a rather high sensitivity, shown in Theorem~\ref{thm:ent_sens}.
-
-\begin{theorem}\label{thm:ent_sens}
-The entropy function on disjoint histogram counts $a_1,a_2,\ldots, a_n$ produced from a database $D$ has sensitivity bounded by $\frac{1}{|D|}\left(\frac{1}{\ln(2)} + \log(|D|) \right)$.
-\end{theorem}
-\begin{proof}
-Let $A = \sum_{i=1}^n a_i$. Then, the entropy is 
+\subsection{Stopping Criteria}
+The stopping criteria, or deciding when to make a leaf rather than branch, is another data-dependent choice. Stopping criteria are important to avoid overfitting when there isn't sufficient data in the branch. Having small amounts of data is also susceptible to the noise that DP adds, as relative error goes way up. There are a number of methods in the literature for deciding when to stop~\cite{Fletcher:2016}, and they can be classified into methods that don't use budget and methods that do.
+\paragraph{No Budget Use} Without using budget, a ``global'' maximum depth must be used because the data can never be looked at. Maximum depth is a quantity that specifies the maximum recursion depth, or number of branches allowed to be taken before a leaf must be returned. This quantity can be user-specified or based on public information from the database, and we discuss the latter method. Borrowing from rules-of-thumb from non-private data mining, one method is $\frac{k}{2}$ where $k$ is the number of columns in the database. Another method which needs only the size of the initial database $|D|$ is to estimate the branching factor of the decision tree
 \[
-\sum_{i=1}^n \frac{a_i}{A}\log\left(\frac{A}{a_i}\right) = \frac{1}{A}\sum_{i=1}^n a_i\log A - \frac{1}{A} \sum_{i=1}^n a_i\log(a_i) = \log(A) - \frac{1}{A}\sum_{i=1}^n a_i\log(a_i)
+b = \frac{1}{k}\sum_{i=1}^k|\mathcal{A}_i|
 \]
-Suppose bucket $a_j$ is reduced by 1, and the entropy change is
-\begin{align*}
-&\log(A) - \log(A-1) - \frac{1}{A} a_j\log(a_j) + \frac{1}{A-1} (a_j-1)\log(a_j-1) \\
-&\leq \frac{1}{\ln(2)(A-1)} -\frac{1}{A}(a_j-1)\log(a_j-1) + \frac{1}{A-1}(a_j-1)\log(a_j-1) \\
-&= \frac{1}{\ln(2)(A-1)}+\frac{1}{A(A-1)}(a_j-1)\log(a_j-1) \leq \frac{1}{\ln(2)(A-1)} + \frac{1}{A}\log(A)
-\end{align*}
-\end{proof}
-Another big change is the stopping criteria (Line 2 in Figure~\ref{alg:c45}). As noted in~\cite{Fletcher:2016}, the stopping criteria could be different in differential privacy versus the regular setting because $\text{Laplace}\left(\frac{1}{\epsilon}\right)$ creates much higher error in smaller leaves, and the depth of a tree affects the amount noise added. On a high level, this suggests that shorter, sparser trees will perform better in the DP setting, but the ultimate relationship remains unclear. In~\cite{Friedman:2010}, an additional stopping parameter depending on the NoisySize of $D$ and some other public parameters are used in addition to the stopping parameters in C4.5. Their goal is to ensure that a certain signal is larger than the noise of NoisyCount:
+and then to set depth to be $\log_b(D)-1$.
+\paragraph{Budget Use} This method queries the database at each branch. The noisy size $n$ of the database is computed privately, and the node is turned into a leaf if
 \[
 \frac{|D|}{t|C|} < \frac{\sqrt{2}}{\epsilon}
 \]
-where $\frac{|D|}{t|C|}$ is a signal for how large the partitions that the children nodes will make. The sizes of $D$ for each node is used again when doing the standard C4.5Prune algorithm~\cite{Quinlan:1993} which doesn't use a validation set but estimates a confidence interval from the results of the training set. To do this, it needs an estimate on the sizes of $D[class=c]$ for each $C \in \mathcal{C}$ at each node, and knowing the size of $D$ helps Friedman and Schuster estimate this. Their algorithm is shown in Figure~\ref{alg:pc45}.
+where $t = \max_{i=1}^n|A_i|$. The LHS is an estimation of the signal, or number of points, that a leaf would calculate in each class. If the signal is less than $\frac{\sqrt{2}}{\epsilon}$, the variance of the Laplace distribution, then the calculation stops.
+
+\subsection{Number of Trees}
+A random decision forest can drastically outperform a single decision tree~\cite{Fletcher:2016}, and the number of trees in the forest is a data-dependent question. Uniquely in the private setting, if we train $\tau$ trees, we must use $\frac{\beta}{\tau}$ budget for each tree as the trees work on the same dataset. Thus, the number of trees can improve results, but too many trees will harm tree accuracy too much. Also, it even makes sense to have forests for private greedy trees as private trees are inherently random. To ensure tree diversity, it is often forced that each column appear as a member of the first branch an equal number of times, so each column appears approximately $\frac{\tau}{k}$ times in a first branch total.
+
+Once all algorithmic choice has been made and a leaf has been returned, a noisy max over the class counts with the remaining budget is predicted.
+Five instantiations of our general decision tree algorithm proposed by other authors are described in Figure \ref{fig:algtable} along with their budgets at each step.
+
 \begin{figure}
-\lstinputlisting[language=Python, firstline=12, lastline=28]{./DTree.py}
-\caption{Private C4.5 proposed by Friedman and Schuster~\cite{Friedman:2010}. } \label{alg:pc45}
-\end{figure}
-We've seen that Friedman and Schuster make three big design choices that are based on experimentation and heuristics:
-\begin{itemize}
-\item \textbf{Stopping Criteria} The \t{if} statement on Line 4 decides whether to continue branching or to stop, and in particular, the comparison of the signal to the noise is, in the words of the authors, ``arbitrary''. Also, the second pass done in \t{C4.5\_Prune} (Line 17) may clip a branch and is based on the noisy sizes collected in Line 3. 
-\item \textbf{Non-Leaf Queries} For nodes that are not leaves, the exponential mechanism is used with different utility functions. The question of which utility function to use arises, as this is unclear given their different sensitivities.
-\item \textbf{Number of Trees} It's well-known that a decision forest $\tau$ trees and a simple majority vote can often outperform a single decision tree. The number of trees to train in the DP setting could be much different than the answer in the non-private setting.
-\end{itemize}
-Another very important question is how much privacy budget to give to each of these components. If we give $0$ budget to the exponential mechanism, then we are essentially picking a random attribute. Random decision forests have been known to outperform decision trees in the non-private setting.
-A summary of other works and their decisions on the above three criteria appear in the table below:
 \begin{center}
-\begin{tabular}{|p{2cm}|p{3cm}|l|p{3cm}|l|l|l|}
+\begin{tabular}{|p{2cm}|p{3cm}|l|p{3cm}|l|p{1cm}|}
 \hline
-\; & Stopping Criteria in addition to $d = 0 || k=0$& $\epsilon_{stop}$ & Non-Leaf-Queries & $\epsilon_{NLQ}$ & $\epsilon_{LQ}$ & $\tau$ \\ \hline
-Friedman \& Schuster~\cite{Friedman:2010} & $\frac{D}{t*|C|} < \frac{\sqrt{2}}{\epsilon}$; $d'$ user-defined; second pass with C4.5Prune & $\frac{\beta}{2d'}$ & Exp. Mech with entropy, Gini, max & $\frac{\beta}{2d'}$ & $\frac{\beta}{2d'}$ & 1 \\ \hline
-Mohammed et al.~\cite{Mohammed:2015} & $d'$ user-defined & 0 & Exp. Mech with entropy & $\frac{\beta}{d'}$ & $\frac{\beta}{d'}$ & 1 \\ \hline
-Jagannathan et al.~\cite{Jagannathan:2009} & $d'=$ min of $\frac{k}{2}$ and $\log_b(|D|)-1$ & 0 & Random & 0 & $\frac{\beta}{\tau}$ & 10 \\ \hline
-Patil \& Singh~\cite{Singh:2014} & $\frac{D}{t*|C|} < \frac{\sqrt{2}}{\epsilon}$; $d'$ user-defined; second pass with C4.5Prune & $\frac{\beta}{2d'}$ & Exp. Mech with entropy & $\frac{\beta}{2d'\tau}$ & $\frac{\beta}{2d'\tau}$ & 10 \\ \hline
-Fletcher \& Islam~\cite{Fletcher:2015} & $\log_b(|D|) < \frac{\sqrt{2}|C|}{\epsilon}$ & 0 & Random & 0 & $\frac{\beta}{\tau}$ & $m$ \\ \hline
+Paper & Stopping Criteria (Line 2) & $\epsilon_{stop}$ & Non-Leaf-Queries (Line 7) & $\epsilon_{NLQ}$ & $\tau$ (L.10) \\ \hline
+Friedman \& Schuster~\cite{Friedman:2010} & $d$ user-defined; stop if $\frac{|D|}{t*|C|} < \frac{\sqrt{2}}{\epsilon_{\t{stop}}}$ & $\frac{\beta}{2d}$ & exp. mech with entropy& $\frac{\beta}{2d}$ & 1 \\ \hline
+Mohammed et al.~\cite{Mohammed:2015} & $d$ user-defined & 0 & exp. mech with entropy & $\frac{\beta}{d}$ & 1 \\ \hline
+Jagannathan et al.~\cite{Jagannathan:2009}, Fletcher \& Islam~\cite{Fletcher:2015} & $d=$ min of $\frac{k}{2}$ and $\log_b(|D|)-1$ & 0 & random & 0 & $\sim 10$ \\ \hline
 \end{tabular}
 \end{center}
-Mohammed et al.~\cite{Mohammed:2015} propose not collecting the size (Line 3) and eliminating the size criterion on Line 4. This allows us to use the entire $\epsilon$ budget for the node on the exponential mechanism and on the NoisyCount (Lines 10 and 6, respectively). Jagannathan et al.~\cite{Jagannathan:2009} propose choosing a random attribute on Line 9, spending no budget, and setting $d = \min\{\frac{k}{2}, \log_b(|D|)-1\}$ where $b$ is the average branching factor of the attributes, $\frac{1}{k}\sum_{i=1}^k |\mathcal{A}_i|$. Patil and Singh~\cite{Singh:2014} do the same thing as Fletcher and Schuster but use multiple trees. Finally, Fletcher and Islam~\cite{Fletcher:2015} do random trees but without a predefined depth; instead, they estimate the support at each node by assuming that datapoints are cut uniformly at each branch, and they stop when the support is less than the noise, similar to Friedman and Schuster.
+\caption{Instantiations of the algorithm in Figure~\ref{fig:c45}. The total budget is $\beta$. The variable $d$ is the maximum depth that each algorithm uses to compute the budgets at each step.}\label{fig:algtable}
+\end{figure}
 
-\subsection{Experiments}
-In this section, we plot the performances of the five algorithms on different datasets to highlight the existence of data dependence. Graphs of the data for different datasets appear in Figure~\ref{fig:datadep}. The datasets are described below:
+\section{Experimental Setup and Hypotheses}
+The NoisyConditionals we tested are those written in Chapter \ref{ch:solution}. A NoisyConditional is supplied choices, training databases, metafeatures, and models; we give details and justification below.
+\paragraph{Choices} We consider only the three decision tree algorithms outlined in Figure \ref{fig:algtable} which we call Algorithms 1, 2, and 3. In Algorithm 1, we set the maximum depth to be 5 always, though the maximum height is rarely reached in most cases because of the additional stopping criteria. In Algorithm 2, we set the maximum height depending on the database size and branching factor in the same way as Algorithm 3, as we believe this is a good rule of thumb. We include three versions of Algorithm 3 with 1, 3, and 7 trees in a forest. We believe choosing among these five algorithms is a complex problem that involves both parameter optimization as well as a diverse set of algorithms.
+\paragraph{Training Databases}
+Our databases consist of four large, real-world databases with discrete values. Their specifications are included in Figure~\ref{fig:dbinfo}. To obtain more database coverage, we included subsets of this database: We sampled 20, 40, 60, 80, and 100\% of the points and cut off 0, 25, 50, and 75\% of the columns at random, repeating for each pair of values 3 times each except for $(100\%, 0\%)$ as this has no randomness. This results in 58 unique databases made from each real-world database. This results in 232 databases on which we collected algorithm information. For each run of each algorithm, we split the database into 70\% training, trained the algorithm 10 times, then computed the average score on the 30\% validation set.
+
+\paragraph{Metafeatures} We use the following metafeatures: Log of number of rows in the database $\log_{10}(|D|)$, log of the product of the domain size $\log_{10}\left(\prod_{i=1}^k|\mathcal{A}_i|\right)$, the log of the number of classes $\log_{10}(|C|)$, epislon, and the \emph{disuniformity}. We highlighted the importance of the first three values in Section \ref{sec:pdtrees}.
+
+\paragraph{Model} 
+The first model we used was regular decision trees  We trained our model on the Protease Cleavage, Nursery, and Tic-tac-toe databases, and used 10 different values of $\epsilon$ from 0.5 to 9. This produced $3\times 58 \times 10$ data points in total. and we pretended that the Loan databases were private and tested our models on these 58 databases. When testing, computing the disuniformity and number of rows takes some of our budget. We decided to allot
+\begin{figure}
 \begin{center}
 \begin{tabular}{|p{3cm}|l|l|l|l|}
 \hline
-Name & No. Points & No. Attrs & Avg. Branch Size & Class size \\ \hline
-HIV-1 protease cleavage & 1625 & 8 & 20 & 2 \\ \hline
+Name & No. Points & No. Cols & Avg. Branch Size & Class size \\ \hline
+Protease C & 1625 & 8 & 20 & 2 \\ \hline
 Nursery & 12960 & 8 & 3.375 & 5 \\ \hline
-Contraceptive & 1473 & 9 & 4.88 & 3 \\ \hline
+Tic-tac-toe & 958 & 9 & 3 & 2 \\ \hline
+Student Loan & 1000 & 8 & 6.125 & 2 \\ \hline
 \end{tabular}
 \end{center}
-The HIV dataset is a sparse dataset; there are far more possible attribute values than the number of data points actually in the dataset. As we go farther down the decision tree, after only a short while, the vast majority of nodes will have no training data at all---after just 3 branches, there are $20^3$ possible nodes which means almost $80\%$ of the nodes have to be empty, and most of the nodes have large support [insert a graph of this]. As is well known in decision trees, low-support nodes give noisier estimates of the classes, and it rarely pays to branch at these nodes. This explains the performances of the algorithms: A1, having the most sophisticated stopping criteria, performs the best because it knows which nodes have low support. A2, having almost no stopping criteria at all, performs the worst (and takes the longest to train, going to all $20^d$ leaves), and A5, with a stopping criterion almost as weak, took too long to train.
+\caption{Specifications of the four real-world databases used for training.}\label{fig:dbinfo}
+\end{figure}
 
-The Nursery dataset, on the other hand, is dense. The stopping criteria does not matter as much as all nodes have a healthy support (in fact, the dataset has points for every possible value of the attributes). Thus, A2, which doesn't waste any budget on the stopping criterion, performs best.
+We evaluate \Jostle{} by estimating its regret, or the error relative to the highest-performing algorithm in hindsight, averaged over all databases in the test set.
 
-The Contraceptive dataset is a mix between the two other datasets. Here, one advantage of A3 is very pronounced: its excellent performances at small values of $\epsilon$. A3 gives the most budget to its leaf nodes, resulting in very accurate predictions at even small $\epsilon$ assuming the random trees are chosen in a fairly simple way. Because Contraceptive has no ``bogus'' attributes [insert graph of this], a randomly-chosen subset of the attributes is a fair set to work with, until the other, biased algorithms have enough budget to catch up.
+Our hypotheses are the following:
+\begin{itemize}
+\item \Jostle{}'s regret will be lower than any individual algorithm, regardless of model and will demonstrate its ability to choose algorithms and tune hyperparameters.
+\item \Jostle{}'s trained model will reveal the important metafeatures when making the choice.
+\end{itemize}
+\section{Results}
+
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.7]{Graph_Performances}
@@ -520,66 +580,72 @@ The Contraceptive dataset is a mix between the two other datasets. Here, one adv
 \label{fig:datadep}
 \end{figure}
 
-In light of these experiments, we notice that stopping criteria, non-leaf-queries, and number of trees in the forest have a huge impact on the performance of the algorithm. What a programmer would really like to do is to shed light on these complicated relationships in an automated way. It would be easy for her to summarize all of the decision tree algorithms in a chart as in Figure~\ref{alg:dtree}. Each of the two places where she is uncertain is marked with a label, L1 or L2. The goal of \Jostle{} is to learn automatically properties of the database that may lend to a certain decision at L1 or L2.
+In light of these experiments, we notice that stopping criteria, non-leaf-queries, and the number of trees in the forest have a huge impact on the performance of the algorithm. What a programmer would really like to do is shed light on these complicated relationships in an automated way. It would be easy for her to summarize all of the decision tree algorithms in a chart as in Figure~\ref{alg:dtree}. Each of the two places where she is uncertain is marked with a label, L1 or L2. The goal of \Jostle{} is to learn automatically properties of the database that may lend to a certain decision at L1 or L2.
 
 Our goal is to decide which of the heuristics provided by all the decision trees may perform best, along with any other heuristic the programmer may provide us. 
 
-\begin{figure}
-\begin{center}
-\begin{tikzpicture}[node distance=2cm]
-\node (data_in) [io] {Data};
-\node (xs_in) [io, right=0.5em of data_in] {Xs};
-\node (ys_in) [io, right=0.5em of xs_in] {Ys};
-\node (dep_in) [io, right=0.5em of ys_in] {dep};
-\node (L1) [decision, below=0.5em of xs_in] {L1: Collect size?};
-\draw [arrow] (data_in) -- (L1);
-\draw [arrow] (xs_in) -- (L1);
-\draw [arrow] (ys_in) -- (L1);
-\draw [arrow] (dep_in) -- (L1);
-\node (collect_yes) [process, below=3em of data_in] {$S \leftarrow \text{Count}_\epsilon(Data)$};
-\node (collect_no) [io, below=3em of dep_in] {$S \leftarrow \infty$};
-\draw [arrow] (L1) -- node {yes} (collect_yes);
-\draw [arrow] (L1) -- node {no} (collect_no);
-\node (stop) [decision, below=6em of xs_in] {dep=0 or $S < c$?};
-\draw [arrow] (collect_no) -- node {yes} (stop);
-\draw [arrow] (collect_yes) -- node {no} (stop);
-\node (stop_yes) [process, below=1em of stop] {Leaf(most common Ys)};
-\node (stop_no) [decision, right=2em of stop] {L2: Use Exp Mech?};
-\draw [arrow] (stop) -- node {yes} (stop_yes);
-\draw [arrow] (stop) -- node {no} (stop_no);
-\node (exp_yes) [process, below=2em of stop_no] {$B \leftarrow \text{exp\_mech}_\epsilon$};
-\node (exp_no) [io, right=0.5em of exp_yes] {$B \leftarrow \text{rand}$};
-\draw [arrow] (stop_no) -- node {yes} (exp_yes);
-\draw [arrow] (stop_no) -- node {no} (exp_no);
-\node (wrap_up) [io, below=1em of exp_yes] {For each $D \in \text{Split}(Data, B)$: do $DTree(D, Xs\setminus B, Ys, dep-1)$};
-\draw [arrow] (exp_yes) -- (wrap_up);
-\draw [arrow] (exp_no) -- (wrap_up);
-\end{tikzpicture}
-\end{center}
-\caption{Our decision tree algorithm with NoisyConditionals which learn the execution path from past histories. Depending on what the NoisyConditionals say, this algorithm is capable of expressing all the decision tree algorithms in~\cite{Fletcher:2016}.}\label{alg:dtree}
-\end{figure}
 \chapter{Future Work}\label{ch:future}
-We hope to extend our work to causal inference. \cite{Devlin:2017} We believe our approach is more general than Ashwin's work. We hope to implement synthesis.
-
-Synthesis example:
+We hope to extend \Jostle{} in the following areas: automation, performance optimization, and experiment extent.
+\section{Automation}
+\Jostle{} places some the burden of finding insights on the programmer via a combination of the \t{Model} and the \t{Metafeatures}. The insights gleamed will only be as powerful as the input metafeatures and any feature-selection done by the \t{Model} during training, so a programmer must still do some analysis before using a \t{ChoiceMaker}. For example, we can observe the metafeatures used in Figure \ref{fig:1} for 2D Histograms.
 \begin{lstlisting}[style=MyPythonStyle]
-class DAWA(Option):
-    def answer(db, queries):
-        #DAWA Implementation
-    def predict(F):
-        valuation = F.uniformity * (1-F.sparsity)
-        return valuation
-class MWEM(Option):
-    def answer(db, queries):
-        #MWEM Implementation
-    def predict(F):
-        valuation = 1-(F.sparsity)^2
-        return valuation
+uniformity = Metafeature(data){
+    db = data.database
+    xgrp = sqrt(db.x_range)
+    ygrp = sqrt(db.y_range)
+    return {{stddev(select sum(values) from db 
+                    groupby x/xgrp, y/ygrp)}}
+}
+sparsity = Metafeature(data){
+    db = data.database
+    num_nonzero = {{select count(values) from db 
+                    where values > 0}}
+    domain_size = db.x_range * db.y_range
+    return num_nonzero/domain_size
+}
 \end{lstlisting}
 
-However, our insights may not be perfect, and this is where \Jostle{} can help. When public datasets are fed into \t{MkChoiceMaker}, traces on the algorithm are produced which the programmer can analyze and update features.synthesis on the metafeatures and \t{predict} methods is done to try to improve prediction accuracy. Perhaps \Jostle{} realizes that a more accurate prediction for \t{MWEM} is $0.9-(\t{sparsity})^{1.5}$. Or, perhaps it thinks a better definition for \t{sparsity} is the number of points more than one standard deviation higher than the mean. Or, perhaps it decides a metafeature \t{xyz} is better for predicting the accuracy of \t{MWEM}.
+A programmer would need to have some insights in order to propose these rather-complex metafeatures to a \t{ChoiceMaker}. The analysis contributes to programmer overhead, and perhaps the programmer has made a suboptimal metafeature. To solve this problem, we hope to use algorithm synthesis in the \t{Model} to reduce the complexity of the \t{Metafeatures}. Suppose that, instead of inputting the exact uniformity definition, a programmer indicates the simpler metafeature:
+\begin{lstlisting}[style=MyPythonStyle]
+uniformity = Metafeature(data){
+    db = data.database
+    xgrp = sqrt(db.x_range)
+    ygrp = sqrt(db.y_range)
+    return {{select sum(values) from db 
+                    groupby x/xgrp, y/ygrp}}
+}
+\end{lstlisting}
+Instead of returning a real number, an entire database is returned. Instead of learning a regression on the metafeatures, the \t{Model} would learn SQL expressions to aggregate the metafeature databases into a real number. Perhaps it learns that the most suitable aggregation to use is average deviation as opposed to the programmer-specified \t{stddev}. Synthesis can also make edits, too: perhaps instead of using a bucket size of $\sqrt{\t{db.x\_range}}$, a better exponent is $(\t{db.x\_range})^{0.4}$. We find it promising that synthesis for noisy input-output pairs has been done already with deep neural networks \cite{Devlin:2017}, at least when generating a program from scratch as opposed to editing.
 
-Feature Optimization
+\section{Optimization}
+\Jostle{} and Pythia both optimize greedily, and there is likely opportunity to greatly improve the performance of \Jostle{}. We say the optimization is greedy because \t{ChoiceMakers} act independently of each other, making the best decisions for themselves but not for the program as a whole. Consider the following juxtaposed \t{ChoiceMakers}:
+\begin{lstlisting}[style=MyPythonStyle]
+noisyHistChoice = MkChoiceMaker among {DAWA, MWEM}
+                    informed by {uniformity, sparsity}
+                    trained on trainingSet 
+                    wrt ScoreFunc
+linRegression = MkChoiceMaker among {LinReg(0.1), LinReg(1)}
+                    informed by {size}
+                    trained on trainingSet
+                    wrt ScoreFunc2
+def get_answers(db, y_pts):
+    q_answers = noisyHistChoice(db)
+    db_mod = modify db using q_answers
+    reg_model = linRegression(db_mod)
+    return reg_model.predict(y_pts)
+\end{lstlisting}
+\Jostle{} currently works by optimizing the first and then the second \t{ChoiceMaker}. This is problematic since linRegression depends on an output from noisyHistChoice. The score function of NoisyHistChoice should reflect that it's being fed into linRegression, but it may not and the programmer may not know how to choose the score function. A better way of doing this calculation would be to squish the two \t{ChoiceMakers} together like
+\begin{lstlisting}[style=MyPythonStyle]
+linRegression = MkChoiceMaker among {(DAWA, LinReg(0.1)),
+                                    (MWEM, LinReg(0.1),
+                                    (DAWA, LinReg(1)),
+                                    (MWEM, LinReg(1))}
+\end{lstlisting}
+This transformation could be made automatically as an optimization by \Jostle{} and would result in a more globally-optimal algorithm.
+\section{Experimental extent}
+We would like to do more experiments in the areas of utility functions and hyperparameter optimization. 
+
+Utility functions are used in the exponential mechanism. Some utility functions, like conditional entropy on decision trees, are empirically known to perform the best in the non-private setting. However, in the private setting, an important consideration is the sensitivity of the utility function; if a less-utile function has less sensitivity, then less noise will interfere with its answer. In addition to decision trees, private causal inference exhibits this problem \cite{Kusner:2016}.
 \bibliographystyle{plain}
 \bibliography{Thesis}
 \end{document}

@@ -11,45 +11,45 @@ A bad cross reference---entry "Friedman:2010"
 refers to entry "DBLP:conf/kdd/2010", which doesn't exist
 Warning--I didn't find a database entry for "DBLP:conf/kdd/2010"
 Warning--empty journal in Chaudhuri:2014
-You've used 25 entries,
+You've used 27 entries,
             2118 wiz_defined-function locations,
-            669 strings with 8996 characters,
-and the built_in function-call counts, 8978 in all, are:
-= -- 878
-> -- 472
-< -- 7
-+ -- 191
-- -- 160
-* -- 635
-:= -- 1490
-add.period$ -- 78
-call.type$ -- 25
-change.case$ -- 154
+            686 strings with 9475 characters,
+and the built_in function-call counts, 9881 in all, are:
+= -- 968
+> -- 521
+< -- 9
++ -- 210
+- -- 176
+* -- 704
+:= -- 1633
+add.period$ -- 85
+call.type$ -- 27
+change.case$ -- 167
 chr.to.int$ -- 0
-cite$ -- 26
-duplicate$ -- 338
-empty$ -- 660
-format.name$ -- 160
-if$ -- 1884
+cite$ -- 28
+duplicate$ -- 374
+empty$ -- 721
+format.name$ -- 176
+if$ -- 2078
 int.to.chr$ -- 0
-int.to.str$ -- 25
-missing$ -- 24
-newline$ -- 126
-num.names$ -- 50
-pop$ -- 156
+int.to.str$ -- 27
+missing$ -- 26
+newline$ -- 136
+num.names$ -- 56
+pop$ -- 168
 preamble$ -- 1
-purify$ -- 130
+purify$ -- 141
 quote$ -- 0
-skip$ -- 262
+skip$ -- 292
 stack$ -- 0
-substring$ -- 473
-swap$ -- 82
-text.length$ -- 7
+substring$ -- 524
+swap$ -- 97
+text.length$ -- 9
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 98
+type$ -- 106
 warning$ -- 1
-while$ -- 77
-width$ -- 27
-write$ -- 281
+while$ -- 85
+width$ -- 29
+write$ -- 306
 (There was 1 error message)

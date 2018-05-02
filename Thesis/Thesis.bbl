@@ -48,6 +48,12 @@ Arik Friedman and Assaf Schuster.
   Conference on Knowledge Discovery and Data Mining, Washington, DC, USA, July
   25-28, 2010}, pages 493--502, 2010.
 
+\bibitem{Hardt:2010}
+Moritz Hardt, Katrina Ligett, and Frank McSherry.
+\newblock A simple and practical algorithm for differentially private data
+  release.
+\newblock {\em CoRR}, abs/1012.4763, 2010.
+
 \bibitem{Hay:2016}
 Michael Hay, Ashwin Machanavajjhala, Gerome Miklau, Yan Chen, Dan Zhang, and
   George Bissias.
@@ -86,6 +92,14 @@ Ios Kotsogiannis, Ashwin Machanavajjhala, Michael Hay, and Gerome Miklau.
 Fragkiskos Koufogiannis, Shuo Han, and George~J. Pappas.
 \newblock Gradual release of sensitive data under differential privacy.
 \newblock {\em CoRR}, abs/1504.00429, 2015.
+
+\bibitem{Kusner:2016}
+Matt~J. Kusner, Yu~Sun, Karthik Sridharan, and Kilian~Q. Weinberger.
+\newblock Private causal inference.
+\newblock In Arthur Gretton and Christian~C. Robert, editors, {\em Proceedings
+  of the 19th International Conference on Artificial Intelligence and
+  Statistics}, volume~51 of {\em Proceedings of Machine Learning Research},
+  pages 1308--1317, Cadiz, Spain, 09--11 May 2016. PMLR.
 
 \bibitem{Li:2014}
 Chao Li, Michael Hay, Gerome Miklau, and Yue Wang.

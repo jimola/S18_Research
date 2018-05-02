@@ -32,6 +32,8 @@
 \newlabel{itm:adv_correct}{{1}{3}{Introduction}{Item.1}{}}
 \newlabel{itm:adv_general}{{2}{3}{Introduction}{Item.2}{}}
 \newlabel{itm:adv_insight}{{3}{3}{Introduction}{Item.3}{}}
+\citation{Li:2014}
+\citation{Hardt:2010}
 \@writefile{lof}{\contentsline {figure}{\numberline {1.2}{\ignorespaces \texttt  {Jostle}{} code demonstrating the use of \texttt  {ChoiceMaker} object, called \texttt  {noisyHistChoice}. In this case, the options are the \texttt  {DAWA} and \texttt  {MWEM} 2D Histogram algorithms.}}{5}{figure.1.2}}
 \newlabel{fig:1}{{1.2}{5}{\Jostle {} code demonstrating the use of \t {ChoiceMaker} object, called \t {noisyHistChoice}. In this case, the options are the \t {DAWA} and \t {MWEM} 2D Histogram algorithms}{figure.1.2}{}}
 \citation{Dwork:2006}
@@ -64,6 +66,7 @@
 \newlabel{fig:PINQNoisyCount}{{2.1}{9}{NoisyCount Implemented in PINQ}{figure.2.1}{}}
 \citation{Reed:2010}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Existing Methods for Algorithmic Choice}{10}{subsection.2.2.2}}
+\newlabel{sec:algchoice}{{2.2.2}{10}{Existing Methods for Algorithmic Choice}{subsection.2.2.2}{}}
 \citation{Chaudhuri:2013}
 \citation{Chaudhuri:2013}
 \citation{Chaudhuri:2014}
@@ -84,65 +87,74 @@
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
 \newlabel{ch:solution}{{3}{14}{Solution Overview}{chapter.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Formal Description}{14}{section.3.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces The implementation of \texttt  {MkChoiceMaker}. }}{15}{figure.3.1}}
-\newlabel{fig:choicemaker}{{3.1}{15}{The implementation of \t {MkChoiceMaker}}{figure.3.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Generality}{16}{section.3.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Generality over PINQ}{16}{subsection.3.2.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Generality over Ligett}{16}{subsection.3.2.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}Generality over DTree Algorithms}{16}{subsection.3.2.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Motivating Example}{14}{section.3.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces A motivating example for \texttt  {Jostle}{}. A programmer may be unsure about an execution path (left side), and instead writes a \texttt  {ChoiceMaker} to decide (right side). The metafeatures of this problem are public parts of a database such as the number of columns, domain size (Line 5).}}{15}{figure.3.1}}
+\newlabel{fig:dtree_choices}{{3.1}{15}{A motivating example for \Jostle {}. A programmer may be unsure about an execution path (left side), and instead writes a \t {ChoiceMaker} to decide (right side). The metafeatures of this problem are public parts of a database such as the number of columns, domain size (Line 5)}{figure.3.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Formal Description}{15}{section.3.2}}
+\citation{Hay:2016}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces The implementation of \texttt  {MkChoiceMaker}. }}{17}{figure.3.2}}
+\newlabel{fig:choicemaker}{{3.2}{17}{The implementation of \t {MkChoiceMaker}}{figure.3.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Challenges}{17}{section.3.3}}
+\citation{Chaudhuri:2013}
+\citation{Ligett:2017}
+\citation{Kotsogiannis:2017}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Advantages}{18}{section.3.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Generality over Assumption-Makers}{18}{subsection.3.4.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Generality over Pythia}{18}{subsection.3.4.2}}
 \citation{Fletcher:2016}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Experiments and Implementation}{17}{chapter.4}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Experiments and Implementation}{19}{chapter.4}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\newlabel{ch:experiments}{{4}{17}{Experiments and Implementation}{chapter.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Decision Trees}{17}{section.4.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Example Decision Tree.}}{18}{figure.4.1}}
-\newlabel{fig:dt}{{4.1}{18}{Example Decision Tree}{figure.4.1}{}}
-\newlabel{eq:cond_ent}{{4.1}{18}{Decision Trees}{equation.4.1.1}{}}
+\newlabel{ch:experiments}{{4}{19}{Experiments and Implementation}{chapter.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Introduction to Private Decision Trees}{19}{section.4.1}}
+\newlabel{sec:pdtrees}{{4.1}{19}{Introduction to Private Decision Trees}{section.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Decision Tree Preliminaries}{19}{subsection.4.1.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Example Decision Tree.}}{20}{figure.4.1}}
+\newlabel{fig:dt}{{4.1}{20}{Example Decision Tree}{figure.4.1}{}}
+\citation{Friedman:2010}
+\@writefile{lol}{\contentsline {lstlisting}{./DTree.py}{21}{lstlisting.4.-5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Template for a decision tree algorithm. At Lines 2, 7, and 14, algorithmic choice can be made that change the performance.}}{21}{figure.4.2}}
+\newlabel{fig:c45}{{4.2}{21}{Template for a decision tree algorithm. At Lines 2, 7, and 14, algorithmic choice can be made that change the performance}{figure.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Greedy Choice}{21}{subsection.4.1.2}}
+\citation{Jagannathan:2009}
 \citation{Fletcher:2016}
-\@writefile{lol}{\contentsline {lstlisting}{./DTree.py}{19}{lstlisting.4.-4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces C4.5 algorithm.}}{19}{figure.4.2}}
-\newlabel{alg:c45}{{4.2}{19}{C4.5 algorithm}{figure.4.2}{}}
-\newlabel{eq:gini}{{4.2}{19}{Decision Trees}{equation.4.1.2}{}}
-\newlabel{eq:max}{{4.3}{19}{Decision Trees}{equation.4.1.3}{}}
-\citation{Blum:2005}
-\citation{Friedman:2010}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Private Decision Trees}{20}{subsection.4.1.1}}
-\newlabel{eq:priv_est}{{4.4}{20}{Private Decision Trees}{equation.4.1.4}{}}
-\newlabel{thm:ent_sens}{{6}{20}{}{theorem.6}{}}
+\newlabel{eq:ent}{{4.1}{22}{Greedy Choice}{equation.4.1.1}{}}
+\newlabel{eq:gini}{{4.2}{22}{Greedy Choice}{equation.4.1.2}{}}
+\newlabel{eq:max}{{4.3}{22}{Greedy Choice}{equation.4.1.3}{}}
 \citation{Fletcher:2016}
-\citation{Friedman:2010}
-\citation{Quinlan:1993}
-\citation{Friedman:2010}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Stopping Criteria}{23}{subsection.4.1.3}}
+\@writefile{toc}{\contentsline {paragraph}{No Budget Use}{23}{section*.1}}
+\@writefile{toc}{\contentsline {paragraph}{Budget Use}{23}{section*.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.4}Number of Trees}{23}{subsection.4.1.4}}
 \citation{Friedman:2010}
 \citation{Mohammed:2015}
 \citation{Jagannathan:2009}
-\citation{Singh:2014}
 \citation{Fletcher:2015}
-\@writefile{lol}{\contentsline {lstlisting}{./DTree.py}{22}{lstlisting.4.-5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Private C4.5 proposed by Friedman and Schuster\nobreakspace  {}\cite  {Friedman:2010}. }}{22}{figure.4.3}}
-\newlabel{alg:pc45}{{4.3}{22}{Private C4.5 proposed by Friedman and Schuster~\cite {Friedman:2010}}{figure.4.3}{}}
-\citation{Mohammed:2015}
-\citation{Jagannathan:2009}
-\citation{Singh:2014}
-\citation{Fletcher:2015}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Experiments}{23}{subsection.4.1.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Performances of the five decision tree algorithms. The performance is measured from the prediction success rate on a validation set using a 30/70 validation to training split. Graph 1 does not have A5 because it takes such a long time to train, having a weak stopping criterion.}}{25}{figure.4.4}}
-\newlabel{fig:datadep}{{4.4}{25}{Performances of the five decision tree algorithms. The performance is measured from the prediction success rate on a validation set using a 30/70 validation to training split. Graph 1 does not have A5 because it takes such a long time to train, having a weak stopping criterion}{figure.4.4}{}}
-\citation{Fletcher:2016}
-\citation{Fletcher:2016}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Our decision tree algorithm with NoisyConditionals which learn the execution path from past histories. Depending on what the NoisyConditionals say, this algorithm is capable of expressing all the decision tree algorithms in\nobreakspace  {}\cite  {Fletcher:2016}.}}{26}{figure.4.5}}
-\newlabel{alg:dtree}{{4.5}{26}{Our decision tree algorithm with NoisyConditionals which learn the execution path from past histories. Depending on what the NoisyConditionals say, this algorithm is capable of expressing all the decision tree algorithms in~\cite {Fletcher:2016}}{figure.4.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Instantiations of the algorithm in Figure\nobreakspace  {}\ref  {fig:c45}. The total budget is $\beta $. The variable $d$ is the maximum depth that each algorithm uses to compute the budgets at each step.}}{24}{figure.4.3}}
+\newlabel{fig:algtable}{{4.3}{24}{Instantiations of the algorithm in Figure~\ref {fig:c45}. The total budget is $\beta $. The variable $d$ is the maximum depth that each algorithm uses to compute the budgets at each step}{figure.4.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Experimental Setup and Hypotheses}{24}{section.4.2}}
+\@writefile{toc}{\contentsline {paragraph}{Choices}{24}{section*.3}}
+\@writefile{toc}{\contentsline {paragraph}{Training Databases}{25}{section*.4}}
+\@writefile{toc}{\contentsline {paragraph}{Metafeatures}{25}{section*.5}}
+\@writefile{toc}{\contentsline {paragraph}{Model}{25}{section*.6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Specifications of the four real-world databases used for training.}}{26}{figure.4.4}}
+\newlabel{fig:dbinfo}{{4.4}{26}{Specifications of the four real-world databases used for training}{figure.4.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Results}{26}{section.4.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Performances of the five decision tree algorithms. The performance is measured from the prediction success rate on a validation set using a 30/70 validation to training split. Graph 1 does not have A5 because it takes such a long time to train, having a weak stopping criterion.}}{27}{figure.4.5}}
+\newlabel{fig:datadep}{{4.5}{27}{Performances of the five decision tree algorithms. The performance is measured from the prediction success rate on a validation set using a 30/70 validation to training split. Graph 1 does not have A5 because it takes such a long time to train, having a weak stopping criterion}{figure.4.5}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Future Work}{28}{chapter.5}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{loa}{\addvspace {10\p@ }}
+\newlabel{ch:future}{{5}{28}{Future Work}{chapter.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Automation}{28}{section.5.1}}
 \citation{Devlin:2017}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Optimization}{29}{section.5.2}}
+\citation{Kusner:2016}
 \bibstyle{plain}
 \bibdata{Thesis}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Future Work}{27}{chapter.5}}
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{loa}{\addvspace {10\p@ }}
-\newlabel{ch:future}{{5}{27}{Future Work}{chapter.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Experimental extent}{30}{section.5.3}}
 \bibcite{Blum:2005}{1}
 \bibcite{Chaudhuri:2014}{2}
 \bibcite{Chaudhuri:2013}{3}
@@ -151,20 +163,22 @@
 \bibcite{Fletcher:2015}{6}
 \bibcite{Fletcher:2016}{7}
 \bibcite{Friedman:2010}{8}
-\bibcite{Hay:2016}{9}
-\bibcite{Hsu:2014}{10}
-\bibcite{Jagannathan:2009}{11}
-\bibcite{Johnson:2017}{12}
-\bibcite{Kotsogiannis:2017}{13}
-\bibcite{Koufogiannis:2015}{14}
-\bibcite{Li:2014}{15}
-\bibcite{Ligett:2017}{16}
-\bibcite{Liu:2018}{17}
-\bibcite{McSherry:2010}{18}
-\bibcite{Mohammed:2015}{19}
-\bibcite{Narayanan:2006}{20}
-\bibcite{Proserpio:2014}{21}
-\bibcite{Quinlan:1993}{22}
-\bibcite{Reed:2010}{23}
-\bibcite{Singh:2014}{24}
-\bibcite{Winograd-Cort:2017}{25}
+\bibcite{Hardt:2010}{9}
+\bibcite{Hay:2016}{10}
+\bibcite{Hsu:2014}{11}
+\bibcite{Jagannathan:2009}{12}
+\bibcite{Johnson:2017}{13}
+\bibcite{Kotsogiannis:2017}{14}
+\bibcite{Koufogiannis:2015}{15}
+\bibcite{Kusner:2016}{16}
+\bibcite{Li:2014}{17}
+\bibcite{Ligett:2017}{18}
+\bibcite{Liu:2018}{19}
+\bibcite{McSherry:2010}{20}
+\bibcite{Mohammed:2015}{21}
+\bibcite{Narayanan:2006}{22}
+\bibcite{Proserpio:2014}{23}
+\bibcite{Quinlan:1993}{24}
+\bibcite{Reed:2010}{25}
+\bibcite{Singh:2014}{26}
+\bibcite{Winograd-Cort:2017}{27}

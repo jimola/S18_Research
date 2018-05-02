@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.8.24)  25 APR 2018 14:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.8.24)  2 MAY 2018 00:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -870,7 +870,7 @@ LaTeX Font Info:    Try loading font information for OT1+lmtt on input line 69.
  (/usr/share/texmf/tex/latex/lm/ot1lmtt.fd
 File: ot1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-<DPComp.png, id=96, 1127.21124pt x 561.09625pt>
+<DPComp.png, id=128, 1127.21124pt x 561.09625pt>
 File: DPComp.png Graphic file (type png)
  <use DPComp.png>
 Package pdftex.def Info: DPComp.png used on input line 73.
@@ -1021,7 +1021,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[11] <PythiaDTree.png, id=272, 372.39125pt x 241.90375pt>
+[11] <PythiaDTree.png, id=307, 372.39125pt x 241.90375pt>
 File: PythiaDTree.png Graphic file (type png)
 
 <use PythiaDTree.png>
@@ -1030,21 +1030,6 @@ Package pdftex.def Info: PythiaDTree.png used on input line 293.
 
 Overfull \hbox (6.19516pt too wide) in paragraph at lines 293--294
  [] 
- []
-
-
-Underfull \hbox (badness 1616) in paragraph at lines 297--298
-[][]\OT1/lmr/m/n/10.95 On the other hand, the frame-
- []
-
-
-Underfull \hbox (badness 1019) in paragraph at lines 297--298
-\OT1/lmr/m/n/10.95 high, and pri-vacy us-age is then
- []
-
-
-Underfull \hbox (badness 1087) in paragraph at lines 297--298
-\OT1/lmr/m/n/10.95 in [[]]. In this ver-sion of the
  []
 
 
@@ -1062,26 +1047,25 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [13]
 Chapter 3.
-
-Underfull \hbox (badness 10000) in paragraph at lines 320--320
-[]$[] \OMS/lmsy/m/n/10.95 ^^B [] ^^B R[] ^^B
- []
-
 [14
 
-]
-LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 325.
-
-Overfull \hbox (14.1302pt too wide) in paragraph at lines 325--326
-\OT1/lmr/m/n/10.95 generating func-tions. The fea-ture space is then $\OMS/lmsy
-/m/n/10.95 X \OT1/zplm/m/n/10.95 = [][] \OML/lmm/m/it/10.95 x[]$\OT1/lmr/m/n/10
-.95 . \OT1/lmtt/m/n/10.95 MkFeatures
- []
-
-(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2015/06/04 1.6 listings language file
 )
+Overfull \hbox (2.43333pt too wide) in paragraph at lines 309--355
+[]$[]$ $[]$ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 373--373
+[]$[] \OMS/lmsy/m/n/10.95 ^^B [] ^^B
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 373--373
+\OMS/lmsy/m/n/10.95 R[] ^^B [] ^^B [] !
+ []
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1089,6 +1073,9 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [15]
+LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 378.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1096,10 +1083,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [16]
-Chapter 4.
-[17
 
-]
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[17]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1107,8 +1097,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [18]
+Chapter 4.
+[19
+
+]
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 429.
+nput line 481.
  (./DTree.py)
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1116,53 +1110,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[19]
-Overfull \hbox (3.53435pt too wide) in paragraph at lines 455--456
-[][]\OT1/lmr/bx/n/10.95 Theorem 6. []\OT1/lmr/m/it/10.95 The en-tropy func-tion
- on dis-joint his-togram counts $\OML/lmm/m/it/10.95 a[]\OT1/lmr/m/n/10.95 , \O
-ML/lmm/m/it/10.95 a[]\OT1/lmr/m/n/10.95 , [] , \OML/lmm/m/it/10.95 a[]$
- []
-
-
-Overfull \hbox (5.97348pt too wide) detected at line 461
-[] [] [] [] \OT1/zplm/m/n/10.95 = [] [] \OML/lmm/m/it/10.95 a[] [] A \OMS/lmsy/
-m/n/10.95 ^^@ [] [] \OML/lmm/m/it/10.95 a[] []\OT1/zplm/m/n/10.95 (\OML/lmm/m/i
-t/10.95 a[]\OT1/zplm/m/n/10.95 ) = [](\OML/lmm/m/it/10.95 A\OT1/zplm/m/n/10.95 
-) \OMS/lmsy/m/n/10.95 ^^@ [] [] \OML/lmm/m/it/10.95 a[] []\OT1/zplm/m/n/10.95 (
-\OML/lmm/m/it/10.95 a[]\OT1/zplm/m/n/10.95 )
- []
-
-
-Overfull \hbox (3.55849pt too wide) in paragraph at lines 467--467
-[] 
- []
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[20] (./DTree.py
-LaTeX Font Info:    Font shape `OML/lmr/m/n' in size <10.95> not available
-(Font)              Font shape `OML/lmm/m/it' tried instead on input line 15.
-
-Overfull \hbox (53.91335pt too wide) in paragraph at lines 15--16
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-] 
- []
-
-
-Overfull \hbox (53.91335pt too wide) in paragraph at lines 21--22
-[][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (80.19356pt too wide) in paragraph at lines 22--23
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-)
+[20]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1170,55 +1118,6 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [21]
-Underfull \hbox (badness 1303) in paragraph at lines 490--490
-[]$[] \OML/lmm/m/it/10.95 < []$\OT1/lmr/m/n/10.95 ; $\OML/lmm/m/it/10.95 d[]$
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 490--490
-\OT1/lmr/m/n/10.95 user-defined;
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 490--490
-\OT1/lmr/m/n/10.95 en-tropy, Gini,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 491--491
-[]\OT1/lmr/m/n/10.95 Mohammed
- []
-
-
-Overfull \hbox (4.68811pt too wide) in paragraph at lines 492--492
-[]\OT1/lmr/m/n/10.95 Jagannathan
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 493--493
-[]\OT1/lmr/m/n/10.95 Patil &
- []
-
-
-Underfull \hbox (badness 1303) in paragraph at lines 493--493
-[]$[] \OML/lmm/m/it/10.95 < []$\OT1/lmr/m/n/10.95 ; $\OML/lmm/m/it/10.95 d[]$
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 493--493
-\OT1/lmr/m/n/10.95 user-defined;
- []
-
-
-Underfull \hbox (badness 2913) in paragraph at lines 494--494
-[]\OT1/lmr/m/n/10.95 Fletcher &
- []
-
-
-Overfull \hbox (26.32756pt too wide) in paragraph at lines 487--496
- [] 
- []
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1226,27 +1125,61 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [22]
-Underfull \hbox (badness 10000) in paragraph at lines 505--505
-[]\OT1/lmr/m/n/10.95 HIV-1 pro-tease
- []
-
-
-Overfull \hbox (12.32721pt too wide) in paragraph at lines 502--509
- [] 
- []
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[23] <Graph_Performances.png, id=429, 505.89pt x 505.89pt>
-File: Graph_Performances.png Graphic file (type png)
+[23]
+Underfull \hbox (badness 10000) in paragraph at lines 533--533
+[]\OT1/lmr/m/n/10.95 Non-Leaf-Queries
+ []
 
-<use Graph_Performances.png>
-Package pdftex.def Info: Graph_Performances.png used on input line 517.
-(pdftex.def)             Requested size: 354.12057pt x 354.12057pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 533--533
+[]$\OML/lmm/m/it/10.95 ^^\$
+ []
+
+
+Overfull \hbox (0.89952pt too wide) in paragraph at lines 533--533
+\OT1/lmr/m/n/10.95 (L.10)| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 534--534
+[]$\OML/lmm/m/it/10.95 d$ \OT1/lmr/m/n/10.95 user-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 534--534
+\OT1/lmr/m/n/10.95 defined; stop
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 535--535
+[]\OT1/lmr/m/n/10.95 Mohammed
+ []
+
+
+Overfull \hbox (4.68811pt too wide) in paragraph at lines 536--536
+[]\OT1/lmr/m/n/10.95 Jagannathan
+ []
+
+
+Underfull \hbox (badness 1418) in paragraph at lines 536--536
+\OT1/lmr/m/n/10.95 et al. [[]],
+ []
+
+
+Underfull \hbox (badness 2913) in paragraph at lines 536--536
+\OT1/lmr/m/n/10.95 Fletcher &
+ []
+
+
+Overfull \hbox (13.4163pt too wide) in paragraph at lines 531--538
+ [] 
+ []
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1255,14 +1188,20 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [24]
+Overfull \hbox (18.92435pt too wide) in paragraph at lines 546--547
+ []\OT1/lmr/bx/n/10.95 Training Databases[] \OT1/lmr/m/n/10.95 Our databases co
+n-sist of four large, real-world databases
+ []
 
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
 
-[25 <./Graph_Performances.png (PNG copy)>]
-Overfull \hbox (7.10487pt too wide) in paragraph at lines 557--558
+Overfull \hbox (22.46036pt too wide) in paragraph at lines 548--549
+\OT1/lmr/m/n/10.95 in the database $[][]\OT1/zplm/m/n/10.95 (\OMS/lmsy/m/n/10.9
+5 j\OML/lmm/m/it/10.95 D\OMS/lmsy/m/n/10.95 j\OT1/zplm/m/n/10.95 )$\OT1/lmr/m/n
+/10.95 , log of the prod-uct of the do-main size $[][] []$,
+ []
+
+
+Overfull \hbox (8.03796pt too wide) in paragraph at lines 554--562
  [] 
  []
 
@@ -1272,11 +1211,32 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[26]
-Chapter 5.
-(./Thesis.bbl [27
+[25] <Graph_Performances.png, id=475, 505.89pt x 505.89pt>
+File: Graph_Performances.png Graphic file (type png)
 
-] [28
+<use Graph_Performances.png>
+Package pdftex.def Info: Graph_Performances.png used on input line 577.
+(pdftex.def)             Requested size: 354.12057pt x 354.12057pt.
+
+
+LaTeX Warning: Reference `alg:dtree' on page 26 undefined on input line 583.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[26]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[27 <./Graph_Performances.png (PNG copy)>]
+Chapter 5.
+[28
 
 ]
 
@@ -1285,31 +1245,64 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[29])
+[29]
+Overfull \hbox (20.29936pt too wide) in paragraph at lines 637--638
+\OT1/lmtt/m/n/10.95 Jostle \OT1/lmr/m/n/10.95 cur-rently works by op-ti-miz-ing
+ the first and then the sec-ond \OT1/lmtt/m/n/10.95 ChoiceMaker\OT1/lmr/m/n/10.
+95 .
+ []
+
+(./Thesis.bbl
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[30]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 585.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 585.
+[30] [31
+
+]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[32])
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[33]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 651.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 651.
  (./Thesis.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 585.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 585.
-Package rerunfilecheck Info: File `Thesis.out' has not changed.
-(rerunfilecheck)             Checksum: 819216D6C94C13F0918860C88961A88F;1114.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 585.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 651.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 651.
+
+
+Package rerunfilecheck Warning: File `Thesis.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `Thesis.out':
+(rerunfilecheck)             Before: 4B5A72B96D2E88D6FA0D449CEE00434B;1649
+(rerunfilecheck)             After:  BE06EF0ECD0E9FC7B3432528D6C28D15;1650.
+
+LaTeX Warning: There were undefined references.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 651.
  ) 
 Here is how much of TeX's memory you used:
- 21138 strings out of 493029
- 387925 string characters out of 6136234
- 543160 words of memory out of 5000000
- 24052 multiletter control sequences out of 15000+600000
+ 21134 strings out of 493029
+ 387150 string characters out of 6136234
+ 550517 words of memory out of 5000000
+ 24003 multiletter control sequences out of 15000+600000
  90143 words of font info for 95 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,12n,68p,1617b,1408s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,16n,68p,1689b,1776s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/lm/lm-rmtt.enc}{/usr/share/texmf/fonts/enc/
 dvips/lm/lm-mathit.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr
 /share/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/
@@ -1334,10 +1327,10 @@ share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/type1/publ
 ic/lm/lmtt8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symb
 ols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplr8a.p
 fb>
-Output written on Thesis.pdf (31 pages, 683197 bytes).
+Output written on Thesis.pdf (34 pages, 688851 bytes).
 PDF statistics:
- 620 PDF objects out of 1000 (max. 8388607)
- 548 compressed objects within 6 object streams
- 212 named destinations out of 1000 (max. 500000)
- 164 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 714 PDF objects out of 1000 (max. 8388607)
+ 638 compressed objects within 7 object streams
+ 259 named destinations out of 1000 (max. 500000)
+ 228 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -5,13 +5,21 @@
 \BOOKMARK [2][-]{subsection.2.2.1}{Existing Programming Languages}{section.2.2}% 5
 \BOOKMARK [2][-]{subsection.2.2.2}{Existing Methods for Algorithmic Choice}{section.2.2}% 6
 \BOOKMARK [0][-]{chapter.3}{Solution Overview}{}% 7
-\BOOKMARK [1][-]{section.3.1}{Formal Description}{chapter.3}% 8
-\BOOKMARK [1][-]{section.3.2}{Generality}{chapter.3}% 9
-\BOOKMARK [2][-]{subsection.3.2.1}{Generality over PINQ}{section.3.2}% 10
-\BOOKMARK [2][-]{subsection.3.2.2}{Generality over Ligett}{section.3.2}% 11
-\BOOKMARK [2][-]{subsection.3.2.3}{Generality over DTree Algorithms}{section.3.2}% 12
-\BOOKMARK [0][-]{chapter.4}{Experiments and Implementation}{}% 13
-\BOOKMARK [1][-]{section.4.1}{Decision Trees}{chapter.4}% 14
-\BOOKMARK [2][-]{subsection.4.1.1}{Private Decision Trees}{section.4.1}% 15
-\BOOKMARK [2][-]{subsection.4.1.2}{Experiments}{section.4.1}% 16
-\BOOKMARK [0][-]{chapter.5}{Future Work}{}% 17
+\BOOKMARK [1][-]{section.3.1}{Motivating Example}{chapter.3}% 8
+\BOOKMARK [1][-]{section.3.2}{Formal Description}{chapter.3}% 9
+\BOOKMARK [1][-]{section.3.3}{Challenges}{chapter.3}% 10
+\BOOKMARK [1][-]{section.3.4}{Advantages}{chapter.3}% 11
+\BOOKMARK [2][-]{subsection.3.4.1}{Generality over Assumption-Makers}{section.3.4}% 12
+\BOOKMARK [2][-]{subsection.3.4.2}{Generality over Pythia}{section.3.4}% 13
+\BOOKMARK [0][-]{chapter.4}{Experiments and Implementation}{}% 14
+\BOOKMARK [1][-]{section.4.1}{Introduction to Private Decision Trees}{chapter.4}% 15
+\BOOKMARK [2][-]{subsection.4.1.1}{Decision Tree Preliminaries}{section.4.1}% 16
+\BOOKMARK [2][-]{subsection.4.1.2}{Greedy Choice}{section.4.1}% 17
+\BOOKMARK [2][-]{subsection.4.1.3}{Stopping Criteria}{section.4.1}% 18
+\BOOKMARK [2][-]{subsection.4.1.4}{Number of Trees}{section.4.1}% 19
+\BOOKMARK [1][-]{section.4.2}{Experimental Setup and Hypotheses}{chapter.4}% 20
+\BOOKMARK [1][-]{section.4.3}{Results}{chapter.4}% 21
+\BOOKMARK [0][-]{chapter.5}{Future Work}{}% 22
+\BOOKMARK [1][-]{section.5.1}{Automation}{chapter.5}% 23
+\BOOKMARK [1][-]{section.5.2}{Optimization}{chapter.5}% 24
+\BOOKMARK [1][-]{section.5.3}{Experimental extent}{chapter.5}% 25
