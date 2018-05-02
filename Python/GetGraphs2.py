@@ -59,7 +59,7 @@ def rand_subsets(db, db_name):
     return D
 np.random.seed(12345)
 rand = []
-for sz in np.arange(500, 5500, 500):
+for sz in np.arange(1500, 2000, 500):
     for cols in np.arange(5, 11):
         for i in range(0, 3):
             probs = []
@@ -184,6 +184,8 @@ def do_loan(k):
     return (k, collect_data2(loan[k], 'loan', eps_vals, 10))
 def do_ttt(k):
     return (k, collect_data2(ttt[k], 'ttt', eps_vals, 10))
+def do_rand(e):
+    return (0, collect_data2(e, 'rand', eps_vals, 10))
 #nurs2 = DPrivacy.Database(nurs.train.iloc[0:10], nurs.test, nurs.x_names, nurs.y_name)
 #bind2 = DPrivacy.Database(bind.train.iloc[0:10], bind.test, bind.x_names, bind.y_name)
 
@@ -193,4 +195,4 @@ if(__name__ == '__main__'):
     #pickle.dump(pool.map(do_nurs, nurs), open('nurs.p', 'wb'))
     #pickle.dump(pool.map(do_ttt, ttt), open('ttt.p', 'wb'))
     #pickle.dump(pool.map(do_loan, loan), open('loan.p', 'wb'))
-
+    pickle.dump(pool.map(do_rand, rand), open('rand3.p', 'wb'))
