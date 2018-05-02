@@ -59,7 +59,7 @@ def rand_subsets(db, db_name):
     return D
 np.random.seed(12345)
 rand = []
-for sz in np.arange(1500, 2000, 500):
+for sz in np.arange(2500, 3000, 500):
     for cols in np.arange(5, 11):
         for i in range(0, 3):
             probs = []

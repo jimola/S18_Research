@@ -18,5 +18,3 @@ GetGraphs2.py:45: FutureWarning: '.reindex_axis' is deprecated and will be remov
   return noisy_counts.argmax()
 /longterm/jimola/S18_Research/Python/DTrees.py:14: FutureWarning: 'argmax' is deprecated. Use 'idxmax' instead. The behavior of 'argmax' will be corrected to return the positional maximum in the future. Use 'series.values.argmax' to get the position of the maximum now.
   return noisy_counts.argmax()
-/longterm/jimola/S18_Research/Python/DTrees.py:14: FutureWarning: 'argmax' is deprecated. Use 'idxmax' instead. The behavior of 'argmax' will be corrected to return the positional maximum in the future. Use 'series.values.argmax' to get the position of the maximum now.
-  return noisy_counts.argmax()
