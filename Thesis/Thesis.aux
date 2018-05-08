@@ -18,143 +18,141 @@
 \providecommand\HyField@AuxAddToCoFields[2]{}
 \citation{Dwork:2006}
 \citation{Narayanan:2006}
-\@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{2}{chapter.1}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\newlabel{ch:intro}{{1}{1}{Introduction}{chapter.1}{}}
+\newlabel{ch:intro}{{1}{2}{Introduction}{chapter.1}{}}
 \citation{Hay:2016}
-\citation{Hay:2016}
-\citation{Li:2014}
-\citation{Li:2014}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces A screenshot of a DPComp graph depicting the original dataset and the noise that a DP algorthm, DAWA\nobreakspace  {}\cite  {Li:2014}, adds at $\epsilon =0.01$. This would help a programmer decide whether to apply DAWA on his own dataset.}}{3}{figure.1.1}}
-\newlabel{fig:dpcomp}{{1.1}{3}{A screenshot of a DPComp graph depicting the original dataset and the noise that a DP algorthm, DAWA~\cite {Li:2014}, adds at $\epsilon =0.01$. This would help a programmer decide whether to apply DAWA on his own dataset}{figure.1.1}{}}
-\newlabel{itm:adv_correct}{{1}{3}{Introduction}{Item.1}{}}
-\newlabel{itm:adv_general}{{2}{3}{Introduction}{Item.2}{}}
-\newlabel{itm:adv_insight}{{3}{3}{Introduction}{Item.3}{}}
-\citation{Li:2014}
-\citation{Hardt:2010}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.2}{\ignorespaces \texttt  {Jostle}{} code demonstrating the use of \texttt  {ChoiceMaker} object, called \texttt  {noisyHistChoice}. In this case, the options are the \texttt  {DAWA} and \texttt  {MWEM} 2D Histogram algorithms.}}{5}{figure.1.2}}
-\newlabel{fig:1}{{1.2}{5}{\Jostle {} code demonstrating the use of \t {ChoiceMaker} object, called \t {noisyHistChoice}. In this case, the options are the \t {DAWA} and \t {MWEM} 2D Histogram algorithms}{figure.1.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces Example privacy-accuracy frontier. Epsilon denotes the amount of privacy being released; as more privacy is released, algorithms trend toward less error.}}{3}{figure.1.1}}
+\newlabel{fig:frontier}{{1.1}{3}{Example privacy-accuracy frontier. Epsilon denotes the amount of privacy being released; as more privacy is released, algorithms trend toward less error}{figure.1.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Challenges}{5}{section*.1}}
+\@writefile{toc}{\contentsline {paragraph}{Contributions}{6}{section*.2}}
 \citation{Dwork:2006}
-\@writefile{toc}{\contentsline {chapter}{\numberline {2}Background}{6}{chapter.2}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Background}{7}{chapter.2}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\newlabel{ch:background}{{2}{6}{Background}{chapter.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.1}Differential Privacy}{6}{section.2.1}}
+\newlabel{ch:background}{{2}{7}{Background}{chapter.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Differential Privacy Primer}{7}{section.2.1}}
 \citation{Dwork:2006}
 \citation{Narayanan:2006}
 \citation{Dwork:2006}
 \citation{Dwork:2006}
-\newlabel{thm:comp}{{2}{7}{}{theorem.2}{}}
-\newlabel{thm:disj}{{3}{7}{}{theorem.3}{}}
+\newlabel{thm:comp}{{2}{8}{}{theorem.2}{}}
 \citation{Dwork:2006}
+\citation{Dwork:2006}
+\newlabel{thm:disj}{{3}{9}{}{theorem.3}{}}
+\newlabel{alg:1}{{1}{9}{Differential Privacy Primer}{algocfline.1}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces Laplace Mechanism}}{9}{algocf.1}}
 \citation{McSherry:2010}
 \citation{Proserpio:2014}
 \citation{Johnson:2017}
 \citation{McSherry:2010}
-\newlabel{alg:1}{{1}{8}{Differential Privacy}{algocfline.1}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces Laplace Mechanism}}{8}{algocf.1}}
-\newlabel{alg:max}{{2}{9}{Differential Privacy}{algocfline.2}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces ReportNoisyMax}}{9}{algocf.2}}
-\newlabel{alg:exp}{{3}{9}{Differential Privacy}{algocfline.3}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {3}{\ignorespaces exponential mechanism}}{9}{algocf.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.2}Related Work}{9}{section.2.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Existing Programming Languages}{9}{subsection.2.2.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces NoisyCount Implemented in PINQ.}}{9}{figure.2.1}}
-\newlabel{fig:PINQNoisyCount}{{2.1}{9}{NoisyCount Implemented in PINQ}{figure.2.1}{}}
 \citation{Reed:2010}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Existing Methods for Algorithmic Choice}{10}{subsection.2.2.2}}
-\newlabel{sec:algchoice}{{2.2.2}{10}{Existing Methods for Algorithmic Choice}{subsection.2.2.2}{}}
+\newlabel{alg:exp}{{2}{10}{Differential Privacy Primer}{algocfline.2}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces Exponential Mechanism}}{10}{algocf.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Related Work}{10}{section.2.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Existing Programming Languages}{10}{subsection.2.2.1}}
 \citation{Chaudhuri:2013}
+\citation{Ligett:2017}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces NoisyCount Implemented in PINQ.}}{11}{figure.2.1}}
+\newlabel{fig:PINQNoisyCount}{{2.1}{11}{NoisyCount Implemented in PINQ}{figure.2.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Existing Methods for Algorithmic Choice}{11}{subsection.2.2.2}}
+\newlabel{sec:algchoice}{{2.2.2}{11}{Existing Methods for Algorithmic Choice}{subsection.2.2.2}{}}
 \citation{Chaudhuri:2013}
 \citation{Chaudhuri:2014}
-\newlabel{thm:dependent_exp}{{5}{11}{}{theorem.5}{}}
-\citation{Hay:2016}
-\citation{Kotsogiannis:2017}
+\citation{Chaudhuri:2013}
 \citation{Ligett:2017}
 \citation{Koufogiannis:2015}
 \citation{Ligett:2017}
-\citation{Dwork:2006}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Example Decision Tree trained by Pythia with features in branches and algorithms in leaves.}}{12}{figure.2.2}}
-\newlabel{fig:pythia}{{2.2}{12}{Example Decision Tree trained by Pythia with features in branches and algorithms in leaves}{figure.2.2}{}}
-\citation{Winograd-Cort:2017}
-\citation{Liu:2018}
-\citation{Hsu:2014}
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Solution Overview}{14}{chapter.3}}
+\newlabel{eq:sens1}{{2.1}{12}{Existing Methods for Algorithmic Choice}{equation.2.2.1}{}}
+\newlabel{eq:sens2}{{2.2}{12}{Existing Methods for Algorithmic Choice}{equation.2.2.2}{}}
+\newlabel{thm:dependent_exp}{{5}{12}{}{theorem.5}{}}
+\citation{Hay:2016}
+\citation{Kotsogiannis:2017}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Example decision tree trained by Pythia with database features in branches and best algorithms in leaves.}}{14}{figure.2.2}}
+\newlabel{fig:pythia}{{2.2}{14}{Example decision tree trained by Pythia with database features in branches and best algorithms in leaves}{figure.2.2}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Solution Overview}{15}{chapter.3}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\newlabel{ch:solution}{{3}{14}{Solution Overview}{chapter.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Motivating Example}{14}{section.3.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces A motivating example for \texttt  {Jostle}{}. A programmer may be unsure about an execution path (left side), and instead writes a \texttt  {ChoiceMaker} to decide (right side). The metafeatures of this problem are public parts of a database such as the number of columns, domain size (Line 5).}}{15}{figure.3.1}}
-\newlabel{fig:dtree_choices}{{3.1}{15}{A motivating example for \Jostle {}. A programmer may be unsure about an execution path (left side), and instead writes a \t {ChoiceMaker} to decide (right side). The metafeatures of this problem are public parts of a database such as the number of columns, domain size (Line 5)}{figure.3.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Formal Description}{15}{section.3.2}}
+\newlabel{ch:solution}{{3}{15}{Solution Overview}{chapter.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Motivating Example}{16}{section.3.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces A motivating example for \texttt  {Jostle}{}. A programmer may be unsure about an execution path (left side), and instead writes a \texttt  {ChoiceMaker} to decide (right side). The privacy usage of this problem is just $\epsilon $.}}{17}{figure.3.1}}
+\newlabel{fig:dtree_choices}{{3.1}{17}{A motivating example for \Jostle {}. A programmer may be unsure about an execution path (left side), and instead writes a \t {ChoiceMaker} to decide (right side). The privacy usage of this problem is just $\epsilon $}{figure.3.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Formal Description}{18}{section.3.2}}
 \citation{Hay:2016}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces The implementation of \texttt  {MkChoiceMaker}. }}{17}{figure.3.2}}
-\newlabel{fig:choicemaker}{{3.2}{17}{The implementation of \t {MkChoiceMaker}}{figure.3.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}Challenges}{17}{section.3.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces The implementation of \texttt  {MkChoiceMaker}. }}{19}{figure.3.2}}
+\newlabel{fig:choicemaker}{{3.2}{19}{The implementation of \t {MkChoiceMaker}}{figure.3.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Challenges}{19}{section.3.3}}
 \citation{Chaudhuri:2013}
 \citation{Ligett:2017}
 \citation{Kotsogiannis:2017}
-\@writefile{toc}{\contentsline {section}{\numberline {3.4}Advantages}{18}{section.3.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Generality over Assumption-Makers}{18}{subsection.3.4.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Generality over Pythia}{18}{subsection.3.4.2}}
+\citation{Kotsogiannis:2017}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Generality Advantage}{20}{section.3.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Assumption-less choices}{20}{subsection.3.4.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Generality as a Programming Language}{20}{subsection.3.4.2}}
 \citation{Fletcher:2016}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Experiments and Implementation}{19}{chapter.4}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Experiments and Implementation}{22}{chapter.4}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\newlabel{ch:experiments}{{4}{19}{Experiments and Implementation}{chapter.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Introduction to Private Decision Trees}{19}{section.4.1}}
-\newlabel{sec:pdtrees}{{4.1}{19}{Introduction to Private Decision Trees}{section.4.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Decision Tree Preliminaries}{19}{subsection.4.1.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Example Decision Tree.}}{20}{figure.4.1}}
-\newlabel{fig:dt}{{4.1}{20}{Example Decision Tree}{figure.4.1}{}}
+\newlabel{ch:experiments}{{4}{22}{Experiments and Implementation}{chapter.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Introduction to Private Decision Trees}{22}{section.4.1}}
+\newlabel{sec:pdtrees}{{4.1}{22}{Introduction to Private Decision Trees}{section.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Decision Tree Preliminaries}{22}{subsection.4.1.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Example Decision Tree.}}{23}{figure.4.1}}
+\newlabel{fig:dt}{{4.1}{23}{Example Decision Tree}{figure.4.1}{}}
 \citation{Friedman:2010}
-\@writefile{lol}{\contentsline {lstlisting}{./DTree.py}{21}{lstlisting.4.-5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Template for a decision tree algorithm. At Lines 2, 7, and 14, algorithmic choice can be made that change the performance.}}{21}{figure.4.2}}
-\newlabel{fig:c45}{{4.2}{21}{Template for a decision tree algorithm. At Lines 2, 7, and 14, algorithmic choice can be made that change the performance}{figure.4.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Greedy Choice}{21}{subsection.4.1.2}}
+\@writefile{lol}{\contentsline {lstlisting}{./DTree.py}{24}{lstlisting.4.-10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Template for a decision tree algorithm. At Lines 2, 7, and 14, algorithmic choice can be made that change the performance.}}{24}{figure.4.2}}
+\newlabel{fig:c45}{{4.2}{24}{Template for a decision tree algorithm. At Lines 2, 7, and 14, algorithmic choice can be made that change the performance}{figure.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Greedy Choice}{24}{subsection.4.1.2}}
 \citation{Jagannathan:2009}
 \citation{Fletcher:2016}
-\newlabel{eq:ent}{{4.1}{22}{Greedy Choice}{equation.4.1.1}{}}
-\newlabel{eq:gini}{{4.2}{22}{Greedy Choice}{equation.4.1.2}{}}
-\newlabel{eq:max}{{4.3}{22}{Greedy Choice}{equation.4.1.3}{}}
+\newlabel{eq:ent}{{4.1}{25}{Greedy Choice}{equation.4.1.1}{}}
+\newlabel{eq:gini}{{4.2}{25}{Greedy Choice}{equation.4.1.2}{}}
+\newlabel{eq:max}{{4.3}{25}{Greedy Choice}{equation.4.1.3}{}}
 \citation{Fletcher:2016}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Stopping Criteria}{23}{subsection.4.1.3}}
-\@writefile{toc}{\contentsline {paragraph}{No Budget Use}{23}{section*.1}}
-\@writefile{toc}{\contentsline {paragraph}{Budget Use}{23}{section*.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.4}Number of Trees}{23}{subsection.4.1.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Stopping Criteria}{26}{subsection.4.1.3}}
+\@writefile{toc}{\contentsline {paragraph}{No Budget Use}{26}{section*.3}}
+\@writefile{toc}{\contentsline {paragraph}{Budget Use}{26}{section*.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.4}Number of Trees}{26}{subsection.4.1.4}}
 \citation{Friedman:2010}
 \citation{Mohammed:2015}
 \citation{Jagannathan:2009}
 \citation{Fletcher:2015}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Instantiations of the algorithm in Figure\nobreakspace  {}\ref  {fig:c45}. The total budget is $\beta $. The variable $d$ is the maximum depth that each algorithm uses to compute the budgets at each step.}}{24}{figure.4.3}}
-\newlabel{fig:algtable}{{4.3}{24}{Instantiations of the algorithm in Figure~\ref {fig:c45}. The total budget is $\beta $. The variable $d$ is the maximum depth that each algorithm uses to compute the budgets at each step}{figure.4.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Experimental Setup and Hypotheses}{24}{section.4.2}}
-\@writefile{toc}{\contentsline {paragraph}{Choices}{24}{section*.3}}
-\@writefile{toc}{\contentsline {paragraph}{Training Databases}{25}{section*.4}}
-\@writefile{toc}{\contentsline {paragraph}{Metafeatures}{25}{section*.5}}
-\@writefile{toc}{\contentsline {paragraph}{Model}{25}{section*.6}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Specifications of the four real-world databases used for training.}}{26}{figure.4.4}}
-\newlabel{fig:dbinfo}{{4.4}{26}{Specifications of the four real-world databases used for training}{figure.4.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Results}{26}{section.4.3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Performances of the five decision tree algorithms. The performance is measured from the prediction success rate on a validation set using a 30/70 validation to training split. Graph 1 does not have A5 because it takes such a long time to train, having a weak stopping criterion.}}{27}{figure.4.5}}
-\newlabel{fig:datadep}{{4.5}{27}{Performances of the five decision tree algorithms. The performance is measured from the prediction success rate on a validation set using a 30/70 validation to training split. Graph 1 does not have A5 because it takes such a long time to train, having a weak stopping criterion}{figure.4.5}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Future Work}{28}{chapter.5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Instantiations of the algorithm in Figure\nobreakspace  {}\ref  {fig:c45}. The total budget is $\beta $. The variable $d$ is the maximum depth that each algorithm uses to compute the budgets at each step.}}{27}{figure.4.3}}
+\newlabel{fig:algtable}{{4.3}{27}{Instantiations of the algorithm in Figure~\ref {fig:c45}. The total budget is $\beta $. The variable $d$ is the maximum depth that each algorithm uses to compute the budgets at each step}{figure.4.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Experimental Setup and Hypotheses}{27}{section.4.2}}
+\@writefile{toc}{\contentsline {paragraph}{Choices}{27}{section*.5}}
+\citation{Friedman:2010}
+\@writefile{toc}{\contentsline {paragraph}{Training Databases}{28}{section*.6}}
+\@writefile{toc}{\contentsline {paragraph}{Metafeatures}{28}{section*.7}}
+\@writefile{toc}{\contentsline {paragraph}{Model}{28}{section*.8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Specifications of the four real-world databases used for training.}}{29}{figure.4.4}}
+\newlabel{fig:dbinfo}{{4.4}{29}{Specifications of the four real-world databases used for training}{figure.4.4}{}}
+\citation{Friedman:2010}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Top: Scenario 1's regret as a percentage, minus 100. Bottom: Scenarios 2's regret as a percentage, minus 100.}}{30}{figure.4.5}}
+\newlabel{fig:results}{{4.5}{30}{Top: Scenario 1's regret as a percentage, minus 100. Bottom: Scenarios 2's regret as a percentage, minus 100}{figure.4.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Results}{30}{section.4.3}}
+\@writefile{toc}{\contentsline {paragraph}{Different performance properties of the algorithms}{30}{section*.9}}
+\@writefile{toc}{\contentsline {paragraph}{Differences in the training and testing set}{31}{section*.10}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Conclusions and Future Work}{32}{chapter.5}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\newlabel{ch:future}{{5}{28}{Future Work}{chapter.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Automation}{28}{section.5.1}}
+\newlabel{ch:future}{{5}{32}{Conclusions and Future Work}{chapter.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Conclusions}{32}{section.5.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Future Work}{33}{section.5.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Automation}{33}{subsection.5.2.1}}
 \citation{Devlin:2017}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Optimization}{29}{section.5.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}Global Optimization}{34}{subsection.5.2.2}}
 \citation{Kusner:2016}
 \bibstyle{plain}
 \bibdata{Thesis}
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Experimental extent}{30}{section.5.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}Experimental extent}{35}{subsection.5.2.3}}
 \bibcite{Blum:2005}{1}
 \bibcite{Chaudhuri:2014}{2}
 \bibcite{Chaudhuri:2013}{3}

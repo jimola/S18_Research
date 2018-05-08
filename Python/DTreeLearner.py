@@ -29,7 +29,7 @@ def get_best_alg(df):
     df['best_alg_s'] = best_alg_stubbed
     return df
 
-def get_dsets(idx, sizes = (0.3, 1), seed=12345):
+def get_dsets(idx, sizes = (0.3, 1), seed=12345, test_sim=True):
     tr_pct, te_pct = sizes
     def sample_pct(db, pct):
         L = len(db)
@@ -55,7 +55,10 @@ def get_dsets(idx, sizes = (0.3, 1), seed=12345):
     sim_data = sample_pct(sim_data, te_pct)
     cutoff = int(0.75*len(sim_data))
     train = sim_data[:cutoff].append(real_train).reset_index(drop=True)
-    test = sim_data[cutoff:].append(real_test).reset_index(drop=True)
+    if(test_sim):
+        test = sim_data[cutoff:].append(real_test).reset_index(drop=True)
+    else:
+        test = real_test.reset_index(drop=True)
     return (train, test)
 
 c_dict = {'ma5': 'green', 'db1': 'orange', 'db3': 'yellow', 
@@ -87,12 +90,11 @@ def get_model_err(preds, test):
     err[preds == 'NA'] = test.loc[preds == 'NA', 'mean']
     return err
 
-def get_model_regrets(train, test):
+def get_model_regrets(train, test, x_cols, y_name='best_alg_s', ret_classifier=False):
 
-    x_cols = ['eps', 'lnrow', 'ldomsize', 'nclss', 'unif']
     X = train[x_cols]
     Xt = test[x_cols]
-    y = train.best_alg_s
+    y = train[y_name]
     from sklearn import tree
     clf = tree.DecisionTreeClassifier()
     clf = clf.fit(X, y)
@@ -102,5 +104,55 @@ def get_model_regrets(train, test):
     dat['model'] = model_err
     M = dat.min(axis=1)
     regrets = dat.divide(M, axis=0)
-    return regrets.mean(axis=0)
+    R = regrets.mean(axis=0)
+    if(ret_classifier):
+        return (R, clf)
+    else:
+        return R
+
+x_cols = ['eps', 'lnrow', 'ldomsize', 'nclss', 'unif']
+B0 = \
+get_model_regrets(*get_dsets(0, (0.3, 1), test_sim=False), x_cols, 'best_alg', False) + \
+get_model_regrets(*get_dsets(1, (0.3, 1), test_sim=False), x_cols, 'best_alg', False) + \
+get_model_regrets(*get_dsets(2, (0.3, 1), test_sim=False), x_cols, 'best_alg', False) + \
+get_model_regrets(*get_dsets(3, (0.3, 1), test_sim=False), x_cols, 'best_alg', False)
+
+B1 = \
+get_model_regrets(*get_dsets(0, (0.3, 0), test_sim=False), x_cols, 'best_alg', False) + \
+get_model_regrets(*get_dsets(1, (0.3, 0), test_sim=False), x_cols, 'best_alg', False) + \
+get_model_regrets(*get_dsets(2, (0.3, 0), test_sim=False), x_cols, 'best_alg', False) + \
+get_model_regrets(*get_dsets(3, (0.3, 0), test_sim=False), x_cols, 'best_alg', False)
+
+B2 = \
+get_model_regrets(*get_dsets(0, (0, 1)), x_cols, 'best_alg', False) + \
+get_model_regrets(*get_dsets(1, (0, 1)), x_cols, 'best_alg', False) + \
+get_model_regrets(*get_dsets(2, (0, 1)), x_cols, 'best_alg', False) + \
+get_model_regrets(*get_dsets(3, (0, 1)), x_cols, 'best_alg', False)
+
+B0 = 100*(B0/4-1)
+B1 = 100*(B1/4-1)
+B2 = 100*(B2/4-1)
+
+B0 = B0.reindex(['fs5', 'ma5', 'db1', 'db3', 'db7', 'model'])
+B1 = B1.reindex(['fs5', 'ma5', 'db1', 'db3', 'db7', 'model'])
+B2 = B2.reindex(['fs5', 'ma5', 'db1', 'db3', 'db7', 'model'])
+"""
+rects1 = ax.bar(ind, B0, width, color='r')
+rects2 = ax.bar(ind+width, B1, width, color='b')
+rects3 = ax.bar(ind+2*width, B2, width, color='g')
+"""
+labs = ['', 'Alg1', 'Alg2', 'Alg3,1', 'Alg3,3', 'Alg3,7', 'model']
+
+width = 0.5
+ind = np.arange(6)
+ax = plt.subplot(211)
+plt.bar(ind, B0, width)
+ax.set_title('Percent Regret Minus 100 for Choices')
+ax.set_ylabel('% Regret')
+ax.set_xticklabels(labs)
+
+ax = plt.subplot(212)
+plt.bar(ind, B2, width)
+ax.set_xticklabels(labs)
+ax.set_ylabel('% Regret')
 

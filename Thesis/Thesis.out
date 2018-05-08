@@ -1,6 +1,6 @@
 \BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
 \BOOKMARK [0][-]{chapter.2}{Background}{}% 2
-\BOOKMARK [1][-]{section.2.1}{Differential Privacy}{chapter.2}% 3
+\BOOKMARK [1][-]{section.2.1}{Differential Privacy Primer}{chapter.2}% 3
 \BOOKMARK [1][-]{section.2.2}{Related Work}{chapter.2}% 4
 \BOOKMARK [2][-]{subsection.2.2.1}{Existing Programming Languages}{section.2.2}% 5
 \BOOKMARK [2][-]{subsection.2.2.2}{Existing Methods for Algorithmic Choice}{section.2.2}% 6
@@ -8,9 +8,9 @@
 \BOOKMARK [1][-]{section.3.1}{Motivating Example}{chapter.3}% 8
 \BOOKMARK [1][-]{section.3.2}{Formal Description}{chapter.3}% 9
 \BOOKMARK [1][-]{section.3.3}{Challenges}{chapter.3}% 10
-\BOOKMARK [1][-]{section.3.4}{Advantages}{chapter.3}% 11
-\BOOKMARK [2][-]{subsection.3.4.1}{Generality over Assumption-Makers}{section.3.4}% 12
-\BOOKMARK [2][-]{subsection.3.4.2}{Generality over Pythia}{section.3.4}% 13
+\BOOKMARK [1][-]{section.3.4}{Generality Advantage}{chapter.3}% 11
+\BOOKMARK [2][-]{subsection.3.4.1}{Assumption-less choices}{section.3.4}% 12
+\BOOKMARK [2][-]{subsection.3.4.2}{Generality as a Programming Language}{section.3.4}% 13
 \BOOKMARK [0][-]{chapter.4}{Experiments and Implementation}{}% 14
 \BOOKMARK [1][-]{section.4.1}{Introduction to Private Decision Trees}{chapter.4}% 15
 \BOOKMARK [2][-]{subsection.4.1.1}{Decision Tree Preliminaries}{section.4.1}% 16
@@ -19,7 +19,9 @@
 \BOOKMARK [2][-]{subsection.4.1.4}{Number of Trees}{section.4.1}% 19
 \BOOKMARK [1][-]{section.4.2}{Experimental Setup and Hypotheses}{chapter.4}% 20
 \BOOKMARK [1][-]{section.4.3}{Results}{chapter.4}% 21
-\BOOKMARK [0][-]{chapter.5}{Future Work}{}% 22
-\BOOKMARK [1][-]{section.5.1}{Automation}{chapter.5}% 23
-\BOOKMARK [1][-]{section.5.2}{Optimization}{chapter.5}% 24
-\BOOKMARK [1][-]{section.5.3}{Experimental extent}{chapter.5}% 25
+\BOOKMARK [0][-]{chapter.5}{Conclusions and Future Work}{}% 22
+\BOOKMARK [1][-]{section.5.1}{Conclusions}{chapter.5}% 23
+\BOOKMARK [1][-]{section.5.2}{Future Work}{chapter.5}% 24
+\BOOKMARK [2][-]{subsection.5.2.1}{Automation}{section.5.2}% 25
+\BOOKMARK [2][-]{subsection.5.2.2}{Global Optimization}{section.5.2}% 26
+\BOOKMARK [2][-]{subsection.5.2.3}{Experimental extent}{section.5.2}% 27

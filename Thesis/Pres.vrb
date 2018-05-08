@@ -1,0 +1,27 @@
+\frametitle{Solution Overview}
+\begin{tikzpicture}
+\tikzset{block/.style={rectangle, align=center,text width=2.3cm, fill=red!5, draw=red!60},
+		action/.style={rectangle, align=center,text width=2.3cm, fill=blue!5, draw=blue!60, rounded corners=2mm},
+		answer/.style={rectangle, align=center,text width=2.3cm, fill=green!5, draw=green!60, rounded corners=2mm},
+		blank/.style={rectangle, draw, align=center,text width=2.3cm}}
+\node[blank] (PDB) {Private DB};
+\node[block, below=1em of PDB] (MF) {Metafeatures};
+\node[action, above right=1em of MF] (PMF) {Pvt. Metafts};
+\draw[->] (MF) -- (PMF);
+\draw[->] (PDB) -- (PMF);
+\node[action, below=1em of PMF] (CM) {$f: \mathcal{X} \rightarrow Alg$};
+\node[answer, above right=1em of CM] (Alg) {Alg};
+\draw[->] (PMF) -- (Alg);
+\draw[->] (CM) -- (Alg);
+\end{tikzpicture}
+\vspace{1em}
+\pause
+\begin{lstlisting}[style=MyPythonStyle]
+answerHistQueries =
+MkChoiceMaker among {Alg1, Alg2}
+	informed by {dbSize, dbNumRows}
+	modeled by LinearModel with ErrorFunc
+	trained on TrainingSet}
+
+answers = answerHistQueries(data, queries)
+\end{lstlisting}

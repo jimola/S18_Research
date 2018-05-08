@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.8.24)  2 MAY 2018 00:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.8.24)  7 MAY 2018 01:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -657,14 +657,22 @@ File: listings.cfg 2015/06/04 1.6 listings configuration
 ))
 Package: listings 2015/06/04 1.6 (Carsten Heinz)
 
+(/usr/share/texlive/texmf-dist/tex/latex/preprint/authblk.sty
+Package: authblk 2001/02/27 1.3 (PWD)
+\affilsep=\skip63
+\@affilsep=\skip64
+\c@Maxaffil=\count143
+\c@authors=\count144
+\c@affil=\count145
+)
 (/usr/share/texlive/texmf-dist/tex/latex/algorithm2e/algorithm2e.sty
 Package: algorithm2e 2013/01/06 v5.00 algorithms environments
-\c@AlgoLine=\count143
+\c@AlgoLine=\count146
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 )
-\algocf@hangindent=\skip63
+\algocf@hangindent=\skip65
 
 (/usr/share/texlive/texmf-dist/tex/latex/tools/xspace.sty
 Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
@@ -679,38 +687,38 @@ Package `algorithm2e' Release 5.1 -- october 19 2015 --
 subscribe by emailing sympa@lirmm.fr with 'subscribe <list> <firstname name>'
 - Author: Christophe Fiorio (christophe.fiorio@umontpellier.fr)
 ********************************************************
-\skiptotal=\skip64
-\skiplinenumber=\skip65
-\skiprule=\skip66
-\skiphlne=\skip67
-\skiptext=\skip68
-\skiplength=\skip69
-\algomargin=\skip70
-\skipalgocfslide=\skip71
+\skiptotal=\skip66
+\skiplinenumber=\skip67
+\skiprule=\skip68
+\skiphlne=\skip69
+\skiptext=\skip70
+\skiplength=\skip71
+\algomargin=\skip72
+\skipalgocfslide=\skip73
 \algowidth=\dimen179
 \inoutsize=\dimen180
 \inoutindent=\dimen181
 \interspacetitleruled=\dimen182
 \interspacealgoruled=\dimen183
 \interspacetitleboxruled=\dimen184
-\algocf@ruledwidth=\skip72
+\algocf@ruledwidth=\skip74
 \algocf@inoutbox=\box42
 \algocf@inputbox=\box43
-\AlCapSkip=\skip73
-\AlCapHSkip=\skip74
-\algoskipindent=\skip75
+\AlCapSkip=\skip75
+\AlCapHSkip=\skip76
+\algoskipindent=\skip77
 \algocf@nlbox=\box44
 \algocf@hangingbox=\box45
 \algocf@untilbox=\box46
-\algocf@skipuntil=\skip76
+\algocf@skipuntil=\skip78
 \algocf@capbox=\box47
-\algoheightruledefault=\skip77
-\algoheightrule=\skip78
-\algotitleheightruledefault=\skip79
-\algotitleheightrule=\skip80
-\c@algocfline=\count144
-\c@algocfproc=\count145
-\c@algocf=\count146
+\algoheightruledefault=\skip79
+\algoheightrule=\skip80
+\algotitleheightruledefault=\skip81
+\algotitleheightrule=\skip82
+\c@algocfline=\count147
+\c@algocfproc=\count148
+\c@algocf=\count149
 \algocf@algoframe=\box48
 \algocf@algobox=\box49
 )
@@ -737,41 +745,41 @@ tex
 File: pgflibraryarrows.code.tex 2013/09/23 v3.0.1a (rcs-revision 1.16)
 \arrowsize=\dimen185
 ))
-\c@theorem=\count147
-\c@defn=\count148
+\c@theorem=\count150
+\c@defn=\count151
  (./Thesis.aux)
 \openout1 = `Thesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 56.
-LaTeX Font Info:    ... okay on input line 56.
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 56.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 54.
  (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count149
+\scratchcounter=\count152
 \scratchdimen=\dimen186
 \scratchbox=\box50
-\nofMPsegments=\count150
-\nofMParguments=\count151
+\nofMPsegments=\count153
+\nofMParguments=\count154
 \everyMPshowfont=\toks41
-\MPscratchCnt=\count152
+\MPscratchCnt=\count155
 \MPscratchDim=\dimen187
-\MPnumerator=\count153
-\makeMPintoPDFobject=\count154
+\MPnumerator=\count156
+\makeMPintoPDFobject=\count157
 \everyMPtoPDFconversion=\toks42
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
@@ -790,7 +798,7 @@ e
 ))
 ABD: EveryShipout initializing macros
 \AtBeginShipoutBox=\box51
-Package hyperref Info: Link coloring OFF on input line 56.
+Package hyperref Info: Link coloring OFF on input line 54.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -798,112 +806,105 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count155
+\c@section@level=\count158
 )
-LaTeX Info: Redefining \ref on input line 56.
-LaTeX Info: Redefining \pageref on input line 56.
-LaTeX Info: Redefining \nameref on input line 56.
+LaTeX Info: Redefining \ref on input line 54.
+LaTeX Info: Redefining \pageref on input line 54.
+LaTeX Info: Redefining \nameref on input line 54.
 
 (./Thesis.out) (./Thesis.out)
 \@outlinefile=\write4
 \openout4 = `Thesis.out'.
 
-\c@lstlisting=\count156
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 58.
+\c@lstlisting=\count159
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 60.
  (/usr/share/texmf/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 58.
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 60.
 
 
 (/usr/share/texmf/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 58.
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 60.
 
 
 (/usr/share/texmf/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 58.
+(Font)              <12> on input line 60.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 58.
+(Font)              <9> on input line 60.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 58.
+(Font)              <7> on input line 60.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 12.50409pt on input line 58.
+(Font)              scaled to size 12.50409pt on input line 60.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 58.
+(Font)              scaled to size 9.37807pt on input line 60.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 58.
+(Font)              scaled to size 7.29405pt on input line 60.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 12.50409pt on input line 58.
+(Font)              scaled to size 12.50409pt on input line 60.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 58.
+(Font)              scaled to size 9.37807pt on input line 60.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 58.
-LaTeX Font Info:    Try loading font information for U+wasy on input line 58.
+(Font)              scaled to size 7.29405pt on input line 60.
+LaTeX Font Info:    Try loading font information for U+wasy on input line 60.
 
 (/usr/share/texlive/texmf-dist/tex/latex/wasysym/uwasy.fd
 File: uwasy.fd 2003/10/30 v2.0 Wasy-2 symbol font definitions
 )
-LaTeX Font Info:    Try loading font information for OT1+zplm on input line 58.
+LaTeX Font Info:    Try loading font information for OT1+zplm on input line 60.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
 ) [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Chapter 1.
-pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
-been already used, duplicate ignored
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]pdfTeX warning (ext4): dest
+ination with the same identifier (name{page.1}) has been already used, duplicat
+e ignored
 <to be read again> 
                    \relax 
-l.64 
-      [1
+l.63 \chapter
+             {Introduction}\label{ch:intro} [1]
+Chapter 1.
+<Frontier.png, id=132, 584.1825pt x 553.06625pt>
+File: Frontier.png Graphic file (type png)
+ <use Frontier.png>
+Package pdftex.def Info: Frontier.png used on input line 71.
+(pdftex.def)             Requested size: 146.04526pt x 138.26622pt.
+ [2
 
 ]
-LaTeX Font Info:    Try loading font information for OT1+lmtt on input line 69.
-
- (/usr/share/texmf/tex/latex/lm/ot1lmtt.fd
-File: ot1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-<DPComp.png, id=128, 1127.21124pt x 561.09625pt>
-File: DPComp.png Graphic file (type png)
- <use DPComp.png>
-Package pdftex.def Info: DPComp.png used on input line 73.
-(pdftex.def)             Requested size: 338.16599pt x 168.33017pt.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 75.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 75.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 75.
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 11.40997pt on input line 75.
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 75.
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 75.
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 11.40997pt on input line 75.
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 75.
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 75.
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[2]
-Overfull \hbox (10.01797pt too wide) in paragraph at lines 82--84
-\OT1/lmr/m/n/10.95 cause it ad-vances one's knowl-edge of how al-go-rithms per-
-form on datasets.
+[3 <./Frontier.png>]
+LaTeX Font Info:    Try loading font information for OT1+lmtt on input line 86.
+
+ (/usr/share/texmf/tex/latex/lm/ot1lmtt.fd
+File: ot1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2015/06/04 1.6 listings language file
+)
+LaTeX Font Info:    Try loading font information for OMS+lmr on input line 88.
+
+(/usr/share/texmf/tex/latex/lm/omslmr.fd
+File: omslmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <9> not available
+(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 88.
+
+Overfull \hbox (16.66925pt too wide) in paragraph at lines 95--96
+\OT1/lmtt/m/n/10.95 ChoiceMaker\OT1/lmr/m/n/10.95 -the pur-pose of the other ar
+-gu-ments. In this case, the \OT1/lmtt/m/n/10.95 ChoiceMaker
  []
 
 
@@ -912,44 +913,26 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[3 <./DPComp.png>]
-(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2015/06/04 1.6 listings language file
-)
-LaTeX Font Info:    Try loading font information for OMS+lmr on input line 91.
-
-(/usr/share/texmf/tex/latex/lm/omslmr.fd
-File: omslmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <9> not available
-(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 91.
-LaTeX Font Info:    Try loading font information for OML+lmr on input line 103.
-
-
-(/usr/share/texmf/tex/latex/lm/omllmr.fd
-File: omllmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    Font shape `OML/lmr/m/n' in size <9> not available
-(Font)              Font shape `OML/lmm/m/it' tried instead on input line 103.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 116.
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 116.
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 116.
-LaTeX Font Info:    Try loading font information for U+fplmbb on input line 130
-.
-
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ufplmbb.fd
-File: ufplmbb.fd 2003/10/30 Fontinst v1.914 font definitions for U/fplmbb.
-)
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
 [4]
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10.95> on input line 96.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <8> on input line 96.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 96.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 11.40997pt on input line 96.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 8.33606pt on input line 96.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 6.25204pt on input line 96.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 11.40997pt on input line 96.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 8.33606pt on input line 96.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 6.25204pt on input line 96.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -957,11 +940,18 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [5]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[6]
 Chapter 2.
-[6
+[7
 
 ]
-Overfull \hbox (48.85162pt too wide) in paragraph at lines 172--173
+Overfull \hbox (48.85162pt too wide) in paragraph at lines 146--147
 \OT1/lmr/m/it/10.95 al-go-rithms $\OML/lmm/m/it/10.95 M[]$ \OT1/lmr/m/it/10.95 
 and $\OML/lmm/m/it/10.95 M[]$ \OT1/lmr/m/it/10.95 pro-vid-ing $\OT1/zplm/m/n/10
 .95 (\OML/lmm/m/it/10.95 ^^O[]\OT1/lmr/m/n/10.95 , \OML/lmm/m/it/10.95 ^^N[]\OT
@@ -979,26 +969,21 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[7]
-Overfull \hbox (9.2863pt too wide) in paragraph at lines 231--232
-\OT1/lmr/m/n/10.95 gram-mer cer-tain DP prim-i-tives to use and com-pose them t
-o-gether [[]] [[]] [[]].
- []
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
 [8]
+LaTeX Font Info:    Try loading font information for U+fplmbb on input line 170
+.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ufplmbb.fd
+File: ufplmbb.fd 2003/10/30 Fontinst v1.914 font definitions for U/fplmbb.
+)
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[9]
+[9] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2015/06/04 1.6 listings language file
+)
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1006,7 +991,14 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [10]
-Overfull \hbox (7.40724pt too wide) in paragraph at lines 276--277
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[11]
+Overfull \hbox (7.40724pt too wide) in paragraph at lines 237--238
 \OT1/lmr/m/it/10.95 prob-a-bil-ity at least $\OT1/lmr/m/n/10.95 1 \OMS/lmsy/m/n
 /10.95 ^^@ \OML/lmm/m/it/10.95 ^^N$\OT1/lmr/m/it/10.95 , $\OML/lmm/m/it/10.95 q
 \OT1/zplm/m/n/10.95 (\OML/lmm/m/it/10.95 D\OT1/lmr/m/n/10.95 , \OML/lmm/m/it/10
@@ -1021,24 +1013,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[11] <PythiaDTree.png, id=307, 372.39125pt x 241.90375pt>
+[12] <PythiaDTree.png, id=285, 372.39125pt x 241.90375pt>
 File: PythiaDTree.png Graphic file (type png)
 
 <use PythiaDTree.png>
-Package pdftex.def Info: PythiaDTree.png used on input line 293.
+Package pdftex.def Info: PythiaDTree.png used on input line 254.
 (pdftex.def)             Requested size: 186.19516pt x 120.95157pt.
 
-Overfull \hbox (6.19516pt too wide) in paragraph at lines 293--294
- [] 
- []
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[12 <./PythiaDTree.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1046,36 +1027,24 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [13]
-Chapter 3.
-[14
-
-] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2015/06/04 1.6 listings language file
-)
-Overfull \hbox (2.43333pt too wide) in paragraph at lines 309--355
-[]$[]$ $[]$ 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 373--373
-[]$[] \OMS/lmsy/m/n/10.95 ^^B [] ^^B
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 373--373
-\OMS/lmsy/m/n/10.95 R[] ^^B [] ^^B [] !
- []
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[15]
-LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 378.
+[14 <./PythiaDTree.png>]
+Chapter 3.
+LaTeX Font Info:    Try loading font information for OML+lmr on input line 263.
 
+(/usr/share/texmf/tex/latex/lm/omllmr.fd
+File: omllmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Font shape `OML/lmr/m/n' in size <9> not available
+(Font)              Font shape `OML/lmm/m/it' tried instead on input line 263.
+ [15
+
+]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1083,6 +1052,10 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [16]
+Overfull \hbox (2.43333pt too wide) in paragraph at lines 300--340
+[]$[]$ $[]$ 
+ []
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1090,6 +1063,17 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [17]
+Underfull \hbox (badness 10000) in paragraph at lines 358--358
+[]$[] \OMS/lmsy/m/n/10.95 ^^B [] ^^B
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 358--358
+\OMS/lmsy/m/n/10.95 R[] ^^B [] ^^B [] !
+ []
+
+LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 363.
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1097,13 +1081,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [18]
-Chapter 4.
-[19
 
-]
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 481.
- (./DTree.py)
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[19]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1118,13 +1102,20 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [21]
+Chapter 4.
+[22
 
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[22]
+]
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
+nput line 465.
+ (./DTree.py
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 10.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 5.21004pt on input line 10.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 5.21004pt on input line 10.
+)
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1132,55 +1123,6 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [23]
-Underfull \hbox (badness 10000) in paragraph at lines 533--533
-[]\OT1/lmr/m/n/10.95 Non-Leaf-Queries
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 533--533
-[]$\OML/lmm/m/it/10.95 ^^\$
- []
-
-
-Overfull \hbox (0.89952pt too wide) in paragraph at lines 533--533
-\OT1/lmr/m/n/10.95 (L.10)| 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 534--534
-[]$\OML/lmm/m/it/10.95 d$ \OT1/lmr/m/n/10.95 user-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 534--534
-\OT1/lmr/m/n/10.95 defined; stop
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 535--535
-[]\OT1/lmr/m/n/10.95 Mohammed
- []
-
-
-Overfull \hbox (4.68811pt too wide) in paragraph at lines 536--536
-[]\OT1/lmr/m/n/10.95 Jagannathan
- []
-
-
-Underfull \hbox (badness 1418) in paragraph at lines 536--536
-\OT1/lmr/m/n/10.95 et al. [[]],
- []
-
-
-Underfull \hbox (badness 2913) in paragraph at lines 536--536
-\OT1/lmr/m/n/10.95 Fletcher &
- []
-
-
-Overfull \hbox (13.4163pt too wide) in paragraph at lines 531--538
- [] 
- []
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1188,20 +1130,66 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [24]
-Overfull \hbox (18.92435pt too wide) in paragraph at lines 546--547
- []\OT1/lmr/bx/n/10.95 Training Databases[] \OT1/lmr/m/n/10.95 Our databases co
-n-sist of four large, real-world databases
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[25]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[26]
+Underfull \hbox (badness 10000) in paragraph at lines 517--517
+[]\OT1/lmr/m/n/10.95 Non-Leaf-Queries
  []
 
 
-Overfull \hbox (22.46036pt too wide) in paragraph at lines 548--549
-\OT1/lmr/m/n/10.95 in the database $[][]\OT1/zplm/m/n/10.95 (\OMS/lmsy/m/n/10.9
-5 j\OML/lmm/m/it/10.95 D\OMS/lmsy/m/n/10.95 j\OT1/zplm/m/n/10.95 )$\OT1/lmr/m/n
-/10.95 , log of the prod-uct of the do-main size $[][] []$,
+Underfull \hbox (badness 10000) in paragraph at lines 517--517
+[]$\OML/lmm/m/it/10.95 ^^\$
  []
 
 
-Overfull \hbox (8.03796pt too wide) in paragraph at lines 554--562
+Overfull \hbox (0.89952pt too wide) in paragraph at lines 517--517
+\OT1/lmr/m/n/10.95 (L.10)| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 518--518
+[]$\OML/lmm/m/it/10.95 d$ \OT1/lmr/m/n/10.95 user-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 518--518
+\OT1/lmr/m/n/10.95 defined; stop
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 519--519
+[]\OT1/lmr/m/n/10.95 Mohammed
+ []
+
+
+Overfull \hbox (4.68811pt too wide) in paragraph at lines 520--520
+[]\OT1/lmr/m/n/10.95 Jagannathan
+ []
+
+
+Underfull \hbox (badness 1418) in paragraph at lines 520--520
+\OT1/lmr/m/n/10.95 et al. [[]],
+ []
+
+
+Underfull \hbox (badness 2913) in paragraph at lines 520--520
+\OT1/lmr/m/n/10.95 Fletcher &
+ []
+
+
+Overfull \hbox (13.4163pt too wide) in paragraph at lines 515--522
  [] 
  []
 
@@ -1211,15 +1199,23 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[25] <Graph_Performances.png, id=475, 505.89pt x 505.89pt>
-File: Graph_Performances.png Graphic file (type png)
+[27]
+Overfull \hbox (12.65865pt too wide) in paragraph at lines 531--532
+ []\OT1/lmr/bx/n/10.95 Training Databases[] \OT1/lmr/m/n/10.95 We used a com-bi
+-na-tion of real and syn-thetic databases.
+ []
 
-<use Graph_Performances.png>
-Package pdftex.def Info: Graph_Performances.png used on input line 577.
-(pdftex.def)             Requested size: 354.12057pt x 354.12057pt.
+
+Overfull \hbox (22.46036pt too wide) in paragraph at lines 535--536
+\OT1/lmr/m/n/10.95 in the database $[][]\OT1/zplm/m/n/10.95 (\OMS/lmsy/m/n/10.9
+5 j\OML/lmm/m/it/10.95 D\OMS/lmsy/m/n/10.95 j\OT1/zplm/m/n/10.95 )$\OT1/lmr/m/n
+/10.95 , log of the prod-uct of the do-main size $[][] []$,
+ []
 
 
-LaTeX Warning: Reference `alg:dtree' on page 26 undefined on input line 583.
+Overfull \hbox (8.03796pt too wide) in paragraph at lines 541--549
+ [] 
+ []
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1227,16 +1223,70 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[26]
+[28]
+Overfull \hbox (5.8516pt too wide) in paragraph at lines 553--554
+[]\OT1/lmr/m/n/10.95 We split the 600 databases into a train-ing set which we f
+ed to the \OT1/lmtt/m/n/10.95 ChoiceMaker
+ []
+
+
+Underfull \hbox (badness 3158) in paragraph at lines 560--560
+[]\OT1/lmr/m/n/10.95 Train Syn-
+ []
+
+
+Underfull \hbox (badness 3417) in paragraph at lines 560--560
+[]\OT1/lmr/m/n/10.95 Train Real
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 560--560
+[]\OT1/lmr/m/n/10.95 Test Syn-
+ []
+
+
+Underfull \hbox (badness 3417) in paragraph at lines 560--560
+[]\OT1/lmr/m/n/10.95 Train Real
+ []
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[27 <./Graph_Performances.png (PNG copy)>]
+[29] <Results.png, id=474, 491.436pt x 312.2064pt>
+File: Results.png Graphic file (type png)
+ <use Results.png>
+Package pdftex.def Info: Results.png used on input line 579.
+(pdftex.def)             Requested size: 393.14934pt x 249.76546pt.
+
+Overfull \hbox (33.14934pt too wide) in paragraph at lines 579--580
+ [] 
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[30 <./Results.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[31]
 Chapter 5.
-[28
+
+Overfull \hbox (6.84471pt too wide) in paragraph at lines 595--596
+\OT1/lmr/m/n/10.95 database looks like when ac-tu-ally run-ning the al-go-rithm
+. Sec-ond, the metafea-
+ []
+
+[32
 
 ]
 
@@ -1245,8 +1295,15 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[29]
-Overfull \hbox (20.29936pt too wide) in paragraph at lines 637--638
+[33]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[34]
+Overfull \hbox (20.29936pt too wide) in paragraph at lines 649--650
 \OT1/lmtt/m/n/10.95 Jostle \OT1/lmr/m/n/10.95 cur-rently works by op-ti-miz-ing
  the first and then the sec-ond \OT1/lmtt/m/n/10.95 ChoiceMaker\OT1/lmr/m/n/10.
 95 .
@@ -1259,7 +1316,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[30] [31
+[35] [36
 
 ]
 
@@ -1268,45 +1325,35 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[32])
+[37])
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[33]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 651.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 651.
+[38]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 663.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 663.
  (./Thesis.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 651.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 651.
-
-
-Package rerunfilecheck Warning: File `Thesis.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `Thesis.out':
-(rerunfilecheck)             Before: 4B5A72B96D2E88D6FA0D449CEE00434B;1649
-(rerunfilecheck)             After:  BE06EF0ECD0E9FC7B3432528D6C28D15;1650.
-
-LaTeX Warning: There were undefined references.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 651.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 663.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 663.
+Package rerunfilecheck Info: File `Thesis.out' has not changed.
+(rerunfilecheck)             Checksum: 0ECF02DBD1A653B3991F7558F801CED1;1831.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 663.
  ) 
 Here is how much of TeX's memory you used:
- 21134 strings out of 493029
- 387150 string characters out of 6136234
- 550517 words of memory out of 5000000
- 24003 multiletter control sequences out of 15000+600000
- 90143 words of font info for 95 fonts, out of 8000000 for 9000
+ 21171 strings out of 493029
+ 387329 string characters out of 6136234
+ 533298 words of memory out of 5000000
+ 24041 multiletter control sequences out of 15000+600000
+ 85925 words of font info for 94 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,16n,68p,1689b,1776s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf/fonts/enc/dvips/lm/lm-rmtt.enc}{/usr/share/texmf/fonts/enc/
-dvips/lm/lm-mathit.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr
-/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/
-lm-mathex.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/
+ 55i,16n,68p,1538b,1776s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share/texmf/fonts/en
+c/dvips/lm/lm-rmtt.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr
+/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texlive/texmf-dist/fonts/
+enc/dvips/base/8r.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathex.enc}</usr/
 share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/t
 exlive/texmf-dist/fonts/type1/public/mathpazo/fplmbb.pfb></usr/share/texlive/te
 xmf-dist/fonts/type1/public/mathpazo/fplmr.pfb></usr/share/texmf/fonts/type1/pu
@@ -1320,17 +1367,16 @@ usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/p
 ublic/lm/lmr17.pfb></usr/share/texmf/fonts/type1/public/lm/lmr6.pfb></usr/share
 /texmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts/type1/public/lm/l
 mr9.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf/fo
-nts/type1/public/lm/lmri9.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy10.pf
-b></usr/share/texmf/fonts/type1/public/lm/lmsy6.pfb></usr/share/texmf/fonts/typ
-e1/public/lm/lmsy8.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy9.pfb></usr/
-share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/type1/publ
-ic/lm/lmtt8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symb
-ols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplr8a.p
-fb>
-Output written on Thesis.pdf (34 pages, 688851 bytes).
+nts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy6.pf
+b></usr/share/texmf/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf/fonts/typ
+e1/public/lm/lmsy9.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr
+/share/texmf/fonts/type1/public/lm/lmtt8.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/font
+s/type1/urw/palatino/uplr8a.pfb>
+Output written on Thesis.pdf (39 pages, 574659 bytes).
 PDF statistics:
- 714 PDF objects out of 1000 (max. 8388607)
- 638 compressed objects within 7 object streams
- 259 named destinations out of 1000 (max. 500000)
- 228 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 726 PDF objects out of 1000 (max. 8388607)
+ 646 compressed objects within 7 object streams
+ 255 named destinations out of 1000 (max. 500000)
+ 244 words of extra memory for PDF output out of 10000 (max. 10000000)
 
