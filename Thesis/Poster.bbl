@@ -1,0 +1,22 @@
+\begin{thebibliography}{1}
+
+\bibitem{Chaudhuri:2013}
+Kamalika Chaudhuri and Staal~A. Vinterbo.
+\newblock A stability-based validation procedure for differentially private
+  machine learning.
+\newblock In {\em NIPS}, 2013.
+
+\bibitem{Kotsogiannis:2017}
+Ios Kotsogiannis, Ashwin Machanavajjhala, Michael Hay, and Gerome Miklau.
+\newblock Pythia: Data dependent differentially private algorithm selection.
+\newblock In {\em Proceedings of the 2017 ACM International Conference on
+  Management of Data}, SIGMOD '17, pages 1323--1337, New York, NY, USA, 2017.
+  ACM.
+
+\bibitem{McSherry:2010}
+Frank McSherry.
+\newblock Privacy integrated queries: An extensible platform for
+  privacy-preserving data analysis.
+\newblock {\em Commun. ACM}, 53(9):89--97, September 2010.
+
+\end{thebibliography}

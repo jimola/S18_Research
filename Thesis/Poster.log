@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.8.24)  8 MAY 2018 14:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.8.24)  8 MAY 2018 11:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**Pres.tex
-(./Pres.tex
+**Poster.tex
+(./Poster.tex
 LaTeX2e <2016/02/01>
 Babel <3.9q> and hyphenation patterns for 81 language(s) loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/beamer/beamer.cls
@@ -416,6 +416,7 @@ File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
+Package hyperref Info: Option `final' set `true' on input line 4319.
 Package hyperref Info: Option `bookmarks' set `true' on input line 4319.
 Package hyperref Info: Option `bookmarksopen' set `true' on input line 4319.
 Package hyperref Info: Option `implicit' set `false' on input line 4319.
@@ -701,10 +702,332 @@ Package: beamerinnerthemedefault 2014/06/30  (rcs-revision 580088513a67)
 (/usr/share/texlive/texmf-dist/tex/latex/beamer/themes/outer/beamerouterthemede
 fault.sty
 Package: beamerouterthemedefault 2012/12/19  (rcs-revision 1686da3db3c9)
-))) (/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+))) (./beamerposter.sty
+Package: 2008/03/11. v.1.07. beamerposter: latex-beamer poster extension
+Package: beamerposter 2008/03/11. v.1.07. beamerposter: latex-beamer poster ext
+ension
+(/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
+
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+\XKV@toks=\toks43
+\XKV@tempa@toks=\toks44
+)
+\XKV@depth=\count153
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/type1cm/type1cm.sty
+Package: type1cm 2002/09/05 v0.04 BlueSky/Y&Y Type1 CM font definitions (DPC, p
+atched RF)
+)
+beamerposter: checking size input, please wait.
+beamerposter: the input a0\ 1\ was correct, we proceed.
+beamerposter: finished size input check.
+beamerposter: myfontscale=1.0
+beamerposter: myfontscale=1.1
+(/usr/share/texlive/texmf-dist/tex/latex/fp/fp.sty
+Package: fp 1995/04/02
+
+`Fixed Point Package', Version 0.8, April 2, 1995 (C) Michael Mehlich
+(/usr/share/texlive/texmf-dist/tex/latex/fp/defpattern.sty
+Package: defpattern 1994/10/12
+\actioncount=\count154
+)
+(/usr/share/texlive/texmf-dist/tex/latex/fp/fp-basic.sty
+Package: fp-basic 1996/05/13
+\FP@xs=\count155
+\FP@xia=\count156
+\FP@xib=\count157
+\FP@xfa=\count158
+\FP@xfb=\count159
+\FP@rega=\count160
+\FP@regb=\count161
+\FP@regs=\count162
+\FP@times=\count163
+)
+(/usr/share/texlive/texmf-dist/tex/latex/fp/fp-addons.sty
+Package: fp-addons 1995/03/15
+)
+(/usr/share/texlive/texmf-dist/tex/latex/fp/fp-snap.sty
+Package: fp-snap 1995/04/05
+)
+(/usr/share/texlive/texmf-dist/tex/latex/fp/fp-exp.sty
+Package: fp-exp 1995/04/03
+)
+(/usr/share/texlive/texmf-dist/tex/latex/fp/fp-trigo.sty
+Package: fp-trigo 1995/04/14
+)
+(/usr/share/texlive/texmf-dist/tex/latex/fp/fp-pas.sty
+Package: fp-pas 1994/08/29
+)
+(/usr/share/texlive/texmf-dist/tex/latex/fp/fp-random.sty
+Package: fp-random 1995/02/23
+\FPseed=\count164
+)
+(/usr/share/texlive/texmf-dist/tex/latex/fp/fp-eqn.sty
+Package: fp-eqn 1995/04/03
+)
+(/usr/share/texlive/texmf-dist/tex/latex/fp/fp-upn.sty
+Package: fp-upn 1996/10/21
+)
+(/usr/share/texlive/texmf-dist/tex/latex/fp/fp-eval.sty
+Package: fp-eval 1995/04/03
+)) ( FP-UPN ( FP-MUL )
+( FP-ROUND ) ) ( FP-UPN ( FP-MUL ) ( FP-ROUND ) ) ( FP-UPN ( FP-MUL )
+( FP-ROUND ) ) ( FP-UPN ( FP-MUL ) ( FP-ROUND ) ) ( FP-UPN ( FP-MUL )
+( FP-ROUND ) ) ( FP-UPN ( FP-MUL ) ( FP-ROUND ) ) ( FP-UPN ( FP-MUL )
+( FP-ROUND ) ) ( FP-UPN ( FP-MUL ) ( FP-ROUND ) ) ( FP-UPN ( FP-MUL )
+( FP-ROUND ) ) ( FP-UPN ( FP-MUL ) ( FP-ROUND ) ) ( FP-UPN ( FP-MUL )
+( FP-ROUND ) ) ( FP-UPN ( FP-MUL ) ( FP-ROUND ) ) ( FP-UPN ( FP-MUL )
+( FP-ROUND ) ) ( FP-UPN ( FP-MUL ) ( FP-ROUND ) ) ( FP-UPN ( FP-MUL )
+( FP-ROUND ) ) ( FP-UPN ( FP-MUL ) ( FP-ROUND ) ) ( FP-UPN ( FP-MUL )
+( FP-ROUND ) ) ( FP-UPN ( FP-MUL ) ( FP-ROUND ) ) ( FP-UPN ( FP-MUL )
+( FP-ROUND ) ) ( FP-UPN ( FP-MUL ) ( FP-ROUND ) ) ( FP-UPN ( FP-MUL )
+( FP-ROUND ) ) ( FP-UPN ( FP-MUL ) ( FP-ROUND ) ) ( FP-UPN ( FP-MUL )
+( FP-ROUND ) ) ( FP-UPN ( FP-MUL ) ( FP-ROUND ) )) (./beamerthemeconfposter.sty
+Package: beamerthemeconfposter 
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
+Package: pgf 2015/08/07 v3.0.1a (rcs-revision 1.15)
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
+File: pgfmoduleshapes.code.tex 2014/03/21  (rcs-revision 1.35)
+\pgfnodeparttextbox=\box53
+) (/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
+File: pgfmoduleplot.code.tex 2015/08/03  (rcs-revision 1.13)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65
+.sty
+Package: pgfcomp-version-0-65 2007/07/03 v3.0.1a (rcs-revision 1.7)
+\pgf@nodesepstart=\dimen188
+\pgf@nodesepend=\dimen189
+)
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18
+.sty
+Package: pgfcomp-version-1-18 2007/07/23 v3.0.1a (rcs-revision 1.1)
+)) (/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgffor.sty
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex))
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/math/pgfmath.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+Package: pgffor 2013/12/13 v3.0.1a (rcs-revision 1.25)
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
+\pgffor@iter=\dimen190
+\pgffor@skip=\dimen191
+\pgffor@stack=\toks45
+\pgffor@toks=\toks46
+))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+Package: tikz 2015/08/07 v3.0.1a (rcs-revision 1.151)
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers
+.code.tex
+File: pgflibraryplothandlers.code.tex 2013/08/31 v3.0.1a (rcs-revision 1.20)
+\pgf@plot@mark@count=\count165
+\pgfplotmarksize=\dimen192
+)
+\tikz@lastx=\dimen193
+\tikz@lasty=\dimen194
+\tikz@lastxsaved=\dimen195
+\tikz@lastysaved=\dimen196
+\tikzleveldistance=\dimen197
+\tikzsiblingdistance=\dimen198
+\tikz@figbox=\box54
+\tikz@figbox@bg=\box55
+\tikz@tempbox=\box56
+\tikz@tempbox@bg=\box57
+\tikztreelevel=\count166
+\tikznumberofchildren=\count167
+\tikznumberofcurrentchild=\count168
+\tikz@fig@count=\count169
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
+File: pgfmodulematrix.code.tex 2013/09/17  (rcs-revision 1.8)
+\pgfmatrixcurrentrow=\count170
+\pgfmatrixcurrentcolumn=\count171
+\pgf@matrix@numberofcolumns=\count172
+)
+\tikz@expandcount=\count173
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2008/06/17 v3.0.1a (rcs-revision 1.2)
+)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibraryarrows.code.tex
+File: tikzlibraryarrows.code.tex 2008/01/09 v3.0.1a (rcs-revision 1.1)
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.code.
+tex
+File: pgflibraryarrows.code.tex 2013/09/23 v3.0.1a (rcs-revision 1.16)
+\arrowsize=\dimen199
+))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarybackgrounds.code.tex
+File: tikzlibrarybackgrounds.code.tex 2013/07/18 v3.0.1a (rcs-revision 1.3)
+\pgf@layerbox@background=\box58
+\pgf@layerboxsaved@background=\box59
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/t1enc.def
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
+))
+(/usr/share/texmf/tex/latex/lm/lmodern.sty
+Package: lmodern 2009/10/30 v1.6 Latin Modern Fonts
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/lmm/m/it on input line 23.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/lmsy/m/n on input line 24.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 25.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 26.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/lmm/b/it on input line 27.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/lmsy/b/n on input line 28.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 29.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 31.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/cmss/m/n --> OT1/lmss/m/n on input line 32.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/lmr/m/it on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/bx/n --> OT1/lmss/bx/n on input line 36.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
+Package: textcomp 2005/09/27 v1.99g Standard LaTeX package
+Package textcomp Info: Sub-encoding information:
+(textcomp)               5 = only ISO-Adobe without \textcurrency
+(textcomp)               4 = 5 + \texteuro
+(textcomp)               3 = 4 + \textohm
+(textcomp)               2 = 3 + \textestimated + \textcurrency
+(textcomp)               1 = TS1 - \textcircled - \t
+(textcomp)               0 = TS1 (full)
+(textcomp)             Font families with sub-encoding setting implement
+(textcomp)             only a restricted character set as indicated.
+(textcomp)             Family '?' is the default used for unknown fonts.
+(textcomp)             See the documentation for details.
+Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 79.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def
+File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
+)
+LaTeX Info: Redefining \oldstylenums on input line 334.
+Package textcomp Info: Setting cmr sub-encoding to TS1/0 on input line 349.
+Package textcomp Info: Setting cmss sub-encoding to TS1/0 on input line 350.
+Package textcomp Info: Setting cmtt sub-encoding to TS1/0 on input line 351.
+Package textcomp Info: Setting cmvtt sub-encoding to TS1/0 on input line 352.
+Package textcomp Info: Setting cmbr sub-encoding to TS1/0 on input line 353.
+Package textcomp Info: Setting cmtl sub-encoding to TS1/0 on input line 354.
+Package textcomp Info: Setting ccr sub-encoding to TS1/0 on input line 355.
+Package textcomp Info: Setting ptm sub-encoding to TS1/4 on input line 356.
+Package textcomp Info: Setting pcr sub-encoding to TS1/4 on input line 357.
+Package textcomp Info: Setting phv sub-encoding to TS1/4 on input line 358.
+Package textcomp Info: Setting ppl sub-encoding to TS1/3 on input line 359.
+Package textcomp Info: Setting pag sub-encoding to TS1/4 on input line 360.
+Package textcomp Info: Setting pbk sub-encoding to TS1/4 on input line 361.
+Package textcomp Info: Setting pnc sub-encoding to TS1/4 on input line 362.
+Package textcomp Info: Setting pzc sub-encoding to TS1/4 on input line 363.
+Package textcomp Info: Setting bch sub-encoding to TS1/4 on input line 364.
+Package textcomp Info: Setting put sub-encoding to TS1/5 on input line 365.
+Package textcomp Info: Setting uag sub-encoding to TS1/5 on input line 366.
+Package textcomp Info: Setting ugq sub-encoding to TS1/5 on input line 367.
+Package textcomp Info: Setting ul8 sub-encoding to TS1/4 on input line 368.
+Package textcomp Info: Setting ul9 sub-encoding to TS1/4 on input line 369.
+Package textcomp Info: Setting augie sub-encoding to TS1/5 on input line 370.
+Package textcomp Info: Setting dayrom sub-encoding to TS1/3 on input line 371.
+Package textcomp Info: Setting dayroms sub-encoding to TS1/3 on input line 372.
+
+Package textcomp Info: Setting pxr sub-encoding to TS1/0 on input line 373.
+Package textcomp Info: Setting pxss sub-encoding to TS1/0 on input line 374.
+Package textcomp Info: Setting pxtt sub-encoding to TS1/0 on input line 375.
+Package textcomp Info: Setting txr sub-encoding to TS1/0 on input line 376.
+Package textcomp Info: Setting txss sub-encoding to TS1/0 on input line 377.
+Package textcomp Info: Setting txtt sub-encoding to TS1/0 on input line 378.
+Package textcomp Info: Setting lmr sub-encoding to TS1/0 on input line 379.
+Package textcomp Info: Setting lmdh sub-encoding to TS1/0 on input line 380.
+Package textcomp Info: Setting lmss sub-encoding to TS1/0 on input line 381.
+Package textcomp Info: Setting lmssq sub-encoding to TS1/0 on input line 382.
+Package textcomp Info: Setting lmvtt sub-encoding to TS1/0 on input line 383.
+Package textcomp Info: Setting lmtt sub-encoding to TS1/0 on input line 384.
+Package textcomp Info: Setting qhv sub-encoding to TS1/0 on input line 385.
+Package textcomp Info: Setting qag sub-encoding to TS1/0 on input line 386.
+Package textcomp Info: Setting qbk sub-encoding to TS1/0 on input line 387.
+Package textcomp Info: Setting qcr sub-encoding to TS1/0 on input line 388.
+Package textcomp Info: Setting qcs sub-encoding to TS1/0 on input line 389.
+Package textcomp Info: Setting qpl sub-encoding to TS1/0 on input line 390.
+Package textcomp Info: Setting qtm sub-encoding to TS1/0 on input line 391.
+Package textcomp Info: Setting qzc sub-encoding to TS1/0 on input line 392.
+Package textcomp Info: Setting qhvc sub-encoding to TS1/0 on input line 393.
+Package textcomp Info: Setting futs sub-encoding to TS1/4 on input line 394.
+Package textcomp Info: Setting futx sub-encoding to TS1/4 on input line 395.
+Package textcomp Info: Setting futj sub-encoding to TS1/4 on input line 396.
+Package textcomp Info: Setting hlh sub-encoding to TS1/3 on input line 397.
+Package textcomp Info: Setting hls sub-encoding to TS1/3 on input line 398.
+Package textcomp Info: Setting hlst sub-encoding to TS1/3 on input line 399.
+Package textcomp Info: Setting hlct sub-encoding to TS1/5 on input line 400.
+Package textcomp Info: Setting hlx sub-encoding to TS1/5 on input line 401.
+Package textcomp Info: Setting hlce sub-encoding to TS1/5 on input line 402.
+Package textcomp Info: Setting hlcn sub-encoding to TS1/5 on input line 403.
+Package textcomp Info: Setting hlcw sub-encoding to TS1/5 on input line 404.
+Package textcomp Info: Setting hlcf sub-encoding to TS1/5 on input line 405.
+Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 406.
+Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 407.
+Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 408.
+Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 409.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/beamer/themes/font/beamerfontthemeprof
+essionalfonts.sty
+Package: beamerfontthemeprofessionalfonts 2010/06/17  (rcs-revision d02a7cf4d8a
+e)
+) (/usr/share/texlive/texmf-dist/tex/latex/ms/ragged2e.sty
+Package: ragged2e 2009/05/21 v2.1 ragged2e Package (MS)
+
+(/usr/share/texlive/texmf-dist/tex/latex/ms/everysel.sty
+Package: everysel 2011/10/28 v1.2 EverySelectfont Package (MS)
+)
+\CenteringLeftskip=\skip57
+\RaggedLeftLeftskip=\skip58
+\RaggedRightLeftskip=\skip59
+\CenteringRightskip=\skip60
+\RaggedLeftRightskip=\skip61
+\RaggedRightRightskip=\skip62
+\CenteringParfillskip=\skip63
+\RaggedLeftParfillskip=\skip64
+\RaggedRightParfillskip=\skip65
+\JustifyingParfillskip=\skip66
+\CenteringParindent=\skip67
+\RaggedLeftParindent=\skip68
+\RaggedRightParindent=\skip69
+\JustifyingParindent=\skip70
+)
+\inboxwd=\skip71
+\iinboxwd=\skip72
+\inboxrule=\skip73
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2015/03/17 v1.2c Input encoding file
-\inpenc@prehook=\toks43
-\inpenc@posthook=\toks44
+\inpenc@prehook=\toks47
+\inpenc@posthook=\toks48
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/12/03 v1.1r UTF-8 support for inputenc
@@ -1002,6 +1325,81 @@ Now handling font encoding U ...
 ... no UTF-8 mapping file for font encoding U
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
+Now handling font encoding TS1 ...
+... processing UTF-8 mapping file for font encoding TS1
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.dfu
+File: ts1enc.dfu 2015/12/03 v1.1r UTF-8 support for inputenc
+   defining Unicode char U+00A2 (decimal 162)
+   defining Unicode char U+00A3 (decimal 163)
+   defining Unicode char U+00A4 (decimal 164)
+   defining Unicode char U+00A5 (decimal 165)
+   defining Unicode char U+00A6 (decimal 166)
+   defining Unicode char U+00A7 (decimal 167)
+   defining Unicode char U+00A8 (decimal 168)
+   defining Unicode char U+00A9 (decimal 169)
+   defining Unicode char U+00AA (decimal 170)
+   defining Unicode char U+00AC (decimal 172)
+   defining Unicode char U+00AE (decimal 174)
+   defining Unicode char U+00AF (decimal 175)
+   defining Unicode char U+00B0 (decimal 176)
+   defining Unicode char U+00B1 (decimal 177)
+   defining Unicode char U+00B2 (decimal 178)
+   defining Unicode char U+00B3 (decimal 179)
+   defining Unicode char U+00B4 (decimal 180)
+   defining Unicode char U+00B5 (decimal 181)
+   defining Unicode char U+00B6 (decimal 182)
+   defining Unicode char U+00B7 (decimal 183)
+   defining Unicode char U+00B9 (decimal 185)
+   defining Unicode char U+00BA (decimal 186)
+   defining Unicode char U+00BC (decimal 188)
+   defining Unicode char U+00BD (decimal 189)
+   defining Unicode char U+00BE (decimal 190)
+   defining Unicode char U+00D7 (decimal 215)
+   defining Unicode char U+00F7 (decimal 247)
+   defining Unicode char U+0192 (decimal 402)
+   defining Unicode char U+02C7 (decimal 711)
+   defining Unicode char U+02D8 (decimal 728)
+   defining Unicode char U+02DD (decimal 733)
+   defining Unicode char U+0E3F (decimal 3647)
+   defining Unicode char U+2016 (decimal 8214)
+   defining Unicode char U+2020 (decimal 8224)
+   defining Unicode char U+2021 (decimal 8225)
+   defining Unicode char U+2022 (decimal 8226)
+   defining Unicode char U+2030 (decimal 8240)
+   defining Unicode char U+2031 (decimal 8241)
+   defining Unicode char U+203B (decimal 8251)
+   defining Unicode char U+203D (decimal 8253)
+   defining Unicode char U+2044 (decimal 8260)
+   defining Unicode char U+204E (decimal 8270)
+   defining Unicode char U+2052 (decimal 8274)
+   defining Unicode char U+20A1 (decimal 8353)
+   defining Unicode char U+20A4 (decimal 8356)
+   defining Unicode char U+20A6 (decimal 8358)
+   defining Unicode char U+20A9 (decimal 8361)
+   defining Unicode char U+20AB (decimal 8363)
+   defining Unicode char U+20AC (decimal 8364)
+   defining Unicode char U+20B1 (decimal 8369)
+   defining Unicode char U+2103 (decimal 8451)
+   defining Unicode char U+2116 (decimal 8470)
+   defining Unicode char U+2117 (decimal 8471)
+   defining Unicode char U+211E (decimal 8478)
+   defining Unicode char U+2120 (decimal 8480)
+   defining Unicode char U+2122 (decimal 8482)
+   defining Unicode char U+2126 (decimal 8486)
+   defining Unicode char U+2127 (decimal 8487)
+   defining Unicode char U+212E (decimal 8494)
+   defining Unicode char U+2190 (decimal 8592)
+   defining Unicode char U+2191 (decimal 8593)
+   defining Unicode char U+2192 (decimal 8594)
+   defining Unicode char U+2193 (decimal 8595)
+   defining Unicode char U+2329 (decimal 9001)
+   defining Unicode char U+232A (decimal 9002)
+   defining Unicode char U+2422 (decimal 9250)
+   defining Unicode char U+25E6 (decimal 9702)
+   defining Unicode char U+25EF (decimal 9711)
+   defining Unicode char U+266A (decimal 9834)
+)
    defining Unicode char U+00A9 (decimal 169)
    defining Unicode char U+00AA (decimal 170)
    defining Unicode char U+00AE (decimal 174)
@@ -1012,84 +1410,6 @@ Now handling font encoding PD1 ...
    defining Unicode char U+2026 (decimal 8230)
    defining Unicode char U+2122 (decimal 8482)
    defining Unicode char U+2423 (decimal 9251)
-))
-(/usr/share/texlive/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
-(/usr/share/texlive/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
-Package: pgf 2015/08/07 v3.0.1a (rcs-revision 1.15)
-
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
-File: pgfmoduleshapes.code.tex 2014/03/21  (rcs-revision 1.35)
-\pgfnodeparttextbox=\box53
-) (/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
-File: pgfmoduleplot.code.tex 2015/08/03  (rcs-revision 1.13)
-)
-(/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65
-.sty
-Package: pgfcomp-version-0-65 2007/07/03 v3.0.1a (rcs-revision 1.7)
-\pgf@nodesepstart=\dimen188
-\pgf@nodesepend=\dimen189
-)
-(/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18
-.sty
-Package: pgfcomp-version-1-18 2007/07/23 v3.0.1a (rcs-revision 1.1)
-)) (/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgffor.sty
-(/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex))
-(/usr/share/texlive/texmf-dist/tex/latex/pgf/math/pgfmath.sty
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex))
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
-Package: pgffor 2013/12/13 v3.0.1a (rcs-revision 1.25)
-
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
-\pgffor@iter=\dimen190
-\pgffor@skip=\dimen191
-\pgffor@stack=\toks45
-\pgffor@toks=\toks46
-))
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
-Package: tikz 2015/08/07 v3.0.1a (rcs-revision 1.151)
-
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers
-.code.tex
-File: pgflibraryplothandlers.code.tex 2013/08/31 v3.0.1a (rcs-revision 1.20)
-\pgf@plot@mark@count=\count153
-\pgfplotmarksize=\dimen192
-)
-\tikz@lastx=\dimen193
-\tikz@lasty=\dimen194
-\tikz@lastxsaved=\dimen195
-\tikz@lastysaved=\dimen196
-\tikzleveldistance=\dimen197
-\tikzsiblingdistance=\dimen198
-\tikz@figbox=\box54
-\tikz@figbox@bg=\box55
-\tikz@tempbox=\box56
-\tikz@tempbox@bg=\box57
-\tikztreelevel=\count154
-\tikznumberofchildren=\count155
-\tikznumberofcurrentchild=\count156
-\tikz@fig@count=\count157
-
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
-File: pgfmodulematrix.code.tex 2013/09/17  (rcs-revision 1.8)
-\pgfmatrixcurrentrow=\count158
-\pgfmatrixcurrentcolumn=\count159
-\pgf@matrix@numberofcolumns=\count160
-)
-\tikz@expandcount=\count161
-
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
-zlibrarytopaths.code.tex
-File: tikzlibrarytopaths.code.tex 2008/06/17 v3.0.1a (rcs-revision 1.2)
-)))
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
-zlibraryarrows.code.tex
-File: tikzlibraryarrows.code.tex 2008/01/09 v3.0.1a (rcs-revision 1.1)
-
-(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.code.
-tex
-File: pgflibraryarrows.code.tex 2013/09/23 v3.0.1a (rcs-revision 1.16)
-\arrowsize=\dimen199
 ))
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
 zlibrarypositioning.code.tex
@@ -1106,47 +1426,82 @@ File: pgflibraryshapes.geometric.code.tex 2008/06/26 v3.0.1a (rcs-revision 1.1)
 
 ))
 (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count162
-\lst@gtempboxa=\box58
-\lst@token=\toks47
-\lst@length=\count163
+\lst@mode=\count174
+\lst@gtempboxa=\box60
+\lst@token=\toks49
+\lst@length=\count175
 \lst@currlwidth=\dimen256
-\lst@column=\count164
-\lst@pos=\count165
+\lst@column=\count176
+\lst@pos=\count177
 \lst@lostspace=\dimen257
 \lst@width=\dimen258
-\lst@newlines=\count166
-\lst@lineno=\count167
+\lst@newlines=\count178
+\lst@lineno=\count179
 \lst@maxwidth=\dimen259
 
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
-\c@lstnumber=\count168
-\lst@skipnumbers=\count169
-\lst@framebox=\box59
+\c@lstnumber=\count180
+\lst@skipnumbers=\count181
+\lst@framebox=\box61
 )
 (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
 File: listings.cfg 2015/06/04 1.6 listings configuration
 ))
 Package: listings 2015/06/04 1.6 (Carsten Heinz)
- (./Pres.aux)
-\openout1 = `Pres.aux'.
+\sepwid=\skip74
+\onecolwid=\skip75
+\twocolwid=\skip76
+\threecolwid=\skip77
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2005/04/14 v1.61803 publication quality tables
+\heavyrulewidth=\dimen260
+\lightrulewidth=\dimen261
+\cmidrulewidth=\dimen262
+\belowrulesep=\dimen263
+\belowbottomsep=\dimen264
+\aboverulesep=\dimen265
+\abovetopsep=\dimen266
+\cmidrulesep=\dimen267
+\cmidrulekern=\dimen268
+\defaultaddspace=\dimen269
+\@cmidla=\count182
+\@cmidlb=\count183
+\@aboverulesep=\dimen270
+\@belowrulesep=\dimen271
+\@thisruleclass=\count184
+\@lastruleclass=\count185
+\@thisrulewidth=\dimen272
+) (./Poster.aux)
+\openout1 = `Poster.aux'.
 
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 44.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 44.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
+File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Try loading font information for T1+lmss on input line 44.
+
+(/usr/share/texmf/tex/latex/lm/t1lmss.fd
+File: t1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -1155,15 +1510,15 @@ LaTeX Font Info:    ... okay on input line 61.
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: includehead includefoot 
-* h-part:(L,W,R)=(28.45274pt, 307.28987pt, 28.45274pt)
-* v-part:(T,H,B)=(0.0pt, 273.14662pt, 0.0pt)
-* \paperwidth=364.19536pt
-* \paperheight=273.14662pt
-* \textwidth=307.28987pt
-* \textheight=244.6939pt
+* h-part:(L,W,R)=(28.45274pt, 3323.85117pt, 28.45274pt)
+* v-part:(T,H,B)=(0.0pt, 2388.89357pt, 0.0pt)
+* \paperwidth=3035.34pt
+* \paperheight=2168.09999pt
+* \textwidth=2963.06999pt
+* \textheight=2095.82999pt
 * \oddsidemargin=-43.81725pt
 * \evensidemargin=-43.81725pt
-* \topmargin=-72.26999pt
+* \topmargin=-36.135pt
 * \headheight=14.22636pt
 * \headsep=0.0pt
 * \topskip=11.0pt
@@ -1183,17 +1538,17 @@ LaTeX Font Info:    ... okay on input line 61.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count170
-\scratchdimen=\dimen260
-\scratchbox=\box60
-\nofMPsegments=\count171
-\nofMParguments=\count172
-\everyMPshowfont=\toks48
-\MPscratchCnt=\count173
-\MPscratchDim=\dimen261
-\MPnumerator=\count174
-\makeMPintoPDFobject=\count175
-\everyMPtoPDFconversion=\toks49
+\scratchcounter=\count186
+\scratchdimen=\dimen273
+\scratchbox=\box62
+\nofMPsegments=\count187
+\nofMParguments=\count188
+\everyMPshowfont=\toks50
+\MPscratchCnt=\count189
+\MPscratchDim=\dimen274
+\MPnumerator=\count190
+\makeMPintoPDFobject=\count191
+\everyMPtoPDFconversion=\toks51
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
@@ -1210,8 +1565,8 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 ABD: EveryShipout initializing macros
-\AtBeginShipoutBox=\box61
-Package hyperref Info: Link coloring OFF on input line 61.
+\AtBeginShipoutBox=\box63
+Package hyperref Info: Link coloring OFF on input line 44.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -1219,68 +1574,16 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count176
+\c@section@level=\count192
 )
-LaTeX Info: Redefining \ref on input line 61.
-LaTeX Info: Redefining \pageref on input line 61.
-LaTeX Info: Redefining \nameref on input line 61.
+LaTeX Info: Redefining \ref on input line 44.
+LaTeX Info: Redefining \pageref on input line 44.
+LaTeX Info: Redefining \nameref on input line 44.
 
-(./Pres.out) (./Pres.out)
+(./Poster.out) (./Poster.out)
 \@outlinefile=\write5
-\openout5 = `Pres.out'.
+\openout5 = `Poster.out'.
 
-LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 61.
-LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 61.
-\symnumbers=\mathgroup6
-\sympureletters=\mathgroup7
-LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 61.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 61.
-LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 61.
-LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 61.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 61.
-LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 61.
-LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 61.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 61.
-LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 61.
-LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 61.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 61.
-LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 61.
-LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 61.
-LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 61.
-LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 61.
-LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmr/bx/n on input line 61.
-LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/bx/n on input line 61.
-LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 61.
-LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 61.
-LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/bx/n on input line 61.
-LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 61.
-LaTeX Font Info:    Overwriting symbol font `pureletters' in version `normal'
-(Font)                  OT1/cmss/m/it --> OT1/mathkerncmss/m/sl on input line 6
-1.
-LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  OT1/cmss/bx/it --> OT1/mathkerncmss/m/sl on input line 
-61.
-LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  OT1/mathkerncmss/m/sl --> OT1/mathkerncmss/bx/sl on inp
-ut line 61.
 
 (/usr/share/texlive/texmf-dist/tex/latex/beamer/translator/dicts/translator-bas
 ic-dictionary/translator-basic-dictionary-English.dict
@@ -1306,318 +1609,222 @@ Dictionary: translator-numbers-dictionary, Language: English
 orem-dictionary/translator-theorem-dictionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 )
-LaTeX Info: Redefining \includegraphics on input line 61.
-\c@lstlisting=\count177
- (./Pres.nav)
+LaTeX Info: Redefining \includegraphics on input line 44.
 
-LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
-(Font)              size <5> substituted on input line 62.
+ABD: EverySelectfont initializing macros
+LaTeX Info: Redefining \selectfont on input line 44.
+\c@lstlisting=\count193
+ (./Poster.nav)
+LaTeX Font Info:    Calculating math sizes for size <15.84> on input line 44.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 44.
 
-[1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2
-
-]
-LaTeX Font Info:    Try loading font information for U+msa on input line 77.
-
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+(/usr/share/texmf/tex/latex/lm/ot1lmr.fd
+File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 77.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 44.
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+(/usr/share/texmf/tex/latex/lm/omllmm.fd
+File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OT1+mathkerncmss on input 
-line 77.
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 44.
 
-(/usr/share/texlive/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
-File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
-thkerncmss.
+
+(/usr/share/texmf/tex/latex/lm/omslmsy.fd
+File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-[3
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 44.
 
-] [4
 
-]
-Overfull \hbox (7.59717pt too wide) in paragraph at lines 121--121
-[][]  
+(/usr/share/texmf/tex/latex/lm/omxlmex.fd
+File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <15.84> on input line 44.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <11.08794> on input line 44.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7.92> on input line 44.
+
+Overfull \hbox (304.4445pt too wide) detected at line 44
+ [] 
  []
 
+\openout4 = `Poster.vrb'.
 
-Overfull \hbox (0.61885pt too wide) in paragraph at lines 121--121
-[][] 
- []
+(./Poster.vrb
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 4.
+ (/usr/share/texmf/tex/latex/lm/t1lmr.fd
+File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Try loading font information for TS1+lmss on input line 6.
 
+(/usr/share/texmf/tex/latex/lm/ts1lmss.fd
+File: ts1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Calculating math sizes for size <32.85> on input line 7.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <32.85> on input line 7.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <22.9949> on input line 7.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <16.425> on input line 7.
 
-Overfull \hbox (0.61885pt too wide) in paragraph at lines 121--121
-[] 
- []
+<hist_graphs/I1.png, id=15, 286.1892pt x 286.1892pt>
+File: hist_graphs/I1.png Graphic file (type png)
+ <use hist_graphs/I1.png>
+Package pdftex.def Info: hist_graphs/I1.png used on input line 17.
+(pdftex.def)             Requested size: 114.47363pt x 114.47363pt.
 
+<hist_graphs/N1.png, id=17, 286.1892pt x 286.1892pt>
+File: hist_graphs/N1.png Graphic file (type png)
+ <use hist_graphs/N1.png>
+Package pdftex.def Info: hist_graphs/N1.png used on input line 20.
+(pdftex.def)             Requested size: 114.47363pt x 114.47363pt.
 
-Overfull \hbox (0.61885pt too wide) in paragraph at lines 121--121
-[]  
- []
+<hist_graphs/A1.png, id=18, 286.1892pt x 286.1892pt>
+File: hist_graphs/A1.png Graphic file (type png)
+ <use hist_graphs/A1.png>
+Package pdftex.def Info: hist_graphs/A1.png used on input line 23.
+(pdftex.def)             Requested size: 114.47363pt x 114.47363pt.
 
-[5
+<hist_graphs/I2.png, id=19, 286.1892pt x 286.1892pt>
+File: hist_graphs/I2.png Graphic file (type png)
+ <use hist_graphs/I2.png>
+Package pdftex.def Info: hist_graphs/I2.png used on input line 25.
+(pdftex.def)             Requested size: 114.47363pt x 114.47363pt.
 
-] [6
+<hist_graphs/N2.png, id=20, 286.1892pt x 286.1892pt>
+File: hist_graphs/N2.png Graphic file (type png)
+ <use hist_graphs/N2.png>
+Package pdftex.def Info: hist_graphs/N2.png used on input line 28.
+(pdftex.def)             Requested size: 114.47363pt x 114.47363pt.
 
-] <hist_graphs/I1.png, id=177, 286.1892pt x 286.1892pt>
+<hist_graphs/A2.png, id=21, 286.1892pt x 286.1892pt>
+File: hist_graphs/A2.png Graphic file (type png)
+ <use hist_graphs/A2.png>
+Package pdftex.def Info: hist_graphs/A2.png used on input line 31.
+(pdftex.def)             Requested size: 114.47363pt x 114.47363pt.
 File: hist_graphs/I1.png Graphic file (type png)
 
 <use hist_graphs/I1.png>
-Package pdftex.def Info: hist_graphs/I1.png used on input line 139.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
- [7
-
- <./hist_graphs/I1.png>]
-File: hist_graphs/I1.png Graphic file (type png)
- <use hist_graphs/I1.png>
-Package pdftex.def Info: hist_graphs/I1.png used on input line 167.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
-
-<hist_graphs/N1.png, id=207, 286.1892pt x 286.1892pt>
-File: hist_graphs/N1.png Graphic file (type png)
- <use hist_graphs/N1.png>
-Package pdftex.def Info: hist_graphs/N1.png used on input line 167.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
-
-<hist_graphs/A1.png, id=208, 286.1892pt x 286.1892pt>
+Package pdftex.def Info: hist_graphs/I1.png used on input line 50.
+(pdftex.def)             Requested size: 114.47363pt x 114.47363pt.
 File: hist_graphs/A1.png Graphic file (type png)
  <use hist_graphs/A1.png>
-Package pdftex.def Info: hist_graphs/A1.png used on input line 167.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
+Package pdftex.def Info: hist_graphs/A1.png used on input line 51.
+(pdftex.def)             Requested size: 114.47363pt x 114.47363pt.
 
-<hist_graphs/I2.png, id=209, 286.1892pt x 286.1892pt>
-File: hist_graphs/I2.png Graphic file (type png)
- <use hist_graphs/I2.png>
-Package pdftex.def Info: hist_graphs/I2.png used on input line 167.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
-
-<hist_graphs/N2.png, id=210, 286.1892pt x 286.1892pt>
-File: hist_graphs/N2.png Graphic file (type png)
- <use hist_graphs/N2.png>
-Package pdftex.def Info: hist_graphs/N2.png used on input line 167.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
-
-<hist_graphs/A2.png, id=211, 286.1892pt x 286.1892pt>
-File: hist_graphs/A2.png Graphic file (type png)
- <use hist_graphs/A2.png>
-Package pdftex.def Info: hist_graphs/A2.png used on input line 167.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
-
-[8
-
- <./hist_graphs/N1.png> <./hist_graphs/A1.png> <./hist_graphs/I2.png> <./hist_g
-raphs/N2.png> <./hist_graphs/A2.png>]
-File: hist_graphs/I1.png Graphic file (type png)
- <use hist_graphs/I1.png>
-Package pdftex.def Info: hist_graphs/I1.png used on input line 195.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
-
-<hist_graphs/I3.png, id=242, 286.1892pt x 286.1892pt>
-File: hist_graphs/I3.png Graphic file (type png)
- <use hist_graphs/I3.png>
-Package pdftex.def Info: hist_graphs/I3.png used on input line 195.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
-
-<hist_graphs/A3.png, id=243, 286.1892pt x 286.1892pt>
+<hist_graphs/A3.png, id=22, 286.1892pt x 286.1892pt>
 File: hist_graphs/A3.png Graphic file (type png)
  <use hist_graphs/A3.png>
-Package pdftex.def Info: hist_graphs/A3.png used on input line 195.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
-File: hist_graphs/I2.png Graphic file (type png)
+Package pdftex.def Info: hist_graphs/A3.png used on input line 54.
+(pdftex.def)             Requested size: 114.47363pt x 114.47363pt.
 
-<use hist_graphs/I2.png>
-Package pdftex.def Info: hist_graphs/I2.png used on input line 195.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
- <hist_graphs/I4.png, id=244, 286.1892pt x 286.1892pt>
-File: hist_graphs/I4.png Graphic file (type png)
-
-<use hist_graphs/I4.png>
-Package pdftex.def Info: hist_graphs/I4.png used on input line 195.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
- <hist_graphs/A4.png, id=245, 286.1892pt x 286.1892pt>
-File: hist_graphs/A4.png Graphic file (type png)
-
-<use hist_graphs/A4.png>
-Package pdftex.def Info: hist_graphs/A4.png used on input line 195.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
- [9
-
- <./hist_graphs/I3.png> <./hist_graphs/A3.png> <./hist_graphs/I4.png> <./hist_g
-raphs/A4.png>]
-File: hist_graphs/I1.png Graphic file (type png)
- <use hist_graphs/I1.png>
-Package pdftex.def Info: hist_graphs/I1.png used on input line 219.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
-File: hist_graphs/A1.png Graphic file (type png)
-
-<use hist_graphs/A1.png>
-Package pdftex.def Info: hist_graphs/A1.png used on input line 219.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
-File: hist_graphs/A3.png Graphic file (type png)
- <use hist_graphs/A3.png>
-Package pdftex.def Info: hist_graphs/A3.png used on input line 219.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
-
-<hist_graphs/It.png, id=277, 286.1892pt x 286.1892pt>
+<hist_graphs/It.png, id=23, 286.1892pt x 286.1892pt>
 File: hist_graphs/It.png Graphic file (type png)
  <use hist_graphs/It.png>
-Package pdftex.def Info: hist_graphs/It.png used on input line 219.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
+Package pdftex.def Info: hist_graphs/It.png used on input line 57.
+(pdftex.def)             Requested size: 114.47363pt x 114.47363pt.
 
-<hist_graphs/Ot.png, id=278, 286.1892pt x 286.1892pt>
+<hist_graphs/Ot.png, id=24, 286.1892pt x 286.1892pt>
 File: hist_graphs/Ot.png Graphic file (type png)
  <use hist_graphs/Ot.png>
-Package pdftex.def Info: hist_graphs/Ot.png used on input line 219.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
+Package pdftex.def Info: hist_graphs/Ot.png used on input line 58.
+(pdftex.def)             Requested size: 114.47363pt x 114.47363pt.
 
-<hist_graphs/Ot2.png, id=279, 286.1892pt x 286.1892pt>
+<hist_graphs/Ot2.png, id=25, 286.1892pt x 286.1892pt>
 File: hist_graphs/Ot2.png Graphic file (type png)
 
 <use hist_graphs/Ot2.png>
-Package pdftex.def Info: hist_graphs/Ot2.png used on input line 219.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
- [10
-
- <./hist_graphs/It.png> <./hist_graphs/Ot.png> <./hist_graphs/Ot2.png>]
-\openout4 = `Pres.vrb'.
-
- (./Pres.vrb
+Package pdftex.def Info: hist_graphs/Ot2.png used on input line 61.
+(pdftex.def)             Requested size: 114.47363pt x 114.47363pt.
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 68.
+ (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2015/06/04 1.6 listings language file
 )
-LaTeX Font Info:    Try loading font information for OMS+cmss on input line 10.
-
-LaTeX Font Info:    No file OMScmss.fd. on input line 10.
-
-
-LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
-(Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbraceleft' on input line 10.
-
-) [11
-
-] <hist_graphs/Perf.png, id=337, 411.939pt x 315.0972pt>
-File: hist_graphs/Perf.png Graphic file (type png)
-
-<use hist_graphs/Perf.png>
-Package pdftex.def Info: hist_graphs/Perf.png used on input line 236.
-(pdftex.def)             Requested size: 288.35532pt x 220.56653pt.
- [12
-
- <./hist_graphs/Perf.png>]
-<hist_graphs/regret.png, id=364, 415.5525pt x 300.6432pt>
-File: hist_graphs/regret.png Graphic file (type png)
-
-<use hist_graphs/regret.png>
-Package pdftex.def Info: hist_graphs/regret.png used on input line 240.
-(pdftex.def)             Requested size: 290.88477pt x 210.44879pt.
- [13
-
- <./hist_graphs/regret.png>]
-\openout4 = `Pres.vrb'.
-
- (./Pres.vrb)
-[14
-
-]
-Missing character: There is no ) in font nullfont!
-Missing character: There is no ) in font nullfont!
-Missing character: There is no ) in font nullfont!
- [15
-
-]
 Missing character: There is no ) in font nullfont!
 Missing character: There is no ) in font nullfont!
 Missing character: There is no ) in font nullfont!
 Missing character: There is no ) in font nullfont!
- [16
 
-] [17
-
-]
-\openout4 = `Pres.vrb'.
-
- (./Pres.vrb) [18
-
-]
-<DTreeStopping.jpg, id=528, 569.12625pt x 253.94875pt>
+<DTreeStopping.jpg, id=29, 569.12625pt x 253.94875pt>
 File: DTreeStopping.jpg Graphic file (type jpg)
  <use DTreeStopping.jpg>
-Package pdftex.def Info: DTreeStopping.jpg used on input line 368.
-(pdftex.def)             Requested size: 199.19717pt x 88.88338pt.
+Package pdftex.def Info: DTreeStopping.jpg used on input line 177.
+(pdftex.def)             Requested size: 227.64647pt x 101.5777pt.
 
-[19
-
- <./DTreeStopping.jpg>] <Results.png, id=555, 491.436pt x 312.2064pt>
+<Results.png, id=30, 491.436pt x 312.2064pt>
 File: Results.png Graphic file (type png)
+ <use Results.png>
+Package pdftex.def Info: Results.png used on input line 186.
+(pdftex.def)             Requested size: 737.15219pt x 468.30846pt.
+ (./Poster.bbl))
+Overfull \hbox (304.4445pt too wide) has occurred while \output is active
+ [] 
+ []
 
-<use Results.png>
-Package pdftex.def Info: Results.png used on input line 375.
-(pdftex.def)             Requested size: 294.86388pt x 187.32529pt.
- [20
 
- <./Results.png>] [21
+Overfull \hbox (36.135pt too wide) has occurred while \output is active
+[] []
+ []
 
-] (./Pres.bbl) [22
 
- </usr/share/texlive/texmf-dist/tex/latex/beamer/art/beamericonarticle.pdf>]
+Overfull \hbox (15.36452pt too wide) has occurred while \output is active
+[]
+ []
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+ <./hist_graphs/I1.png> <./hist_graphs/N1.png> <./hist_graphs/A1.png> <./hist_g
+raphs/I2.png> <./hist_graphs/N2.png> <./hist_graphs/A2.png> <./hist_graphs/A3.p
+ng> <./hist_graphs/It.png> <./hist_graphs/Ot.png> <./hist_graphs/Ot2.png> <./DT
+reeStopping.jpg> <./Results.png>]
 \tf@nav=\write6
-\openout6 = `Pres.nav'.
+\openout6 = `Poster.nav'.
 
 \tf@toc=\write7
-\openout7 = `Pres.toc'.
+\openout7 = `Poster.toc'.
 
 \tf@snm=\write8
-\openout8 = `Pres.snm'.
+\openout8 = `Poster.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 390.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 390.
- (./Pres.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 390.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 390.
-Package rerunfilecheck Info: File `Pres.out' has not changed.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 250.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 250.
+ (./Poster.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 250.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 250.
+Package rerunfilecheck Info: File `Poster.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
 
-LaTeX Font Warning: Size substitutions with differences
-(Font)              up to 1.0pt have occurred.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-
-LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 390.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 250.
  ) 
 Here is how much of TeX's memory you used:
- 23143 strings out of 493029
- 448148 string characters out of 6136234
- 559838 words of memory out of 5000000
- 26112 multiletter control sequences out of 15000+600000
- 13421 words of font info for 49 fonts, out of 8000000 for 9000
+ 25206 strings out of 493029
+ 479357 string characters out of 6136234
+ 645404 words of memory out of 5000000
+ 28120 multiletter control sequences out of 15000+600000
+ 77653 words of font info for 67 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 56i,16n,61p,411b,1565s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmss9.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmssi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-sy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on Pres.pdf (22 pages, 321949 bytes).
+ 60i,16n,105p,422b,1929s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texmf/fonts/enc/dv
+ips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/share
+/texmf/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm
+-ts1.enc}</usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/f
+onts/type1/public/lm/lmmi12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr17.p
+fb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/t
+ype1/public/lm/lmss17.pfb></usr/share/texmf/fonts/type1/public/lm/lmssbx10.pfb>
+</usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type
+1/public/lm/lmtt12.pfb>
+Output written on Poster.pdf (1 page, 233926 bytes).
 PDF statistics:
- 706 PDF objects out of 1000 (max. 8388607)
- 617 compressed objects within 7 object streams
- 48 named destinations out of 1000 (max. 500000)
- 128 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 98 PDF objects out of 1000 (max. 8388607)
+ 56 compressed objects within 1 object stream
+ 6 named destinations out of 1000 (max. 500000)
+ 109 words of extra memory for PDF output out of 10000 (max. 10000000)
 

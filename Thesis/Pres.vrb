@@ -15,7 +15,6 @@
 \draw[->] (CM) -- (Alg);
 \end{tikzpicture}
 \vspace{1em}
-\pause
 \begin{lstlisting}[style=MyPythonStyle]
 answerHistQueries =
 MkChoiceMaker among {Alg1, Alg2}
