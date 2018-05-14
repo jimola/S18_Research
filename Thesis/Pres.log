@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.8.24)  8 MAY 2018 14:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.8.24)  9 MAY 2018 02:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1132,20 +1132,20 @@ Package: listings 2015/06/04 1.6 (Carsten Heinz)
  (./Pres.aux)
 \openout1 = `Pres.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1211,7 +1211,7 @@ e
 ))
 ABD: EveryShipout initializing macros
 \AtBeginShipoutBox=\box61
-Package hyperref Info: Link coloring OFF on input line 61.
+Package hyperref Info: Link coloring OFF on input line 73.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -1221,66 +1221,66 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count176
 )
-LaTeX Info: Redefining \ref on input line 61.
-LaTeX Info: Redefining \pageref on input line 61.
-LaTeX Info: Redefining \nameref on input line 61.
+LaTeX Info: Redefining \ref on input line 73.
+LaTeX Info: Redefining \pageref on input line 73.
+LaTeX Info: Redefining \nameref on input line 73.
 
 (./Pres.out) (./Pres.out)
 \@outlinefile=\write5
 \openout5 = `Pres.out'.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 61.
+(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 73.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 61.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 73.
 \symnumbers=\mathgroup6
 \sympureletters=\mathgroup7
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 61.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 61.
+(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 73.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 73.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 61.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 73.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 61.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 61.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 73.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 73.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 61.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 73.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 61.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 61.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 73.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 73.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 61.
+(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 73.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 61.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 61.
+(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 73.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 73.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 61.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 73.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 61.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 73.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 61.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 73.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 61.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 73.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmr/bx/n on input line 61.
+(Font)                  OT1/cmss/bx/n --> OT1/cmr/bx/n on input line 73.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/bx/n on input line 61.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/bx/n on input line 73.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 61.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 73.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 61.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 73.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/bx/n on input line 61.
-LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 61.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/bx/n on input line 73.
+LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 73.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `normal'
-(Font)                  OT1/cmss/m/it --> OT1/mathkerncmss/m/sl on input line 6
-1.
+(Font)                  OT1/cmss/m/it --> OT1/mathkerncmss/m/sl on input line 7
+3.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
 (Font)                  OT1/cmss/bx/it --> OT1/mathkerncmss/m/sl on input line 
-61.
+73.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
 (Font)                  OT1/mathkerncmss/m/sl --> OT1/mathkerncmss/bx/sl on inp
-ut line 61.
+ut line 73.
 
 (/usr/share/texlive/texmf-dist/tex/latex/beamer/translator/dicts/translator-bas
 ic-dictionary/translator-basic-dictionary-English.dict
@@ -1306,179 +1306,194 @@ Dictionary: translator-numbers-dictionary, Language: English
 orem-dictionary/translator-theorem-dictionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 )
-LaTeX Info: Redefining \includegraphics on input line 61.
+LaTeX Info: Redefining \includegraphics on input line 73.
 \c@lstlisting=\count177
  (./Pres.nav)
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
-(Font)              size <5> substituted on input line 62.
+(Font)              size <5> substituted on input line 74.
 
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2
-
-]
-LaTeX Font Info:    Try loading font information for U+msa on input line 77.
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Try loading font information for U+msa on input line 81.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 77.
+LaTeX Font Info:    Try loading font information for U+msb on input line 81.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Try loading font information for OT1+mathkerncmss on input 
-line 77.
+line 81.
 
 (/usr/share/texlive/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
 thkerncmss.
 )
-[3
+[2
 
-] [4
+] [3
 
 ]
-Overfull \hbox (7.59717pt too wide) in paragraph at lines 121--121
+Overfull \hbox (7.59717pt too wide) in paragraph at lines 125--125
 [][]  
  []
 
 
-Overfull \hbox (0.61885pt too wide) in paragraph at lines 121--121
+Overfull \hbox (0.61885pt too wide) in paragraph at lines 125--125
 [][] 
  []
 
 
-Overfull \hbox (0.61885pt too wide) in paragraph at lines 121--121
+Overfull \hbox (0.61885pt too wide) in paragraph at lines 125--125
 [] 
  []
 
 
-Overfull \hbox (0.61885pt too wide) in paragraph at lines 121--121
+Overfull \hbox (0.61885pt too wide) in paragraph at lines 125--125
 []  
  []
 
-[5
+[4
 
-] [6
+] [5
 
-] <hist_graphs/I1.png, id=177, 286.1892pt x 286.1892pt>
+] <hist_graphs/I1.png, id=152, 286.1892pt x 286.1892pt>
 File: hist_graphs/I1.png Graphic file (type png)
 
 <use hist_graphs/I1.png>
-Package pdftex.def Info: hist_graphs/I1.png used on input line 139.
+Package pdftex.def Info: hist_graphs/I1.png used on input line 143.
 (pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
- [7
+ [6
 
  <./hist_graphs/I1.png>]
 File: hist_graphs/I1.png Graphic file (type png)
  <use hist_graphs/I1.png>
-Package pdftex.def Info: hist_graphs/I1.png used on input line 167.
+Package pdftex.def Info: hist_graphs/I1.png used on input line 164.
 (pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
 
-<hist_graphs/N1.png, id=207, 286.1892pt x 286.1892pt>
+<hist_graphs/N1.png, id=181, 286.1892pt x 286.1892pt>
 File: hist_graphs/N1.png Graphic file (type png)
  <use hist_graphs/N1.png>
-Package pdftex.def Info: hist_graphs/N1.png used on input line 167.
+Package pdftex.def Info: hist_graphs/N1.png used on input line 164.
 (pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
 
-<hist_graphs/A1.png, id=208, 286.1892pt x 286.1892pt>
+<hist_graphs/A1.png, id=182, 286.1892pt x 286.1892pt>
 File: hist_graphs/A1.png Graphic file (type png)
  <use hist_graphs/A1.png>
-Package pdftex.def Info: hist_graphs/A1.png used on input line 167.
+Package pdftex.def Info: hist_graphs/A1.png used on input line 164.
 (pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
 
-<hist_graphs/I2.png, id=209, 286.1892pt x 286.1892pt>
+[7
+
+ <./hist_graphs/N1.png> <./hist_graphs/A1.png>]
+File: hist_graphs/I1.png Graphic file (type png)
+ <use hist_graphs/I1.png>
+Package pdftex.def Info: hist_graphs/I1.png used on input line 192.
+(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
+File: hist_graphs/N1.png Graphic file (type png)
+
+<use hist_graphs/N1.png>
+Package pdftex.def Info: hist_graphs/N1.png used on input line 192.
+(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
+File: hist_graphs/A1.png Graphic file (type png)
+ <use hist_graphs/A1.png>
+Package pdftex.def Info: hist_graphs/A1.png used on input line 192.
+(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
+
+<hist_graphs/I2.png, id=211, 286.1892pt x 286.1892pt>
 File: hist_graphs/I2.png Graphic file (type png)
  <use hist_graphs/I2.png>
-Package pdftex.def Info: hist_graphs/I2.png used on input line 167.
+Package pdftex.def Info: hist_graphs/I2.png used on input line 192.
 (pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
 
-<hist_graphs/N2.png, id=210, 286.1892pt x 286.1892pt>
+<hist_graphs/N2.png, id=212, 286.1892pt x 286.1892pt>
 File: hist_graphs/N2.png Graphic file (type png)
  <use hist_graphs/N2.png>
-Package pdftex.def Info: hist_graphs/N2.png used on input line 167.
+Package pdftex.def Info: hist_graphs/N2.png used on input line 192.
 (pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
 
-<hist_graphs/A2.png, id=211, 286.1892pt x 286.1892pt>
+<hist_graphs/A2.png, id=213, 286.1892pt x 286.1892pt>
 File: hist_graphs/A2.png Graphic file (type png)
  <use hist_graphs/A2.png>
-Package pdftex.def Info: hist_graphs/A2.png used on input line 167.
+Package pdftex.def Info: hist_graphs/A2.png used on input line 192.
 (pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
 
 [8
 
- <./hist_graphs/N1.png> <./hist_graphs/A1.png> <./hist_graphs/I2.png> <./hist_g
-raphs/N2.png> <./hist_graphs/A2.png>]
+ <./hist_graphs/I2.png> <./hist_graphs/N2.png> <./hist_graphs/A2.png>]
 File: hist_graphs/I1.png Graphic file (type png)
- <use hist_graphs/I1.png>
-Package pdftex.def Info: hist_graphs/I1.png used on input line 195.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
 
-<hist_graphs/I3.png, id=242, 286.1892pt x 286.1892pt>
+<use hist_graphs/I1.png>
+Package pdftex.def Info: hist_graphs/I1.png used on input line 220.
+(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
+ <hist_graphs/I3.png, id=242, 286.1892pt x 286.1892pt>
 File: hist_graphs/I3.png Graphic file (type png)
- <use hist_graphs/I3.png>
-Package pdftex.def Info: hist_graphs/I3.png used on input line 195.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
 
-<hist_graphs/A3.png, id=243, 286.1892pt x 286.1892pt>
+<use hist_graphs/I3.png>
+Package pdftex.def Info: hist_graphs/I3.png used on input line 220.
+(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
+ <hist_graphs/A3.png, id=243, 286.1892pt x 286.1892pt>
 File: hist_graphs/A3.png Graphic file (type png)
- <use hist_graphs/A3.png>
-Package pdftex.def Info: hist_graphs/A3.png used on input line 195.
+
+<use hist_graphs/A3.png>
+Package pdftex.def Info: hist_graphs/A3.png used on input line 220.
 (pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
 File: hist_graphs/I2.png Graphic file (type png)
-
-<use hist_graphs/I2.png>
-Package pdftex.def Info: hist_graphs/I2.png used on input line 195.
+ <use hist_graphs/I2.png>
+Package pdftex.def Info: hist_graphs/I2.png used on input line 220.
 (pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
- <hist_graphs/I4.png, id=244, 286.1892pt x 286.1892pt>
+
+<hist_graphs/I4.png, id=244, 286.1892pt x 286.1892pt>
 File: hist_graphs/I4.png Graphic file (type png)
-
-<use hist_graphs/I4.png>
-Package pdftex.def Info: hist_graphs/I4.png used on input line 195.
+ <use hist_graphs/I4.png>
+Package pdftex.def Info: hist_graphs/I4.png used on input line 220.
 (pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
- <hist_graphs/A4.png, id=245, 286.1892pt x 286.1892pt>
+
+<hist_graphs/A4.png, id=245, 286.1892pt x 286.1892pt>
 File: hist_graphs/A4.png Graphic file (type png)
-
-<use hist_graphs/A4.png>
-Package pdftex.def Info: hist_graphs/A4.png used on input line 195.
+ <use hist_graphs/A4.png>
+Package pdftex.def Info: hist_graphs/A4.png used on input line 220.
 (pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
- [9
+
+[9
 
  <./hist_graphs/I3.png> <./hist_graphs/A3.png> <./hist_graphs/I4.png> <./hist_g
 raphs/A4.png>]
 File: hist_graphs/I1.png Graphic file (type png)
  <use hist_graphs/I1.png>
-Package pdftex.def Info: hist_graphs/I1.png used on input line 219.
+Package pdftex.def Info: hist_graphs/I1.png used on input line 244.
 (pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
 File: hist_graphs/A1.png Graphic file (type png)
-
-<use hist_graphs/A1.png>
-Package pdftex.def Info: hist_graphs/A1.png used on input line 219.
+ <use hist_graphs/A1.png>
+Package pdftex.def Info: hist_graphs/A1.png used on input line 244.
 (pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
 File: hist_graphs/A3.png Graphic file (type png)
- <use hist_graphs/A3.png>
-Package pdftex.def Info: hist_graphs/A3.png used on input line 219.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
 
-<hist_graphs/It.png, id=277, 286.1892pt x 286.1892pt>
+<use hist_graphs/A3.png>
+Package pdftex.def Info: hist_graphs/A3.png used on input line 244.
+(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
+ <hist_graphs/It.png, id=277, 286.1892pt x 286.1892pt>
 File: hist_graphs/It.png Graphic file (type png)
- <use hist_graphs/It.png>
-Package pdftex.def Info: hist_graphs/It.png used on input line 219.
-(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
 
-<hist_graphs/Ot.png, id=278, 286.1892pt x 286.1892pt>
+<use hist_graphs/It.png>
+Package pdftex.def Info: hist_graphs/It.png used on input line 244.
+(pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
+ <hist_graphs/Ot.png, id=278, 286.1892pt x 286.1892pt>
 File: hist_graphs/Ot.png Graphic file (type png)
- <use hist_graphs/Ot.png>
-Package pdftex.def Info: hist_graphs/Ot.png used on input line 219.
+
+<use hist_graphs/Ot.png>
+Package pdftex.def Info: hist_graphs/Ot.png used on input line 244.
 (pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
 
 <hist_graphs/Ot2.png, id=279, 286.1892pt x 286.1892pt>
 File: hist_graphs/Ot2.png Graphic file (type png)
 
 <use hist_graphs/Ot2.png>
-Package pdftex.def Info: hist_graphs/Ot2.png used on input line 219.
+Package pdftex.def Info: hist_graphs/Ot2.png used on input line 244.
 (pdftex.def)             Requested size: 57.23682pt x 57.23682pt.
  [10
 
@@ -1489,14 +1504,14 @@ Package pdftex.def Info: hist_graphs/Ot2.png used on input line 219.
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2015/06/04 1.6 listings language file
 )
-LaTeX Font Info:    Try loading font information for OMS+cmss on input line 10.
+LaTeX Font Info:    Try loading font information for OMS+cmss on input line 12.
 
-LaTeX Font Info:    No file OMScmss.fd. on input line 10.
+LaTeX Font Info:    No file OMScmss.fd. on input line 12.
 
 
 LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
 (Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbraceleft' on input line 10.
+(Font)              for symbol `textbraceleft' on input line 12.
 
 ) [11
 
@@ -1504,7 +1519,7 @@ LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
 File: hist_graphs/Perf.png Graphic file (type png)
 
 <use hist_graphs/Perf.png>
-Package pdftex.def Info: hist_graphs/Perf.png used on input line 236.
+Package pdftex.def Info: hist_graphs/Perf.png used on input line 263.
 (pdftex.def)             Requested size: 288.35532pt x 220.56653pt.
  [12
 
@@ -1513,7 +1528,7 @@ Package pdftex.def Info: hist_graphs/Perf.png used on input line 236.
 File: hist_graphs/regret.png Graphic file (type png)
 
 <use hist_graphs/regret.png>
-Package pdftex.def Info: hist_graphs/regret.png used on input line 240.
+Package pdftex.def Info: hist_graphs/regret.png used on input line 267.
 (pdftex.def)             Requested size: 290.88477pt x 210.44879pt.
  [13
 
@@ -1527,42 +1542,45 @@ Package pdftex.def Info: hist_graphs/regret.png used on input line 240.
 Missing character: There is no ) in font nullfont!
 Missing character: There is no ) in font nullfont!
 Missing character: There is no ) in font nullfont!
+Missing character: There is no ) in font nullfont!
  [15
 
-]
-Missing character: There is no ) in font nullfont!
-Missing character: There is no ) in font nullfont!
-Missing character: There is no ) in font nullfont!
-Missing character: There is no ) in font nullfont!
- [16
-
-] [17
+] [16
 
 ]
 \openout4 = `Pres.vrb'.
 
- (./Pres.vrb) [18
+ (./Pres.vrb) [17
 
 ]
-<DTreeStopping.jpg, id=528, 569.12625pt x 253.94875pt>
+<DTreeStopping.jpg, id=500, 569.12625pt x 253.94875pt>
 File: DTreeStopping.jpg Graphic file (type jpg)
  <use DTreeStopping.jpg>
-Package pdftex.def Info: DTreeStopping.jpg used on input line 368.
+Package pdftex.def Info: DTreeStopping.jpg used on input line 399.
 (pdftex.def)             Requested size: 199.19717pt x 88.88338pt.
 
-[19
+[18
 
- <./DTreeStopping.jpg>] <Results.png, id=555, 491.436pt x 312.2064pt>
+ <./DTreeStopping.jpg>] <Results.png, id=526, 491.436pt x 312.2064pt>
 File: Results.png Graphic file (type png)
 
 <use Results.png>
-Package pdftex.def Info: Results.png used on input line 375.
+Package pdftex.def Info: Results.png used on input line 406.
 (pdftex.def)             Requested size: 294.86388pt x 187.32529pt.
- [20
+ [19
 
- <./Results.png>] [21
+ <./Results.png>]
+Missing character: There is no ) in font nullfont!
+Missing character: There is no ) in font nullfont!
+Missing character: There is no ) in font nullfont!
+Missing character: There is no ) in font nullfont!
 
-] (./Pres.bbl) [22
+Overfull \vbox (18.53253pt too high) detected at line 435
+ []
+
+[20
+
+] (./Pres.bbl) [21
 
  </usr/share/texlive/texmf-dist/tex/latex/beamer/art/beamericonarticle.pdf>]
 \tf@nav=\write6
@@ -1574,11 +1592,11 @@ Package pdftex.def Info: Results.png used on input line 375.
 \tf@snm=\write8
 \openout8 = `Pres.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 390.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 390.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 442.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 442.
  (./Pres.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 390.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 390.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 442.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 442.
 Package rerunfilecheck Info: File `Pres.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -1589,16 +1607,16 @@ LaTeX Font Warning: Size substitutions with differences
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 390.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 442.
  ) 
 Here is how much of TeX's memory you used:
- 23143 strings out of 493029
- 448148 string characters out of 6136234
- 559838 words of memory out of 5000000
- 26112 multiletter control sequences out of 15000+600000
+ 23184 strings out of 493029
+ 448748 string characters out of 6136234
+ 560140 words of memory out of 5000000
+ 26155 multiletter control sequences out of 15000+600000
  13421 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 56i,16n,61p,411b,1565s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 56i,16n,61p,411b,1563s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texli
@@ -1614,10 +1632,10 @@ sy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/
 share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/
 texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on Pres.pdf (22 pages, 321949 bytes).
+Output written on Pres.pdf (21 pages, 336056 bytes).
 PDF statistics:
- 706 PDF objects out of 1000 (max. 8388607)
- 617 compressed objects within 7 object streams
- 48 named destinations out of 1000 (max. 500000)
+ 680 PDF objects out of 1000 (max. 8388607)
+ 593 compressed objects within 6 object streams
+ 46 named destinations out of 1000 (max. 500000)
  128 words of extra memory for PDF output out of 10000 (max. 10000000)
 

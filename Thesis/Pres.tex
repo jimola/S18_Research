@@ -41,6 +41,18 @@ User 2 & 6 & 3/5 & 5 & 3/7 \\
 User 3 & 2 & 1/21 & 9 & 2/26 \\
 User 4 & 4.5 & 4/5 & 9 & 3/7 \\
 \end{tabular}}
+\newcommand{\Noise}{\begin{tabular}{lllll}
+\qquad & 0.3 & 1.5 & -1.1 & 2.3 \\
+\qquad & -0.1 & 0.3 & -0.2 & -0.7 \\
+\qquad & 0.0 & -2.4 & 0.9 & -0.9 \\
+\qquad & -0.2 & 1.2 & 0.4 & 1.1 \\
+\end{tabular}}
+\newcommand{\PrivatePrivateNetflix}{\begin{tabular}{lllll}
+User 1 & 8.0 & 1/19 & 6.5 & 3/22 \\
+User 2 & 6 & 3/5 & 5 & 3/6 \\
+User 3 & 2 & 1/19 & 10 & 2/25 \\
+User 4 & 4.5 & 4/6 & 9.5 & 3/8 \\
+\end{tabular}}
 \newcommand{\NonPrivateNetflixB}{\begin{tabular}{lllll}
 Jordan & 8.5 & 1/17 & 7.5 & 3/20 \\
 Jean & 6 & 3/5 & 5 & 3/7 \\
@@ -60,14 +72,6 @@ User 4 & 8.5 & 4/6 & 3 & 1/20 \\
 
 \begin{document}
 \frame{\titlepage}
-\begin{frame}{Outline}
-\begin{enumerate}
-\item Motivation
-\item Vision \& Challenges
-\item Solution
-\item Experiments
-\end{enumerate}
-\end{frame}
 
 \begin{frame}{Motivation}
 Netflix wants to anonymize database and release it:
@@ -151,6 +155,27 @@ Method 1
 	\node [empty, right=1em of N1] (equals1) {=};
 	\node [empty, right=1em of equals1] (ans1) {\includegraphics[scale=0.2]{hist_graphs/A1.png}};
 	\node [empty, above=-0.5em of ans1] (Output1) {$O$};
+	\node [empty, below=1em of I1]  (I2) {\resizebox{0.3\textwidth}{!}{\PrivateNetflixA}};
+	\node [empty, below=1em of N1] (N2) {\resizebox{0.3\textwidth}{!}{\Noise}};
+	\node [empty, below=1em of ans1] (ans2) {\resizebox{0.3\textwidth}{!}{\PrivatePrivateNetflix}};
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Example}
+Method 1
+\begin{center}
+\begin{tikzpicture}
+	\tikzset{block/.style= {draw, rectangle, align=center,minimum width=2cm,minimum height=2cm}, empty/.style= {align=center}}
+	\node [empty]  (I1) {\includegraphics[scale=0.2]{hist_graphs/I1.png}};
+	\node [empty, above=-0.5em of I1] (Lab1) {$D$};
+	\node [empty, right=1em of I1] (plus1) {+};
+	\node [empty, right=1em of plus1] (N1) {\includegraphics[scale=0.2]{hist_graphs/N1.png}};
+	\node [empty, above=-0.5em of N1] (Noise1) {Noise};
+	\node [empty, right=1em of N1] (equals1) {=};
+	\node [empty, right=1em of equals1] (ans1) {\includegraphics[scale=0.2]{hist_graphs/A1.png}};
+	\node [empty, above=-0.5em of ans1] (Output1) {$O$};
 	\node [empty, below=1em of I1]  (I2) {\includegraphics[scale=0.2]{hist_graphs/I2.png}};
 	\node [empty, above=-0.5em of I2] (Lab2) {$D'$};
 	\node [empty, right=1em of I2] (plus2) {+};
@@ -201,14 +226,14 @@ Which is better?
 	\tikzset{block/.style= {draw, rectangle, align=center,minimum width=2cm,minimum height=2cm}, empty/.style= {align=center}}
 	\node [] (input) {\includegraphics[scale=0.2]{hist_graphs/I1.png}};
 	\node [rectangle, draw=red, right=1em of input]  (I1) {\includegraphics[scale=0.2]{hist_graphs/A1.png}};
-	\node [above=-0.5em of input] (In) {$D$};
+	\node [above=-0.5em of input] (In) {$D_1$};
 	\node [empty, right=1em of I1] (plus1) {vs.};
 	\node [empty, right=1em of plus1] (N1) {\includegraphics[scale=0.2]{hist_graphs/A3.png}};
 	\node [above=-0.5em of I1] {Alg1};
 	\node [above=-0.5em of N1] {Alg2};
 	\node [below=1em of input] (input2) {\includegraphics[scale=0.2]{hist_graphs/It.png}};
 	\node [right=1em of input2]  (I2) {\includegraphics[scale=0.2]{hist_graphs/Ot.png}};
-	\node [above=-0.5em of input2] (In2) {$D$};
+	\node [above=-0.5em of input2] (In2) {$D_2$};
 	\node [empty, right=1em of I2] (plus2) {vs.};
 	\node [rectangle, draw=red, right=1em of plus2] (N2) {\includegraphics[scale=0.2]{hist_graphs/Ot2.png}};
 	\node [above=-0.5em of I2] {Alg1};
@@ -218,13 +243,15 @@ Which is better?
 DP complicates algorithm analysis due to noise, makes algorithm deployment hard.
 \end{frame}
 \begin{frame}[fragile]\frametitle{Vision}
-Task: Remove burden of DP algorithm analysis---\texttt{ChoiceMaker}.
+Task: Remove burden of DP algorithm analysis.
 \begin{enumerate}
 \item \textbf{Correctness} Differential privacy is never violated. 
 \item \textbf{Generalizability} Works on arbitrary code.
 \item \textbf{Performance} Makes choice ``close enough'' to optimal.
 \end{enumerate}
-Solution: A programming language!
+Solution: A programming language (Jostle)!
+
+Represent any choice with \texttt{ChoiceMaker} construct.
 \begin{lstlisting}[style=MyPythonStyle]
 answerHistQueries = MkChoiceMaker among {Alg1, Alg2}
 answers = answerHistQueries(data, queries)
@@ -245,10 +272,34 @@ What's hard about writing this code?
 answerHistQueries = MkChoiceMaker among {Alg1, Alg2}
 answers = answerHistQueries(data, queries)
 \end{lstlisting}
+\begin{center}
+\begin{tikzpicture}
+\node [align=center] (In1) {In};
+\node [right=1em of In1, align=center, rectangle, fill=black, text=white] (alg1) {Alg1};
+\node [right=1em of alg1, align=center] (Out1) {Out};
+\draw[->] (In1) -- (alg1);
+\draw[->] (alg1) -- (Out1);
+\node [align=center, right=3em of Out1] (In2) {In};
+\node [right=1em of In2, align=center, rectangle, fill=black, text=white] (alg2) {Alg2};
+\node [right=1em of alg2, align=center] (Out2) {Out};
+\draw[->] (In2) -- (alg2);
+\draw[->] (alg2) -- (Out2);
+\end{tikzpicture}
+\end{center}
+\begin{center}
+\begin{tikzpicture}
+\node [align=center] (func) {f:};
+\node [align=center, right=0em of func] (pairs) {In};
+\node [align=center, above right=0em and 2em of pairs, rectangle, fill=black, text=white] (alg1) {Alg1};
+\draw[->] (pairs) -- (alg1);
+\node [align=center, below right=0em and 2em of pairs, rectangle, fill=black, text=white] (alg2) {Alg2};
+\draw[->] (pairs) -- (alg2);
+\end{tikzpicture}
+\end{center}
 \begin{itemize}
-\item Generality $\implies$ Can only run Alg1, Alg2
-\item Meta-machine learning: function $f: DB \rightarrow Alg$
-\item Intractable---data science cannot be automated well.
+\item Generality $\implies$ Alg1, Alg2 are black boxes.
+\item Approach: Meta-machine learning: $f: DB \rightarrow Alg$
+\item Difficult---data science cannot be automated well.
 \end{itemize}
 \end{frame}
 
@@ -265,29 +316,9 @@ answers = answerHistQueries(data, queries)
 %\node [below right=-0.5pt of {(4.4, 0.9)}, outer sep=2pt, fill=white] {1};
 \filldraw (3.1, 2.6) circle[radius=1.5pt];
 \node [above right=-0.5pt of {(2.8, 2.6)}, outer sep=2pt] {Pythia \cite{Kotsogiannis:2017}};
-\filldraw[black] (0.9, 3.9) circle[radius=1.5pt];
-\filldraw[black] (0.7, 4.2) circle[radius=1.5pt];
-\node [above right=-0.5pt of {(0.9, 3.9)}, outer sep=2pt, fill=white] {DP PLs \cite{McSherry:2010}};
-\end{tikzpicture}
-\end{frame}
-
-\begin{frame}{Existing Work}
-\begin{tikzpicture}
-\draw[help lines, color=gray!30, dashed] (0.1,0.1) grid (4.9,4.9);
-\draw[->,ultra thick] (0,0)--(5,0) node[right]{Optimality};
-\draw[->,ultra thick] (0,0)--(0,5) node[above]{Generality};
-\draw[dotted,thick,blue] (3.7,-0.5)--(3.7,5.5) node[anchor=west,blue] {Theoretical Bounds};
-\draw[dotted,thick,blue] (-0.5,3.0)--(5.5,3.0) node[anchor=south,blue] {PLs};
-\filldraw (4.3,1.1) circle[radius=1.5pt];
-\node [above right=-0.5pt of {(4.4,0.9)}, outer sep=2pt, fill=white] {Specialized Tools \cite{Chaudhuri:2013}};
-\filldraw (4.4,0.9) circle[radius=1.5pt];
-%\node [below right=-0.5pt of {(4.4, 0.9)}, outer sep=2pt, fill=white] {1};
-\filldraw (3.1, 2.6) circle[radius=1.5pt];
-\node [above right=-0.5pt of {(2.8, 2.6)}, outer sep=2pt] {Pythia \cite{Kotsogiannis:2017}};
 \filldraw[red] (3.1, 3.9) circle[radius=1.5pt]; 
-\node [red, above right=-0.5pt of {(2.8, 3.9)}, outer sep=2pt] {Me!};
+\node [red, above right=-0.5pt of {(2.8, 3.9)}, outer sep=2pt] {Jostle!};
 \filldraw[black] (0.9, 3.9) circle[radius=1.5pt];
-\filldraw[black] (0.7, 4.2) circle[radius=1.5pt];
 \node [above right=-0.5pt of {(0.9, 3.9)}, outer sep=2pt, fill=white] {DP PLs \cite{McSherry:2010}};
 \end{tikzpicture}
 \end{frame}
@@ -377,9 +408,30 @@ Always possible to have similar test DB in training DB set?
 \begin{frame}{Conclusion}
 \begin{itemize}
 \item Performs as well as Pythia \cite{Kotsogiannis:2017} with same expressiveness as PINQ \cite{McSherry:2010}.
-\item Only as good as how well the programmer frames the ML problem.
-\item Future work: More data science or theorem-proving tools.
+\item Only as good as how well the programmer frames the ML.
+\item Future work: Better optimization for multiple ChoiceMakers. Static analysis (open black boxes).
 \end{itemize}
+\begin{center}
+\begin{tikzpicture}
+\draw[help lines, color=gray!30, dashed] (0.1,0.1) grid (4.9,4.9);
+\draw[->,ultra thick] (0,0)--(5,0) node[right]{Optimality};
+\draw[->,ultra thick] (0,0)--(0,5) node[above]{Generality};
+\draw[dotted,thick,blue] (3.7,-0.5)--(3.7,5.5) node[anchor=west,blue] {Theoretical Bounds};
+\draw[dotted,thick,blue] (-0.5,3.0)--(5.5,3.0) node[anchor=south,blue] {PLs};
+\filldraw (4.3,1.1) circle[radius=1.5pt];
+\node [above right=-0.5pt of {(4.4,0.9)}, outer sep=2pt, fill=white] {Specialized Tools \cite{Chaudhuri:2013}};
+\filldraw (4.4,0.9) circle[radius=1.5pt];
+%\node [below right=-0.5pt of {(4.4, 0.9)}, outer sep=2pt, fill=white] {1};
+\filldraw (3.1, 2.6) circle[radius=1.5pt];
+\node [above right=-0.5pt of {(2.8, 2.6)}, outer sep=2pt] {Pythia \cite{Kotsogiannis:2017}};
+\filldraw[red] (3.1, 3.9) circle[radius=1.5pt]; 
+\node [red, above right=-0.5pt of {(2.8, 3.9)}, outer sep=2pt] {Jostle!};
+\filldraw[black] (0.9, 3.9) circle[radius=1.5pt];
+\node [above right=-0.5pt of {(0.9, 3.9)}, outer sep=2pt, fill=white] {DP PLs \cite{McSherry:2010}};
+\filldraw[green] (3.7, 3.9) circle[radius=1.5pt];
+\filldraw[green] (4.4, 3.9) circle[radius=1.5pt];
+\end{tikzpicture}
+\end{center}
 \end{frame}
 
 \begin{frame}
