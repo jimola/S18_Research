@@ -57,8 +57,8 @@ def laplacian(epsilon, n=1, sensitivity=1):
 
     n : The number of dimensions
 
-    sensitivity : The sensitivity of the query the noise will be applied to,
-    measured with respect to the l1 norm
+    sensitivity : The sensitivity of the query that the noise will be applied
+        to, measured with respect to the l1 norm
 
     Returns
     -------
@@ -68,6 +68,31 @@ def laplacian(epsilon, n=1, sensitivity=1):
     lam = epsilon/sensitivity
     sign = 1-2*np.random.randint(0, 2, n)
     return np.random.exponential(1/lam, n) * sign
+
+def sampleR(d, alpha):
+    """Sample r in R^d proportionally to exp(alpha * |r|_2)"""
+    erlang = sum(np.random.exponential(scale = alpha, size = n))
+    direction = np.random.normal(size = n)
+    direction = direction / np.linalg.norm(direction)
+    return erlang * direction
+
+def laplacian_l2(epsilon, n = 1, sensitivity = 1):
+    """Return noise to achieve differential privacy with l2 sensitivity
+
+    Parameters
+    ----------
+
+    epsilon : float
+        The privacy budget. Must be greater than 0.
+
+    n : int
+        The dimension of the vector noise to be generated (default 1)
+
+    sensitivity : float
+        The sensitivity of the result that the noise will be applied to,
+        measured with respect to the l2 norm (default 1)
+    """
+    return sampleR(d = n, alpha = epsilon / sensitivity)
 
 def hist_noiser(vals, epsilon=0):
     """Apply Laplace noise to a histogram
