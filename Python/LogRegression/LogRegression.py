@@ -94,13 +94,25 @@ class DPLogisticRegression:
             raise ValueError("K must be positive")
         self.K = K
 
-    def fit(self, X, y):
-        if (len(X) == 0):
-            raise ValueError("Must provide non-empty X")
+    def _enforce_norm(self, X):
+        """Ensure that X respects norm bounds
+
+        Throw an error if any row of X has a norm bigger than K.
+
+        NB: This method violates differential privacy, and should not be used
+        with private data.
+
+        """
         max_norm = np.sqrt(np.square(X).sum(axis = 1)).max()
         if (max_norm > self.K):
             raise ValueError("The l2 norm of the rows X of must be bounded by K = %f; "
                              "the maximum was %f" % (self.K, max_norm))
+
+    def fit(self, X, y):
+        if (len(X) == 0):
+            raise ValueError("Must provide non-empty X")
+
+        self._enforce_norm(X) # FIXME
 
         self.logit = self.logit.fit(X, y)
 
@@ -113,9 +125,45 @@ class DPLogisticRegression:
         return self
 
     def predict(self, X):
+        """Compute model predictions
+
+        Parameters
+        ----------
+
+        X : {array-like, sparse matrix}, shape = [n_samples, n_features]
+            Samples.
+
+        Returns
+        -------
+
+        C : array, shape = [n_samples]
+            Predicted class label per sample.
+        """
+        # FIXME In the case where the intercept term is zero, it might be fine
+        # to use the model on non-private data without enforcing the norm
+        # restriction.
+        self._enforce_norm(X)
         return self.logit.predict(X)
 
     def score(self, X, y):
+        """Returns the mean accuracy on the given test data and labels.
+
+        Parameters
+        ----------
+
+        X : array-like, shape = (n_samples, n_features)
+            Test samples.
+
+        y : array-like, shape = (n_samples) or (n_samples, n_outputs)
+            True labels for X.
+
+        Returns
+        -------
+
+        score : float
+            Mean accuracy of self.predict(X) wrt. y.
+        """
+        self._enforce_norm(X)
         return self.logit.score(X, y)
 
 def test():
