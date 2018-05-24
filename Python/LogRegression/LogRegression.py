@@ -63,10 +63,13 @@ class DPLogisticRegression:
 
         self.logit = self.logit.fit(X, y)
 
-        self.logit.coef_ = self.logit.coef_ + \
-                           dp.laplacian_l2(self.epsilon, \
-                                           n = len(self.logit.coef_), \
-                                           sensitivity = 2 * self.K * self.logit.C / len(X))
+        noise = dp.laplacian_l2(self.epsilon, \
+                                n = len(self.logit.coef_[0]), \
+                                sensitivity = 2 * self.K * self.logit.C / len(X))
+
+        print self.logit.coef_[0], noise
+
+        self.logit.coef_[0] = self.logit.coef_[0] + noise
 
         return self
 

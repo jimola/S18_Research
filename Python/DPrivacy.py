@@ -69,9 +69,9 @@ def laplacian(epsilon, n=1, sensitivity=1):
     sign = 1-2*np.random.randint(0, 2, n)
     return np.random.exponential(1/lam, n) * sign
 
-def sampleR(d, alpha):
-    """Sample r in R^d proportionally to exp(alpha * |r|_2)"""
-    erlang = sum(np.random.exponential(scale = alpha, size = d))
+def sampleR(d, beta):
+    """Sample r in R^d proportionally to exp(|r|_2 / beta)"""
+    erlang = sum(np.random.exponential(scale = beta, size = d))
     direction = np.random.normal(size = d)
     direction = direction / np.linalg.norm(direction)
     return erlang * direction
@@ -92,7 +92,7 @@ def laplacian_l2(epsilon, n = 1, sensitivity = 1):
         The sensitivity of the result that the noise will be applied to,
         measured with respect to the l2 norm (default 1)
     """
-    return sampleR(d = n, alpha = epsilon / sensitivity)
+    return sampleR(d = n, beta = sensitivity / epsilon)
 
 def hist_noiser(vals, epsilon=0):
     """Apply Laplace noise to a histogram
