@@ -33,12 +33,53 @@ def tuning(d):
     models = [LogisticRegression(C = C).fit(X_train, y_train) for C in Cs]
     return X_test, y_test, Cs, models
 
-# TODO
-#
-# - Ensure that we are doing binary classification
-# - Be clear on Hamming vs. non-Hamming distance
 class DPLogisticRegression:
-    def __init__(self, epsilon, K, C = 1.0):
+    """Differentially private logistic regression
+
+    Learn a differentially private logistic regression model using output
+    perturbation [1].  The method works by first fitting a traditional logistic
+    regression model, and then adding Laplace noise of suitable variance to its
+    coefficients.  (NB: The adjacency relation corresponding to this privacy
+    guarantee is the one that allows records to be modified, but not removed.
+    In particular, the size of the database is considered public information.)
+
+    The current implementation has a few limitations:
+
+    * It only supports binary classification.
+
+    * It cannot fit an intercept coefficient.
+
+    * It can only use l2 penalty.
+
+    * It cannot assign different penalization weights to different features.
+
+    * The model's input must be bounded in l2 norm (cf. the K parameter below).
+
+
+    Parameters
+    ----------
+
+    epsilon : float
+        The privacy budget.  Must be non negative.
+
+    K : float, default 1.0
+        Bound on the l2 norm of the input features; must be a positive number.
+        The amount of added noise is proportional to K.  Note that the original
+        analysis of the method assumed K = 1; the argument generalizes easily to
+        this case.
+
+    C : float, default 1.0
+        Inverse of regularization strength; must be a positive number.
+        The smaller C is, the stronger the regularization.  The amount of noise
+        added is proportional to C.  (The original analysis of the added noise
+        was formulated in terms of the inverse of C.)
+
+
+    [1] K. Chaudhuri, C. Monteleoni, A. Sarwate.  Differentially Private
+    Empirical Risk Minimization.  In Journal of Machine Learning 12, 2011.
+
+    """
+    def __init__(self, epsilon, K = 1.0, C = 1.0):
         self.logit = LogisticRegression(penalty = 'l2',
                                         C = C,
                                         dual = False,
@@ -67,8 +108,6 @@ class DPLogisticRegression:
                                 n = len(self.logit.coef_[0]), \
                                 sensitivity = 2 * self.K * self.logit.C / len(X))
 
-        print self.logit.coef_[0], noise
-
         self.logit.coef_[0] = self.logit.coef_[0] + noise
 
         return self
@@ -83,7 +122,7 @@ def test():
     X = pd.get_dummies(ttt.features)
     y = ttt.label
     K = np.sqrt(np.square(X).sum(axis = 1)).max()
-    plogit = DPLogisticRegression(epsilon = 200, K = K, C = 1.0)
+    plogit = DPLogisticRegression(epsilon = 0.1, K = K, C = 1.0)
     plogit = plogit.fit(X, y)
     return X, y, plogit
 
