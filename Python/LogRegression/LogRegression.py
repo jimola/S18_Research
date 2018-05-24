@@ -47,8 +47,6 @@ class DPLogisticRegression:
 
     * It only supports binary classification.
 
-    * It cannot fit an intercept coefficient.
-
     * It can only use l2 penalty.
 
     * It cannot assign different penalization weights to different features.
@@ -75,16 +73,22 @@ class DPLogisticRegression:
         was formulated in terms of the inverse of C.)
 
 
+    fit_intercept : boolean, default False
+        Whether to fit an intercept coefficient in the model.  Note that fitting
+        an intercept requires adding slightly more noise to achieve the same privacy
+        level: without an intercept, the noise is proporitional to K; with an
+        intercept, it is proportional to sqrt(K^2 + 1)
+
     [1] K. Chaudhuri, C. Monteleoni, A. Sarwate.  Differentially Private
     Empirical Risk Minimization.  In Journal of Machine Learning 12, 2011.
 
     """
-    def __init__(self, epsilon, K = 1.0, C = 1.0):
+    def __init__(self, epsilon, K = 1.0, C = 1.0, fit_intercept = False):
         self.logit = LogisticRegression(penalty = 'l2',
                                         C = C,
                                         dual = False,
                                         tol = 1e-4, # XXX Does this have an impact on sensitivity?
-                                        fit_intercept = False,
+                                        fit_intercept = fit_intercept,
                                         class_weight = None,
                                         solver = 'liblinear')
         if (epsilon < 0):
@@ -93,6 +97,10 @@ class DPLogisticRegression:
         if (K <= 0):
             raise ValueError("K must be positive")
         self.K = K
+        if (fit_intercept):
+            self.K_eff = np.sqrt(K * K + 1)
+        else:
+            self.K_eff = K
 
     def _enforce_norm(self, X):
         """Ensure that X respects norm bounds
@@ -103,7 +111,7 @@ class DPLogisticRegression:
         with private data.
 
         """
-        max_norm = np.sqrt(np.square(X).sum(axis = 1)).max()
+        max_norm = np.sqrt(np.square(X).sum(axis = 1).max())
         if (max_norm > self.K):
             raise ValueError("The l2 norm of the rows X of must be bounded by K = %f; "
                              "the maximum was %f" % (self.K, max_norm))
@@ -118,7 +126,7 @@ class DPLogisticRegression:
 
         noise = dp.laplacian_l2(self.epsilon, \
                                 n = len(self.logit.coef_[0]), \
-                                sensitivity = 2 * self.K * self.logit.C / len(X))
+                                sensitivity = 2 * self.K_eff * self.logit.C / len(X))
 
         self.logit.coef_[0] = self.logit.coef_[0] + noise
 
@@ -166,13 +174,13 @@ class DPLogisticRegression:
         self._enforce_norm(X)
         return self.logit.score(X, y)
 
-def test():
+def test(epsilon, C, fit_intercept):
     X = pd.get_dummies(ttt.features)
     y = ttt.label
     K = np.sqrt(np.square(X).sum(axis = 1)).max()
-    plogit = DPLogisticRegression(epsilon = 0.1, K = K, C = 1.0)
+    plogit = DPLogisticRegression(epsilon = epsilon, K = K, C = C, fit_intercept = fit_intercept)
     plogit = plogit.fit(X, y)
-    return X, y, plogit
+    print plogit.score(X, y)
 
 class LogRegressionChooser:
     def __init__(hyperparams, mfeatures, train_dbs, scorefunc):
