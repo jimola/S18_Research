@@ -13,7 +13,7 @@ import numpy as np
 
 class DataSet:
     def __init__(self, df, y_col = None):
-        if (y_col == None):
+        if y_col == None:
             y_col = df.columns[-1]
         self.features = df[df.columns.difference([y_col])]
         self.label    = df[y_col]
@@ -37,7 +37,7 @@ class DPLogisticRegression:
     """Differentially private logistic regression
 
     Learn a differentially private logistic regression model using output
-    perturbation [1].  The method works by first fitting a traditional logistic
+    perturbation.  The method works by first fitting a traditional logistic
     regression model, and then adding Laplace noise of suitable variance to its
     coefficients.  (NB: The adjacency relation corresponding to this privacy
     guarantee is the one that allows records to be modified, but not removed.
@@ -45,7 +45,7 @@ class DPLogisticRegression:
 
     The current implementation has a few limitations:
 
-    * It only supports binary classification.
+    * It only supports one-vs.-rest fitting for multi-class problems.
 
     * It can only use l2 penalty.
 
@@ -53,6 +53,12 @@ class DPLogisticRegression:
 
     * The model's input must be bounded in l2 norm (cf. the K parameter below).
 
+    There is a potential pitfall when fitting a multi-class model.  Since we
+    currently fit one separate model for each class, we have to split the
+    privacy budget among all of them, which leads to larger noise.  It seems
+    that this could be reduced by using a multinominal cost function, since
+    optimizing it has a sensitivity that is only twice the one of the binary
+    case.
 
     Parameters
     ----------
@@ -79,7 +85,11 @@ class DPLogisticRegression:
         level: without an intercept, the noise is proporitional to K; with an
         intercept, it is proportional to sqrt(K^2 + 1)
 
-    [1] K. Chaudhuri, C. Monteleoni, A. Sarwate.  Differentially Private
+
+    References
+    ----------
+
+    K. Chaudhuri, C. Monteleoni, A. Sarwate.  Differentially Private
     Empirical Risk Minimization.  In Journal of Machine Learning 12, 2011.
 
     """
@@ -91,13 +101,13 @@ class DPLogisticRegression:
                                         fit_intercept = fit_intercept,
                                         class_weight = None,
                                         solver = 'liblinear')
-        if (epsilon < 0):
+        if epsilon < 0:
             raise ValueError("epsilon must be non-negative")
         self.epsilon = epsilon
-        if (K <= 0):
+        if K <= 0:
             raise ValueError("K must be positive")
         self.K = K
-        if (fit_intercept):
+        if fit_intercept:
             self.K_eff = np.sqrt(K * K + 1)
         else:
             self.K_eff = K
@@ -112,23 +122,35 @@ class DPLogisticRegression:
 
         """
         max_norm = np.sqrt(np.square(X).sum(axis = 1).max())
-        if (max_norm > self.K):
+        if max_norm > self.K:
             raise ValueError("The l2 norm of the rows X of must be bounded by K = %f; "
                              "the maximum was %f" % (self.K, max_norm))
 
     def fit(self, X, y):
-        if (len(X) == 0):
+        if len(X) == 0:
             raise ValueError("Must provide non-empty X")
 
         self._enforce_norm(X) # FIXME
 
         self.logit = self.logit.fit(X, y)
 
-        noise = dp.laplacian_l2(self.epsilon, \
-                                n = len(self.logit.coef_[0]), \
-                                sensitivity = 2 * self.K_eff * self.logit.C / len(X))
+        # Split the privacy budget among each of the models fitted for each class
 
-        self.logit.coef_[0] = self.logit.coef_[0] + noise
+        e = self.epsilon / self.logit.coef_.shape[0]
+
+        n = self.logit.coef_.shape[1]
+        if self.logit.fit_intercept:
+            n = n + 1
+
+        for i in range(self.logit.coef_.shape[0]):
+            noise = dp.laplacian_l2(e, n = n, \
+                                    sensitivity = 2 * self.K_eff * self.logit.C / len(X))
+
+            if self.logit.fit_intercept:
+                self.logit.coef_[i] = self.logit.coef_[i] + noise[:-1]
+                self.logit.intercept_[i] = self.logit.intercept_[i] + noise[-1]
+            else:
+                self.logit.coef_[i] = self.logit.coef_[i] + noise
 
         return self
 
@@ -181,6 +203,16 @@ def test(epsilon, C, fit_intercept):
     plogit = DPLogisticRegression(epsilon = epsilon, K = K, C = C, fit_intercept = fit_intercept)
     plogit = plogit.fit(X, y)
     print plogit.score(X, y)
+    return plogit
+
+def test_multiclass(epsilon, C, fit_intercept):
+    X = pd.get_dummies(nurs.features)
+    y = nurs.label
+    K = np.sqrt(np.square(X).sum(axis = 1)).max()
+    plogit = DPLogisticRegression(epsilon = epsilon, K = K, C = C, fit_intercept = fit_intercept)
+    plogit = plogit.fit(X, y)
+    print plogit.score(X, y)
+    return plogit
 
 class LogRegressionChooser:
     def __init__(hyperparams, mfeatures, train_dbs, scorefunc):
