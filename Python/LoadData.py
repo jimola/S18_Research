@@ -2,6 +2,8 @@ import os, sys
 direct='../'
 sys.path.append(os.path.abspath(direct))
 import DPrivacy
+import numpy as np
+import pandas as pd
 
 np.random.seed(1234)
 nurs = pd.read_csv(direct+'../datasets/nursery.data', header=None)
@@ -14,7 +16,7 @@ bind = pd.DataFrame(np.array(list(map(lambda x: bind_raw[0].str.slice(x, x+1),
 bind[9] = bind_raw[1]
 bind = DPrivacy.Database.from_dataframe(bind)
 contra = pd.read_csv(direct+'../datasets/cmc.data', header=None)
-contra[0] = contra[0] / 5 
+contra[0] = contra[0] / 5
 contra = DPrivacy.Database.from_dataframe(contra)
 loan = pd.read_csv(direct+'../datasets/student-loan.csv')
 loan = DPrivacy.Database.from_dataframe(loan)
