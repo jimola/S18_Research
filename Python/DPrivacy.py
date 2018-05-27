@@ -11,8 +11,9 @@ class Database:
     @classmethod
     def from_dataframe(cls, d, y_idx=-1, cutoff=0.7):
         for x in d.columns:
-            d[x] = np.unique(d[x], return_inverse=True)[1]
-            d[x] = d[x].astype('category')
+            if(d[x].dtype == 'O'):
+                d[x] = np.unique(d[x], return_inverse=True)[1]
+                d[x] = d[x].astype('category')
         d = d.reindex(np.random.permutation(d.index))
         cutoff = int(cutoff*len(d))
         y_name = d.columns[y_idx]

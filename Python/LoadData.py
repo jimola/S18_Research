@@ -22,3 +22,6 @@ student = pd.read_csv(direct+'../datasets/student-processed.csv')
 student = DPrivacy.Database.from_dataframe(student)
 votes = pd.read_csv(direct+'../datasets/house-votes-84.data', header=None)
 votes = DPrivacy.Database.from_dataframe(votes)
+
+adult = pd.read_csv(direct+'../datasets/adult/adult.data', header=None)
+adult = DPrivacy.Database.from_dataframe(adult, cutoff=1)
