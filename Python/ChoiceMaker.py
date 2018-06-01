@@ -8,7 +8,7 @@ class ChoiceMaker:
     mfs: class computing database metafeatures such as number of rows, domain
     size, and epsilon. Must have an eval method.
 
-    algs: list of algortihms in our selection. Must implement a run and an error method
+    algs : list of algortihms in our selection. Must implement a run and an error method
 
     mf_eval : Dataframe of evaluated database metafeatures. mf_eval[i][j] is 
     metafeature j evaluated on database i of training set.
@@ -17,16 +17,33 @@ class ChoiceMaker:
     performance of algorithm j on database i of the training set.
 
     model : Machine Learning model to train with. Must implement a train and
-    predict method
+    fit method
      
     """
     def __init__(self, mfs, algs, mf_eval, alg_perfs, model):
         self.model = model
         self.model.fit(mf_eval, alg_perfs)
         self.metafeatures = mfs
-        self.algs = dict([(a.name, a) for a in alg_list])
+        self.algs = dict([(a.name, a) for a in algs])
+        self.alg_perfs = alg_perfs
+        self.mf_eval = mf_eval
+
     @classmethod
     def create_regret_based(cls, train_set, alg_list, model, mfs):
+        """
+        Convenience method for creating a ChoiceMaker
+
+        Parameters
+        ----------
+        
+        train_set : 
+
+        alg_list :
+
+        model :
+
+        mfs : metafeature class. Must implement an eval method.
+        """
         Xs = pd.DataFrame()
         y = pd.DataFrame()
         for t in train_set:
@@ -42,3 +59,4 @@ class ChoiceMaker:
         mfs = self.metafeatures.eval(db)
         best_alg = self.model.predict(mfs)
         return self.algs[best_alg].run(db)
+

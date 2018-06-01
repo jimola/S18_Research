@@ -202,7 +202,7 @@ def test(epsilon, C, fit_intercept):
     K = np.sqrt(np.square(X).sum(axis = 1)).max()
     plogit = DPLogisticRegression(epsilon = epsilon, K = K, C = C, fit_intercept = fit_intercept)
     plogit = plogit.fit(X, y)
-    print plogit.score(X, y)
+    print(plogit.score(X, y))
     return plogit
 
 def test_multiclass(epsilon, C, fit_intercept):
@@ -211,7 +211,7 @@ def test_multiclass(epsilon, C, fit_intercept):
     K = np.sqrt(np.square(X).sum(axis = 1)).max()
     plogit = DPLogisticRegression(epsilon = epsilon, K = K, C = C, fit_intercept = fit_intercept)
     plogit = plogit.fit(X, y)
-    print plogit.score(X, y)
+    print(plogit.score(X, y))
     return plogit
 
 class LogRegressionChooser:

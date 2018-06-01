@@ -41,10 +41,10 @@ class HistMetafeats:
         return cost
     def eval(self, data):
         if(isinstance(data.x, dataset.DatasetSampledFromFile)):
-            x = data.x.dist
+            x = data.x.dist * data.x.scale
         else:
             x = data.x
-        H = (x*data.scale).astype('int')
+        H = np.around(x).astype('int')
         nnz = (H == 0).sum()
         tvd = HistMetafeats.dev(H)
         cost = self.min_cost(H, data.epsilon)
@@ -140,7 +140,7 @@ class DTreeNode:
         if(len(self.best_col) == 1):
             return self.children[x[col]].get_pred(x)
         split = self.best_col[1]
-        if(x[col] < split):
+        if(x.loc[0, col] < split):
             return self.children[0].get_pred(x)
         else:
             return self.children[1].get_pred(x)
@@ -202,8 +202,5 @@ def iter_train_set():
 
 train_set = iter_train_set()
 #train_set = [next(T) for i in range(0, 3)]
-alg_list = [Dawa(), Identity(), Hb()]
-mfs = HistMetafeats()
-model = DTree(3, group_gini)
 
-cm = ChoiceMaker.create_regret_based(t_set, alg_list, d, mfs)
+#cm = ChoiceMaker.create_regret_based(t_set, alg_list, model, mfs)
