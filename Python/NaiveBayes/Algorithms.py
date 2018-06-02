@@ -32,22 +32,28 @@ def seeder(seed=12345):
 class HistMetafeats:
     def __init__(self):
         self.S = seeder()
+        self.sens = {'scale': 1, 'shape': 0, 'nnz': 1, 'tvd': 2, 'cost': 2}
     @staticmethod
     def dev(H):
         return abs(H-H.mean()).sum()
     def min_cost(self, H, epsilon):
         P = l1partition.L1partition(H, epsilon, gethist=True, seed=next(self.S))
-        cost = sum([HistMetafeats.dev(H[l:r+1]) for l, r in P]) + len(P)/epsilon
+        cost = sum([HistMetafeats.dev(H[l:r+1]) for l, r in P]) #+ len(P)/epsilon
         return cost
     def eval(self, data):
         if(isinstance(data.x, dataset.DatasetSampledFromFile)):
             x = data.x.dist * data.x.scale
         else:
             x = data.x
-        H = np.around(x).astype('int')
-        nnz = (H == 0).sum()
+        #Instead of having epsilon be a metafeature, multiply database histogram
+        #by epsilon and pretend epsilon=1. Verify that all metafeatures will
+        #the same relative noise added to them
+        H = np.around(x*data.epsilon).astype('int')
+        nnz = (H != 0).sum()
         tvd = HistMetafeats.dev(H)
-        cost = self.min_cost(H, data.epsilon)
+        #Metafeature used in the Pythia paper. epsilon set to 100 because it
+        #doesn't need to be computed in a DP way since it will be noised later.
+        cost = self.min_cost(H, 100)
         return pd.DataFrame({'scale': data.scale, 'shape': data.dom_size,
                              'nnz': nnz, 'tvd': tvd, 'cost': cost}, index=[0])
 class HistAlgo:
@@ -90,7 +96,7 @@ class DTreeNode:
         self.max_depth = md
         self.quality_func = qf
     def leaf(self, y):
-        bests = y.columns[np.argmax(np.array(y), axis=1)]
+        bests = y.columns[np.argmin(np.array(y), axis=1)]
         freq_table = pd.value_counts(bests)
         self.pred = freq_table.idxmax()
         return self
@@ -133,17 +139,22 @@ class DTreeNode:
                     DTreeNode(self.max_depth-1, self.quality_func).train(X[x>=e], y[x>=e])]
         return self
 
-    def get_pred(self, x):
+    def get_pred(self, x, budget, sens):
         if(hasattr(self, 'pred')):
-            return self.pred
+            return self.pred, 0
         col = self.best_col[0]
         if(len(self.best_col) == 1):
-            return self.children[x[col]].get_pred(x)
+            return self.children[x[col]].get_pred(x, budget, sens)
         split = self.best_col[1]
-        if(x.loc[0, col] < split):
-            return self.children[0].get_pred(x)
+        S = sens[col]
+        val = x.loc[0, col]
+        if(budget > 0):
+            val += np.random.laplace(0, S/budget)
+        if(val < split):
+            pred, used = self.children[0].get_pred(x, budget, sens)
         else:
-            return self.children[1].get_pred(x)
+            pred, used = self.children[1].get_pred(x, budget, sens)
+        return pred, used+budget
 class DTree:
     def __init__(self, max_depth, qf):
         self.max_depth = max_depth
@@ -153,9 +164,10 @@ class DTree:
         md = min(self.max_depth, X.shape[1])
         self.dtree = DTreeNode(md, self.quality_func).train(X, y)
         return
-    def predict(self, x):
+    def predict(self, x, budget=0, sens=None):
         if(len(x) == 1):
-            return self.dtree.get_pred(x)
+            B = budget / len(sens)
+            return self.dtree.get_pred(x, B, sens)
         else:
             preds = []
             for i in x.index:
@@ -163,7 +175,7 @@ class DTree:
                 preds.append(self.dtree.get_pred(row))
             return np.array(preds)
     def score(self, X, y):
-        preds = np.array(self.predict(X))
+        preds = np.array(self.predict(X, budget, sens))
         return (preds == y).sum()
 
 def gini_cnts(cnts):
@@ -174,7 +186,7 @@ def gini(col):
     return gini_cnts(cnts)
 
 def group_gini(regrets, theta=1.0):
-    y = regrets.columns[np.argmax(np.array(regrets), axis=1)]
+    y = regrets.columns[np.argmin(np.array(regrets), axis=1)]
     mean_regrets = regrets.mean(axis='index')
     mean_regrets.sort_values(inplace=True)
     last_idx = mean_regrets.index[0]
