@@ -1,3 +1,6 @@
 __pycache__
 *.pyc
 *.swp
+.ipynb_checkpoints/
+Python/NaiveBayes/NaiveBayes
+Python/LogRegression/LogRegression
