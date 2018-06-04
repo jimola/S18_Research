@@ -61,11 +61,14 @@ class HistAlgo:
         self.S = seeder()
         self.name = name
 
-    def error(self, data):
-        M = metric.SampleError(experiment.Single(data.x, data.Q, self._alg,
-            data.epsilon, next(self.S)))
-        err = M.compute().error_payload
-        return err['TypeI.L2']
+    def error(self, data, reps=10):
+        tot = 0
+        for x in range(0, reps):
+            M = metric.SampleError(experiment.Single(data.x, data.Q, self._alg,
+                data.epsilon, next(self.S)))
+            err = M.compute().error_payload
+            tot += err['TypeI.L2']
+        return tot / reps
 
     def run(self, data):
         if(isinstance(data.x, dataset.DatasetSampledFromFile)):

@@ -8,7 +8,8 @@ class ChoiceMaker:
     mfs: class computing database metafeatures such as number of rows, domain
     size, and epsilon. Must have an eval method.
 
-    algs : list of algortihms in our selection. Must implement a run and an error method
+    algs : list of algortihms to be selected. Must implement a run and an error
+    method.
 
     mf_eval : Dataframe of evaluated database metafeatures. mf_eval[i][j] is 
     metafeature j evaluated on database i of training set.
@@ -36,13 +37,18 @@ class ChoiceMaker:
         Parameters
         ----------
         
-        train_set : 
+        train_set : iterable of inputs on which algorithms are run. inputs will
+        be a class that usually include a database and must include epsilon as
+        members.
 
-        alg_list :
+        alg_list : list of algorithms to be selected from. Must implement a run
+        and an error method.
 
-        model :
+        model : Machine Learning model for training. Must implement a train and
+        a fit method
 
         mfs : metafeature class. Must implement an eval method.
+
         """
         Xs = pd.DataFrame()
         y = pd.DataFrame()
@@ -55,8 +61,30 @@ class ChoiceMaker:
         regrets = y.divide(m, axis='index')
         return cls(mfs, alg_list, Xs, regrets, model)
 
-    def mkChoice(self, db):
-        mfs = self.metafeatures.eval(db)
-        best_alg = self.model.predict(mfs)
-        return self.algs[best_alg].run(db)
+    def mkChoice(self, data, ratio=0.2):
+        """
+        Method for computing Choice.
+
+        Parameters
+        ----------
+        
+        data : input class. Must include epsilon as a member!
+
+        ratio : ratio of epsilon to be used on computing metafeatures vs.
+        running the actual algorithm. Default: 0.2
+
+        Returns
+        -------
+
+        Best algorithm as selected by model run on data
+
+        """
+        eps = data.epsilon
+        mf_max_budget = ratio*eps
+        data.epsilon = eps-mf_max_budget
+        mfs = self.metafeatures.eval(data)
+        (best_alg, used) = self.model.predict(mfs, mf_max_budget,
+                self.metafeatures.sens)
+        data.epsilon = eps-used
+        return self.algs[best_alg].run(data)
 
