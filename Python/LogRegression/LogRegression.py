@@ -113,8 +113,9 @@ class DPLogisticRegression:
             self.K_eff = K
 
     def _normalize(self, X):
-        coefs = np.maximum(np.sqrt(np.square(X).sum(axis = 1)), self.K * np.ones(len(xs)))
-        return X.div(coefs, axis = 0)
+        coefs = np.maximum(np.sqrt(np.square(X).sum(axis = 1)), self.K *
+                np.ones(len(X)))
+        return np.array(X) / coefs.reshape(len(coefs), 1)
 
     def _enforce_norm(self, X):
         """Ensure that X respects norm bounds
@@ -182,9 +183,7 @@ class DPLogisticRegression:
         C : array, shape = [n_samples]
             Predicted class label per sample.
         """
-        # FIXME In the case where the intercept term is zero, it might be fine
-        # to use the model on non-private data without enforcing the norm
-        # restriction.
+        X = self._normalize(X)
         self._enforce_norm(X)
         return self.logit.predict(X)
 
@@ -206,6 +205,7 @@ class DPLogisticRegression:
         score : float
             Mean accuracy of self.predict(X) wrt. y.
         """
+        X = self._normalize(X)
         self._enforce_norm(X)
         return self.logit.score(X, y)
 

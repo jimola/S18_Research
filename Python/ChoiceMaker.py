@@ -53,6 +53,7 @@ class ChoiceMaker:
         Xs = pd.DataFrame()
         y = pd.DataFrame()
         for t in train_set:
+        #TODO dynamic test for error vs score method
             errs = pd.DataFrame(dict([(a.name, a.error(t)) for a in alg_list]),
                     index=[0])
             y = y.append(errs, ignore_index=True)
@@ -60,6 +61,14 @@ class ChoiceMaker:
         m = np.min(np.array(y), axis=1)
         regrets = y.divide(m, axis='index')
         return cls(mfs, alg_list, Xs, regrets, model)
+    
+    """
+    @classmethod
+    def create_regret_based_new(cls, train_set, alg_list, model, mfs):
+        Xs = pd.DataFrame()
+        y = pd.DataFrame()
+    """
+            
 
     def mkChoice(self, data, ratio=0.2):
         """
