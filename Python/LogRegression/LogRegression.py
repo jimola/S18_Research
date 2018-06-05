@@ -112,6 +112,10 @@ class DPLogisticRegression:
         else:
             self.K_eff = K
 
+    def _normalize(self, X):
+        coefs = np.maximum(np.sqrt(np.square(X).sum(axis = 1)), self.K * np.ones(len(xs)))
+        return X.div(coefs, axis = 0)
+
     def _enforce_norm(self, X):
         """Ensure that X respects norm bounds
 
@@ -127,10 +131,19 @@ class DPLogisticRegression:
                              "the maximum was %f" % (self.K, max_norm))
 
     def fit(self, X, y):
+        """Fit model to features X and labels y.
+
+        Normalizes the features in X to stay within the bound on the norm K: If
+        the norm of a row is greater than K, normalize that row; otherwise,
+        leave it intact.
+
+        """
         if len(X) == 0:
             raise ValueError("Must provide non-empty X")
 
-        self._enforce_norm(X) # FIXME
+        X = self._normalize(X)
+
+        self._enforce_norm(X) # This should never throw an error after the call to _normalize
 
         self.logit = self.logit.fit(X, y)
 
