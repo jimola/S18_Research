@@ -1,7 +1,6 @@
-
 class ChoiceMaker:
     """Class of ChoiceMaker object
-    
+
     Parameters
     ----------
 
@@ -11,15 +10,15 @@ class ChoiceMaker:
     algs : list of algortihms to be selected. Must implement a run and an error
     method.
 
-    mf_eval : Dataframe of evaluated database metafeatures. mf_eval[i][j] is 
+    mf_eval : Dataframe of evaluated database metafeatures. mf_eval[i][j] is
     metafeature j evaluated on database i of training set.
 
-    alg_perfs : Dataframe of algorithm performances. alg_perfs[i][j] is the 
+    alg_perfs : Dataframe of algorithm performances. alg_perfs[i][j] is the
     performance of algorithm j on database i of the training set.
 
     model : Machine Learning model to train with. Must implement a train and
     fit method
-     
+
     """
     def __init__(self, mfs, algs, mf_eval, alg_perfs, model):
         self.model = model
@@ -36,7 +35,7 @@ class ChoiceMaker:
 
         Parameters
         ----------
-        
+
         train_set : iterable of inputs on which algorithms are run. inputs will
         be a class that usually include a database and must include epsilon as
         members.
@@ -61,14 +60,6 @@ class ChoiceMaker:
         m = np.min(np.array(y), axis=1)
         regrets = y.divide(m, axis='index')
         return cls(mfs, alg_list, Xs, regrets, model)
-    
-    """
-    @classmethod
-    def create_regret_based_new(cls, train_set, alg_list, model, mfs):
-        Xs = pd.DataFrame()
-        y = pd.DataFrame()
-    """
-            
 
     def mkChoice(self, data, ratio=0.2):
         """
@@ -76,7 +67,7 @@ class ChoiceMaker:
 
         Parameters
         ----------
-        
+
         data : input class. Must include epsilon as a member!
 
         ratio : ratio of epsilon to be used on computing metafeatures vs.
@@ -96,4 +87,3 @@ class ChoiceMaker:
                 self.metafeatures.sens)
         data.epsilon = eps-used
         return self.algs[best_alg].run(data)
-
