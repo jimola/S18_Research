@@ -115,7 +115,7 @@ class DPLogisticRegression:
     def _normalize(self, X):
         coefs = np.maximum(np.sqrt(np.square(X).sum(axis = 1)), self.K *
                 np.ones(len(X)))
-        return np.array(X) / coefs.reshape(len(coefs), 1)
+        return np.array(X) / np.array(coefs)[:,None]
 
     def _enforce_norm(self, X):
         """Ensure that X respects norm bounds
@@ -123,7 +123,7 @@ class DPLogisticRegression:
         Throw an error if any row of X has a norm bigger than K.
 
         NB: This method violates differential privacy, and should not be used
-        with private data.
+        indiscriminately with private data.
 
         """
         max_norm = np.sqrt(np.square(X).sum(axis = 1).max())
