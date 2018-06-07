@@ -157,7 +157,7 @@ class DTreeNode:
             pred, used = self.children[0].get_pred(x, budget, sens)
         else:
             pred, used = self.children[1].get_pred(x, budget, sens)
-        return pred, used+budget
+        rturn pred, used+budget
 class DTree:
     def __init__(self, max_depth, qf):
         self.max_depth = max_depth

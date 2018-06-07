@@ -61,7 +61,7 @@ class ChoiceMaker:
             y = y.append(errs, ignore_index=True)
             Xs = Xs.append(pd.DataFrame(mfs.eval(t)), ignore_index=True)
         m = np.min(np.array(y), axis=1)
-        regrets = y.divide(m, axis='index')
+        regrets = y.subtract(m, axis='index')
         return cls(mfs, alg_list, Xs, regrets, model)
 
     def mkChoice(self, data, ratio=0.2):
