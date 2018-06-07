@@ -128,7 +128,7 @@ class DPLogisticRegression:
         """
         max_norm = np.sqrt(np.square(X).sum(axis = 1).max())
         if max_norm > self.K:
-            raise ValueError("The l2 norm of the rows X of must be bounded by K = %f; "
+            raise ValueError("The l2 norm of the rows of X must be bounded by K = %f; "
                              "the maximum was %f" % (self.K, max_norm))
 
     def fit(self, X, y):
