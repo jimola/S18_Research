@@ -1,3 +1,6 @@
+import pandas as pd
+import numpy as np
+
 class ChoiceMaker:
     """Class of ChoiceMaker object
 

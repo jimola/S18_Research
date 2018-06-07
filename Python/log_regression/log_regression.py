@@ -7,6 +7,8 @@ import pandas as pd
 import numpy as np
 from data import adult, ttt, nursery, loan
 
+import DPrivacy as dp
+
 class DataSet:
     def __init__(self, df, y_col = None):
         if y_col == None:
@@ -203,8 +205,8 @@ class DPLogisticRegression:
         return self.logit.score(X, y)
 
 def test(epsilon, C, fit_intercept):
-    X = pd.get_dummies(ttt.data.features)
-    y = ttt.data.label
+    X = pd.get_dummies(ttt.features)
+    y = ttt.label
     K = np.sqrt(np.square(X).sum(axis = 1)).max()
     plogit = DPLogisticRegression(epsilon = epsilon, K = K, C = C, fit_intercept = fit_intercept)
     plogit = plogit.fit(X, y)
