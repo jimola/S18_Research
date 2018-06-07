@@ -1,15 +1,11 @@
 import sys
 import os
-sys.path.append(os.path.abspath("../../datasets/adult"))
-import adult as adult
-sys.path.append(os.path.abspath("../"))
-import DPrivacy as dp
-import LoadData as data
 
 from sklearn.linear_model import LogisticRegression
 from sklearn import model_selection
 import pandas as pd
 import numpy as np
+from data import adult, ttt, nursery, loan
 
 class DataSet:
     def __init__(self, df, y_col = None):
@@ -18,13 +14,10 @@ class DataSet:
         self.features = df[df.columns.difference([y_col])]
         self.label    = df[y_col]
 
-data_path = os.path.abspath("../../datasets")
-
 adult = DataSet(adult.original, y_col = "Target")
-ttt = pd.read_csv(os.path.join(data_path, "tic-tac-toe.data"), header = None)
-ttt = DataSet(ttt)
-nurs = DataSet(pd.read_csv(os.path.join(data_path, "nursery.data"), header = None))
-loan = DataSet(pd.read_csv(os.path.join(data_path, "student-loan.csv")))
+ttt = DataSet(ttt.data)
+nurs = DataSet(nursery.data)
+loan = DataSet(loan.data)
 
 def tuning(d):
     dummies = pd.get_dummies(d.features)
@@ -210,8 +203,8 @@ class DPLogisticRegression:
         return self.logit.score(X, y)
 
 def test(epsilon, C, fit_intercept):
-    X = pd.get_dummies(ttt.features)
-    y = ttt.label
+    X = pd.get_dummies(ttt.data.features)
+    y = ttt.data.label
     K = np.sqrt(np.square(X).sum(axis = 1)).max()
     plogit = DPLogisticRegression(epsilon = epsilon, K = K, C = C, fit_intercept = fit_intercept)
     plogit = plogit.fit(X, y)
