@@ -66,9 +66,12 @@ def laplacian(epsilon, n=1, sensitivity=1):
 
     out : A vector drawn from the Laplace distribution
     """
-    lam = epsilon/sensitivity
-    sign = 1-2*np.random.randint(0, 2, n)
-    return np.random.exponential(1/lam, n) * sign
+    if sensitivity == 0:
+        return 0.0
+    else:
+        lam = epsilon/sensitivity
+        sign = 1-2*np.random.randint(0, 2, n)
+        return np.random.exponential(1/lam, n) * sign
 
 def sampleR(d, beta):
     """Sample r in R^d proportionally to exp(|r|_2 / beta)"""
@@ -87,13 +90,16 @@ def laplacian_l2(epsilon, n = 1, sensitivity = 1):
         The privacy budget. Must be greater than 0.
 
     n : int
-        The dimension of the vector noise to be generated (default 1)
+        The dimension of the noise vector to be generated (default 1)
 
     sensitivity : float
         The sensitivity of the result that the noise will be applied to,
         measured with respect to the l2 norm (default 1)
     """
-    return sampleR(d = n, beta = sensitivity / epsilon)
+    if sensitivity == 0:
+        return 0
+    else:
+        return sampleR(d = n, beta = sensitivity / epsilon)
 
 def hist_noiser(vals, epsilon=0):
     """Apply Laplace noise to a histogram

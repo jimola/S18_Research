@@ -1,5 +1,13 @@
 import pandas as pd
 import numpy as np
+import DPrivacy as dp
+from sklearn.tree import DecisionTreeClassifier
+
+# TODO
+#
+# - Replace the metafeature class with a callable object.
+# - Perhaps we should rename error to score, which is more general.
+
 
 class ChoiceMaker:
     """Class of ChoiceMaker object
@@ -52,17 +60,12 @@ class ChoiceMaker:
         mfs : metafeature class. Must implement an eval method.
 
         """
-        Xs = pd.DataFrame()
-        y = pd.DataFrame()
-        for t in train_set:
-        #TODO dynamic test for error vs score method
-            errs = pd.DataFrame(dict([(a.name, a.error(t)) for a in alg_list]),
-                    index=[0])
-            y = y.append(errs, ignore_index=True)
-            Xs = Xs.append(pd.DataFrame(mfs.eval(t)), ignore_index=True)
-        m = np.min(np.array(y), axis=1)
-        regrets = y.subtract(m, axis='index')
-        return cls(mfs, alg_list, Xs, regrets, model)
+        # TODO dynamic test for error vs score method
+        X = pd.DataFrame([mfs.eval(t) for t in train_set])
+        y = pd.DataFrame([dict([(a.name, a.error(t)) for a in alg_list])
+                          for t in train_set])
+        regrets = y.subtract(np.min(np.array(y), axis = 1), axis = 'index')
+        return cls(mfs, alg_list, X, regrets, model)
 
     def mkChoice(self, data, ratio=0.2):
         """
@@ -89,4 +92,47 @@ class ChoiceMaker:
         (best_alg, used) = self.model.predict(mfs, mf_max_budget,
                 self.metafeatures.sens)
         data.epsilon = eps-used
+        return self.algs[best_alg].run(data)
+
+class DTChoice:
+    """Choice maker based on sklearn decision trees
+
+    Parameters
+    ----------
+
+    train_set: A list of public databases
+
+    mfs: A callable object for computing metafeatures on databases.  The
+    returned metafeatures must be a dictionary object mapping metafeature names
+    to their values. The mfs object must have a sensitivity attribute, with is a
+    dictionary mapping metafeature names to their sensitivities.
+
+    algs: A dictionary mapping names to algoriths. Each algorithm must implement
+    a run method, which executes the algorithm on a database, and an error
+    method, which computes the algorithm's error on a database.
+
+    """
+
+    def __init__(self, train_set, mfs, algs):
+        self.metafeatures = mfs
+        self.algs = algs
+        self.X = pd.DataFrame([mfs(t) for t in train_set])
+        self.y = pd.DataFrame([{name: alg.error(t) for name, alg in algs.items()}
+                               for t in train_set])
+        self.regrets = self.y.subtract(np.min(np.array(self.y), axis = 1),
+                                       axis = 'index')
+        self.model = DecisionTreeClassifier()
+        self.model = self.model.fit(self.X, self.y.idxmin(axis = 1))
+
+    def choose(self, data, ratio = 0.2):
+        eps = data.epsilon
+        budget = ratio * eps
+        sens = self.metafeatures.sensitivity
+
+        X = self.metafeatures(data)
+        noisy_X = pd.DataFrame([{name: value + dp.laplacian(budget / len(sens),
+                                                            sensivitity = sens[name])
+                                 for name, value in self.metafeatures(data).items()}])
+        best = self.model.predict(noisy_X)
+        data.epsilon = eps - budget
         return self.algs[best_alg].run(data)
