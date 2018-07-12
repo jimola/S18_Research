@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import DPrivacy as dp
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
 
 # TODO
 #
@@ -113,11 +114,13 @@ class DTChoice:
 
     """
 
-    def __init__(self, train_set, mfs, algs):
+    def __init__(self, train_set, mfs, algs, reps=10):
         self.metafeatures = mfs
         self.algs = algs
         self.X = pd.DataFrame([mfs(t) for t in train_set])
-        self.y = pd.DataFrame([{name: alg.error(t) for name, alg in algs.items()}
+        self.y = pd.DataFrame([{name: sum([alg.error(t) 
+                               for x in range(0, reps)]) / reps
+                               for name, alg in algs.items()}
                                for t in train_set])
         self.regrets = self.y.subtract(np.min(np.array(self.y), axis = 1),
                                        axis = 'index')
@@ -136,3 +139,34 @@ class DTChoice:
         best = self.model.predict(noisy_X)
         data.epsilon = eps - budget
         return self.algs[best_alg].run(data)
+
+    def get_approximate_regret(self, return_std=False, test_ratio=0.3):
+        """
+        Splits data into training and test and returns average regrets on the
+        test split for each algorithm and for this DTChoice object.
+
+        The DTChoice regret is approximate (and an underestimate) for two 
+        reasons. Let A = ratio*epsilon and B = (1-ratio)*epsilon.
+
+        First, we don't add Laplace(A) noise to the metafeatures when we 
+        predict on them.
+
+        Second, the algorithm we choose isn't run with B budget---it's run with
+        epsilon budget instead.
+
+        TODO: Make the regret more accurate only if we get a good result with
+        this method.
+
+        """
+        X_train, X_test, y_train, y_test = train_test_split(self.X,
+                self.y, test_size=test_ratio)
+        model = DecisionTreeClassifier()
+        model.fit(X_train, y_train.idxmin(axis=1))
+        algs = model.predict(X_test)
+        perfs = y_test.lookup(y_test.index, algs)
+        R = np.concatenate((np.array(y_test), perfs[:, None]), axis=1)
+        R = R - np.min(R, axis=1)[:, None]
+        if(return_std):
+            return (R.mean(axis=0), R.std(axis=0))
+        else:
+            return R.mean(axis=0)
