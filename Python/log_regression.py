@@ -204,6 +204,9 @@ class DPLogisticRegression:
         self._enforce_norm(X)
         return self.logit.score(X, y)
 
+    def set_epsilon(self, eps):
+        self.epsilon = eps
+
 def test(epsilon, C, fit_intercept):
     X = pd.get_dummies(ttt.features)
     y = ttt.label
