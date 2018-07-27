@@ -4,3 +4,4 @@ __pycache__
 .ipynb_checkpoints/
 Python/NaiveBayes/NaiveBayes
 Python/LogRegression/LogRegression
+/Python/data/application_train.csv
