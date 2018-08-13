@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 import DPrivacy as dp
 import copy
+import sys
+sys.path = ['./scikit-learn/build/lib.linux-x86_64-3.6/'] + sys.path
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 
@@ -122,59 +124,84 @@ class DTChoice:
 
     """
 
-    def __init__(self, train_set, mfs, algs, reps=1, y=None):
+    def __init__(self, train_set, mfs, algs, reps=1, y=None, C=0):
         self.metafeatures = mfs
         self.algs = algs
         self.X = pd.DataFrame([mfs(t) for t in train_set])
+        self.C = C
+        usage = np.array(list(mfs.sensitivities.values()))
+        usage[usage > 0] = 1
+        self.is_used = usage
         if y is None:
-            self.y = pd.DataFrame([{name: sum([alg.error(t) 
-                                   for x in range(0, reps)]) / reps
-                                   for name, alg in algs.items()}
-                                   for t in train_set])
+            self.regrets = pd.DataFrame([{name: sum([alg.error(t) 
+                                         for x in range(0, reps)]) / reps
+                                         for name, alg in algs.items()}
+                                         for t in train_set])
         else:
-            self.y = y
-
-        self.regrets = self.y.subtract(np.min(np.array(self.y), axis = 1),
+            self.regrets = y
+        self.regrets = self.regrets.subtract(self.regrets.min(axis = 1),
                                        axis = 'index')
+        self.y = self.regrets.idxmin(axis=1)
         self.retrain_model()
     
+    #Change metafeatures
     def update_metas(self, train_set, mfs):
         self.X = pd.DataFrame([mfs(t) for t in train_set])
+        usage = np.array(list(mfs.sensitivities.values()))
+        usage[usage > 0] = 1
+        self.is_used = usage
         self.retrain_model()
 
-    def retrain_model(self):
+    #Helper method
+    def retrain_model(self, C=None):
+        if C is not None:
+            self.C = C
         self.model = DecisionTreeClassifier()
-        self.model = self.model.fit(self.X, self.y.idxmin(axis=1))
+        self.model = self.model.fit(self.X, self.y, self.regrets, self.C)
 
+    #Return the label of the best algorithm.
     def get_best_alg(self, data, budget):
         sens = self.metafeatures.sensitivities
-
+        nnz = np.count_nonzero(self.is_used)
+        feature_budget = budget / nnz
         X = self.metafeatures(data)
-        noisy_X = pd.DataFrame([{name: value + dp.laplacian(budget / len(sens),
+        noisy_X = pd.DataFrame([{name: value + dp.laplacian(feature_budget,
                                                             sensitivity = sens[name])
                                  for name, value in self.metafeatures(data).items()}])
-        best = self.model.predict(noisy_X)[0]
-        return best
 
-    def choose(self, data, ratio = 0.2):
+        used = []
+        node_counts = self.model.decision_path(noisy_X).data-1 
+        start = 0
+        for i in range(len(node_counts)):
+            if node_counts[i] == -1:
+                used.append(self.is_used[np.unique(node_counts[start:i])].sum())
+                start = i+1
+        if start != len(node_counts):
+            used.append(self.is_used[np.unique(node_counts[start:i])].sum())
+        used = feature_budget * np.array(used)
+        return (self.model.predict(noisy_X), used)
+
+    #Choose and run the best algorithm in a DP way
+    def choose(self, data, ratio = 0.3):
         budget = data.epsilon*ratio
-        best = self.get_best_alg(data, budget)
-        data.epsilon = data.epsilon - budget
-        return self.algs[best].run(data)
+        (best, used) = self.get_best_alg(data, budget)
+        data.epsilon = data.epsilon - used[0]
+        return self.algs[best[0]].run(data)
 
     def get_regret(self, data, ratio=0.2, reps=1):
         #data = copy.copy(data)
         budget = data.epsilon*ratio
-        ys = pd.DataFrame({name: sum([alg.error(data)
+        regrets = pd.DataFrame({name: sum([alg.error(data)
                                 for x in range(0, reps)]) / reps
                                 for name, alg in self.algs.items()},
                            index=[0])
 
-        best_alg = self.algs[self.get_best_alg(data, budget)]
-        data.epsilon = data.epsilon - budget
+        (best, used) = self.get_best_alg(data, budget)
+        best_alg = self.algs[best[0]]
+        data.epsilon = data.epsilon - used[0]
         R = best_alg.error(data)
-        ys['cm'] = R
-        return ys - ys.min(axis=1)[0]
+        regrets['cm'] = R
+        return regrets - regrets.min(axis=1)[0]
 
     def get_approximate_regret(self, return_std=False, test_ratio=0.3):
         """
