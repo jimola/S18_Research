@@ -127,7 +127,10 @@ class DTChoice:
     def __init__(self, train_set, mfs, algs, reps=1, y=None, C=0):
         self.metafeatures = mfs
         self.algs = algs
-        self.X = pd.DataFrame([mfs(t) for t in train_set])
+        if isinstance(train_set, pd.DataFrame):
+            self.X = train_set
+        else:
+            self.X = pd.DataFrame([mfs(t) for t in train_set])
         self.C = C
         usage = np.array(list(mfs.sensitivities.values()))
         usage[usage > 0] = 1
