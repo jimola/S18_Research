@@ -169,7 +169,8 @@ class DTChoice:
         feature_budget = budget / nnz
         X = self.metafeatures(data)
         noisy_X = pd.DataFrame([{name: value + dp.laplacian(feature_budget,
-                                                            sensitivity = sens[name])
+                                                            sensitivity =
+                                                            sens[name])
                                  for name, value in self.metafeatures(data).items()}])
 
         used = []
@@ -191,10 +192,10 @@ class DTChoice:
         data.epsilon = data.epsilon - used[0]
         return self.algs[best[0]].run(data)
 
-    def get_regret(self, data, ratio=0.2, reps=1):
+    def get_errors(self, data, ratio=0.2, reps=1):
         #data = copy.copy(data)
         budget = data.epsilon*ratio
-        regrets = pd.DataFrame({name: sum([alg.error(data)
+        errors = pd.DataFrame({name: sum([alg.error(data)
                                 for x in range(0, reps)]) / reps
                                 for name, alg in self.algs.items()},
                            index=[0])
@@ -203,8 +204,8 @@ class DTChoice:
         best_alg = self.algs[best[0]]
         data.epsilon = data.epsilon - used[0]
         R = best_alg.error(data)
-        regrets['cm'] = R
-        return regrets - regrets.min(axis=1)[0]
+        errors['cm'] = R
+        return errors 
 
     def get_approximate_regret(self, return_std=False, test_ratio=0.3):
         """
