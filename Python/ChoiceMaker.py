@@ -8,96 +8,45 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 
 # TODO
-#
 # - Replace the metafeature class with a callable object.
 # - Perhaps we should rename error to score, which is more general.
 
+class MFTransformation:
+    """ Represents a transformation on metafeatures"""
+    def __call__(self, BaseX):
+        pass
 
-class ChoiceMaker:
-    """Class of ChoiceMaker object
-
-    Parameters
-    ----------
-
-    mfs: class computing database metafeatures such as number of rows, domain
-    size, and epsilon. Must have an eval method.
-
-    algs : list of algortihms to be selected. Must implement a run and an error
-    method.
-
-    mf_eval : Dataframe of evaluated database metafeatures. mf_eval[i][j] is
-    metafeature j evaluated on database i of training set.
-
-    alg_perfs : Dataframe of algorithm performances. alg_perfs[i][j] is the
-    performance of algorithm j on database i of the training set.
-
-    model : Machine Learning model to train with. Must implement a train and
-    fit method
-
-    """
-    def __init__(self, mfs, algs, mf_eval, alg_perfs, model):
-        self.model = model
-        self.model.fit(mf_eval, alg_perfs)
-        self.metafeatures = mfs
-        self.algs = dict([(a.name, a) for a in algs])
-        self.alg_perfs = alg_perfs
-        self.mf_eval = mf_eval
-
-    @classmethod
-    def create_regret_based(cls, train_set, alg_list, model, mfs):
-        """
-        Convenience method for creating a ChoiceMaker
-
-        Parameters
-        ----------
-
-        train_set : iterable of inputs on which algorithms are run. inputs will
-        be a class that usually include a database and must include epsilon as
-        members.
-
-        alg_list : list of algorithms to be selected from. Must implement a run
-        and an error method.
-
-        model : Machine Learning model for training. Must implement a train and
-        a fit method
-
-        mfs : metafeature class. Must implement an eval method.
-
-        """
-        # TODO dynamic test for error vs score method
-        X = pd.DataFrame([mfs.eval(t) for t in train_set])
-        y = pd.DataFrame([dict([(a.name, a.error(t)) for a in alg_list])
-                          for t in train_set])
-        regrets = y.subtract(np.min(np.array(y), axis = 1), axis = 'index')
-        return cls(mfs, alg_list, X, regrets, model)
-
-    def mkChoice(self, data, ratio=0.2):
-        """
-        Method for computing Choice.
-
-        Parameters
-        ----------
-
-        data : input class. Must include epsilon as a member!
-
-        ratio : ratio of epsilon to be used on computing metafeatures vs.
-        running the actual algorithm. Default: 0.2
-
-        Returns
-        -------
-
-        Best algorithm as selected by model run on data
-
-        """
-        eps = data.epsilon
-        mf_max_budget = ratio*eps
-        data.epsilon = eps-mf_max_budget
-        mfs = self.metafeatures.eval(data)
-        (best_alg, used) = self.model.predict(mfs, mf_max_budget,
-                self.metafeatures.sens)
-        data.epsilon = eps-used
-        return self.algs[best_alg].run(data)
-
+class ArithMFTransformation(MFTransformation):
+    def __init__(self, coefs):
+        self.coefs = copy.copy(coefs)
+    def __call__(self, BaseX):
+        ans = np.zeros(BaseX.shape[0])
+        for i in range(BaseX.shape[1]):
+            c = BaseX.columns[i]
+            ans += BaseX[c] * self.coefs[i]
+        return ans
+class MetaFeatureHelper:
+    @staticmethod
+    def get_all_trans(size):
+        trans = []
+        coefs = [-1 for x in range(size)]
+        while True:
+            idx = 0
+            while idx < size and coefs[idx] == 0:
+                idx += 1
+            if idx < len(coefs) and coefs[idx] == -1:
+                trans.append(ArithMFTransformation(coefs))
+            idx = size-1
+            while idx > -1:
+                if coefs[idx] == 1:
+                    coefs[idx] = -1
+                else:
+                    coefs[idx] += 1
+                    break
+                idx -= 1
+            if idx == -1:
+                break
+        return trans
 class DTChoice:
     """Choice maker based on sklearn decision trees
 
@@ -124,7 +73,8 @@ class DTChoice:
 
     """
 
-    def __init__(self, train_set, mfs, algs, reps=1, y=None, C=0):
+    def __init__(self, train_set, mfs, algs, regrets=None, C=0,
+            trans='default'):
         self.metafeatures = mfs
         self.algs = algs
         if isinstance(train_set, pd.DataFrame):
@@ -135,32 +85,40 @@ class DTChoice:
         usage = np.array(list(mfs.sensitivities.values()))
         usage[usage > 0] = 1
         self.is_used = usage
-        if y is None:
-            self.regrets = pd.DataFrame([{name: sum([alg.error(t) 
-                                         for x in range(0, reps)]) / reps
+        if regrets is None:
+            self.regrets = pd.DataFrame([{name: alg.error(t)
                                          for name, alg in algs.items()}
                                          for t in train_set])
         else:
-            self.regrets = y
+            self.regrets = regrets
+        if trans == 'default':
+            self.trans = MetaFeatureHelper.get_all_trans(self.X.shape[1])
+        else:
+            self.trans = []
+        log_X = np.log(np.maximum(1, self.X))
+        self.T = pd.DataFrame([t(log_X) for t in
+            self.trans]).reset_index(drop=True).T.reset_index(drop=True)
+
         self.regrets = self.regrets.subtract(self.regrets.min(axis = 1),
                                        axis = 'index')
         self.y = self.regrets.idxmin(axis=1)
+        self.model = DecisionTreeClassifier()
         self.retrain_model()
     
     #Change metafeatures
     def update_metas(self, train_set, mfs):
         self.X = pd.DataFrame([mfs(t) for t in train_set])
+        self.T = pd.DataFrame([t(self.X) for t in
+            self.trans]).reset_index(drop=True).T.reset_index(drop=True)
         usage = np.array(list(mfs.sensitivities.values()))
         usage[usage > 0] = 1
         self.is_used = usage
         self.retrain_model()
 
     #Helper method
-    def retrain_model(self, C=None):
-        if C is not None:
-            self.C = C
-        self.model = DecisionTreeClassifier()
-        self.model = self.model.fit(self.X, self.y, self.regrets, self.C)
+    def retrain_model(self):
+        X = pd.concat((self.X, self.T), axis=1)
+        self.model.fit(X, self.y, self.regrets, self.C)
 
     #Return the label of the best algorithm.
     def get_best_alg(self, data, budget):
@@ -168,41 +126,44 @@ class DTChoice:
         nnz = np.count_nonzero(self.is_used)
         feature_budget = budget / nnz
         X = self.metafeatures(data)
-        noisy_X = pd.DataFrame([{name: value + dp.laplacian(feature_budget,
-                                                            sensitivity =
-                                                            sens[name])
+        noisy_X = pd.DataFrame([{name: value + np.random.laplace(0, sens[name]/
+                                     feature_budget)
                                  for name, value in self.metafeatures(data).items()}])
+        log_noisy_X = np.log(np.maximum(1, noisy_X))
+        noisy_T = pd.DataFrame([t(log_noisy_X) for t in
+            self.trans]).reset_index(drop=True).T
 
-        used = []
-        node_counts = self.model.decision_path(noisy_X).data-1 
-        start = 0
-        for i in range(len(node_counts)):
-            if node_counts[i] == -1:
-                used.append(self.is_used[np.unique(node_counts[start:i])].sum())
-                start = i+1
-        if start != len(node_counts):
-            used.append(self.is_used[np.unique(node_counts[start:i])].sum())
-        used = feature_budget * np.array(used)
-        return (self.model.predict(noisy_X), used)
+        X = pd.concat((noisy_X, noisy_T), axis=1)
+        S = self.X.shape[1]
+        used = np.zeros(S)
+        node_counts = self.model.decision_path(X).data-1 
+        U = np.unique(node_counts[:-1])
+        used[U[U < S]] = 1
+        U = U[U >= S] - S
+        used += np.any([self.trans[i].coefs for i in U], axis=0)
+        used = used > 0
+        nfeature_used = self.is_used.dot(used)
+        alg = self.model.predict(X)[0]
+        return alg, nfeature_used * feature_budget
 
     #Choose and run the best algorithm in a DP way
     def choose(self, data, ratio = 0.3):
         budget = data.epsilon*ratio
+        tot_eps = data.epsilon
+        data.epsilon -= budget
         (best, used) = self.get_best_alg(data, budget)
-        data.epsilon = data.epsilon - used[0]
-        return self.algs[best[0]].run(data)
+        data.epsilon = tot_eps - used
+        return self.algs[best].run(data)
 
-    def get_errors(self, data, ratio=0.2, reps=1):
+    def get_errors(self, data, ratio=0.2):
         #data = copy.copy(data)
         budget = data.epsilon*ratio
-        errors = pd.DataFrame({name: sum([alg.error(data)
-                                for x in range(0, reps)]) / reps
-                                for name, alg in self.algs.items()},
-                           index=[0])
+        errors = pd.DataFrame([{name: alg.error(data)
+                                for name, alg in self.algs.items()}])
 
         (best, used) = self.get_best_alg(data, budget)
-        best_alg = self.algs[best[0]]
-        data.epsilon = data.epsilon - used[0]
+        best_alg = self.algs[best]
+        data.epsilon = data.epsilon - used
         R = best_alg.error(data)
         errors['cm'] = R
         return errors 
