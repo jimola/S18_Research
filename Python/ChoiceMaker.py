@@ -99,8 +99,6 @@ class DTChoice:
         self.T = pd.DataFrame([t(log_X) for t in
             self.trans]).reset_index(drop=True).T.reset_index(drop=True)
 
-        self.regrets = self.regrets.subtract(self.regrets.min(axis = 1),
-                                       axis = 'index')
         self.y = self.regrets.idxmin(axis=1)
         self.model = DecisionTreeClassifier()
         self.retrain_model()
