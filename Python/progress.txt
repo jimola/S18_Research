@@ -7,12 +7,14 @@ Train a naive Bayes classifier selecting which private histogram algorithm to
 use at different computations. Try to minimize the error of the classifier.
 
 Goal: Show that a ChoiceMaker can do what the state-of-the-art (Pythia) 
-does, but automated.
+does, but automated, by getting the same numbers as Pythia.
 
 Comparison: Pythia paper has done this experiment. They provide algorithm
 implementations, training dbs, and algorithm errors. They don't provide their
 code for Naive Bayes, so I wrote the implementation with ChoiceMaker. They also
-don't provide their testing dbs other than names.
+don't provide their testing dbs other than names. They do provide results for
+their framework's ability to make a choice in the form of a graph which I
+compare against.
 
 They implement some "optimizations" that the ChoiceMaker doesn't have,
 and the ChoiceMaker has some features they don't have, so there is some
@@ -27,7 +29,7 @@ perform super well here from a simple regret-based comparison.
 
 Concerns: They said in their email that their experiment wasn't designed very well; do I
 even bother comparing to Pythia?
-I'm not sure if I can implement the Pythia optimizations as they are kind of
+I'm not sure if I can implement the Pythia optimizations as they are
 ad hoc, and would defeat the purpose of the ChoiceMaker.
 
 
@@ -35,9 +37,10 @@ Logistic Regression (LogRegChoice.ipynb)
 Perform a logistic regression selecting which hyperparameter to use.
 
 Goal: See how a ChoiceMaker performs on "easier" DP problems where a
-probabilistic bound can be derived.
+probabilistic bound can be derived. Numbers that aren't significantly worse than
+ERM are acceptable here.
 
-Comparison: Differentially private ERM. We implement private logistic
+Comparison: Differentially private ERM. I implement private logistic
 regression, the ERM method, and a ChoiceMaker.
 
 Current Results: This experiment is actually quite good. You can see the graph
@@ -49,11 +52,13 @@ Decision Tree (DecisionTree.ipynb)
 Train a Decision Tree classifier, selecting when it is time to stop branching to
 avoid overfitting.
 
-Goal: See how a ChoiceMaker performs when applied to differential privacy 
+Goal: See how a ChoiceMaker performs when applied to a novel area that no one
+has tried doing a choice for. Having the lowest error compared to naive methods
+would be great.
 
 Comparison: We compare against a naive way of making a decision tree algorithm
-private, as well as another method described in a sketchy paper. Everything was
-implemented by me.
+private, as well as another method described in a sketchy paper. I implemented
+everything.
 
 Current Results: The Choicemaker seems to be competitive with the two other methods
 sometimes. We definitely need more data supporting this claim for a final submission.

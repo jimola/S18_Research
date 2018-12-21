@@ -1,3 +1,6 @@
 [submodule "Python/NaiveBayes/dpcomp_core"]
 	path = Python/NaiveBayes/dpcomp_core
 	url = https://github.com/jimola/dpcomp_core
+[submodule "Python/scikit-learn"]
+	path = Python/scikit-learn
+	url = https://github.com/jimola/scikit-learn
