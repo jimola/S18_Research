@@ -44,6 +44,7 @@ class TreePart:
         self.splits=splits
         self.kf = model_selection.KFold(splits)
         self.lo = model_selection.LeaveOneOut()
+        self.numruns = 0
     def get_expected_correct(self, y, epsilon):
         if len(y) == 0:
             return 0
@@ -66,7 +67,7 @@ class Leaf(TreePart):
             return 0
         return 1.0-self.get_expected_correct(db.y, db.epsilon)
     def run(self, db):
-        print('leaf running')
+        self.numruns += 1
         frequencies = pd.value_counts(db.y)
         noisy_freqs = dp.hist_noiser(frequencies, db.epsilon)
         return np.repeat(noisy_freqs.idxmax(), db.y_test.size)
@@ -99,13 +100,13 @@ class Split(TreePart):
         probs = D/D.sum()
         return 1-probs.dot(C)
     def run(self, db):
-        print('branch run')
+        self.numruns += 1
         return None
-tree_algs = {'leaf': Leaf(), 'split': Split()}
 
 """Private Decision Tree algorithm"""
 class PDTree:
     def __init__(self):
+        self.leaf = Leaf()
         pass
     
     def entropy(self, y):
@@ -115,10 +116,9 @@ class PDTree:
         return (-np.log2(arr) * arr).sum()
     
     def decision_helper(self, db, cm):
-        action = cm.choose(db)
         if db.depth == db.max_depth:
-            print('max depth reached')
-            action = leaf.run(db)
+            return self.leaf.run(db)
+        action = cm.choose(db)
         if action is not None:
             return action
         utils = []
@@ -155,11 +155,12 @@ class PDTree:
         return self.decision_helper(data, cm)
 
 class CoefCM:
-    def __init__(self, tree_algs, coefs, const):
+    def __init__(self, coefs, const):
         self.m = DBMetas()
-        self.tree_algs = tree_algs
         self.coefs = np.array(coefs)
         self.const = const
+        self.leaf = Leaf()
+        self.split = Split()
     def choose(self, data, ratio=0.3):
         budget = data.epsilon*ratio
         metas = self.m(data)
@@ -168,6 +169,6 @@ class CoefCM:
         metas = np.array(list(metas.values()))
         metas = np.log(np.maximum(metas, 1))
         if metas.dot(self.coefs) <= self.const:
-            return self.tree_algs['leaf'].run(data)
+            return self.leaf.run(data)
         else:
-            return self.tree_algs['split'].run(data)
+            return self.split.run(data)
