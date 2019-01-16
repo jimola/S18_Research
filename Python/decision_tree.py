@@ -118,6 +118,7 @@ class PDTree:
     def decision_helper(self, db, cm):
         if db.depth == db.max_depth:
             return self.leaf.run(db)
+        old_epsilon = db.epsilon
         action = cm.choose(db)
         if action is not None:
             return action
@@ -145,12 +146,12 @@ class PDTree:
             test_split_y = db.y_test.loc[test_split_loc]
             if(test_split_y.size > 0):
                 db_new = DB(train_split, y_split, test_split, 
-                           test_split_y, db.epsilon, db.depth+1, db.max_depth)
+                           test_split_y, old_epsilon, db.depth+1, db.max_depth)
                 preds[test_split_loc] = self.decision_helper(db_new, cm)
         return preds
     
     def fit_and_predict(self, data, cm):
-        budget = data.epsilon / data.X.shape[1]
+        budget = data.epsilon / data.max_depth
         data.epsilon = budget
         return self.decision_helper(data, cm)
 
