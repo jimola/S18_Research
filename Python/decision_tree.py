@@ -168,7 +168,7 @@ class CoefCM:
         metas['nrow'] += dp.laplacian(budget, sensitivity=1)[0]
         data.epsilon -= budget
         metas = np.array(list(metas.values()))
-        metas = np.log(np.maximum(metas, 1))
+        metas = np.log(np.maximum(metas, 1e-8))
         if metas.dot(self.coefs) <= self.const:
             return self.leaf.run(data)
         else:

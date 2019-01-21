@@ -95,7 +95,7 @@ class DTChoice:
             self.trans = MetaFeatureHelper.get_all_trans(self.X.shape[1])
         else:
             self.trans = []
-        log_X = np.log(np.maximum(1, self.X))
+        log_X = np.log(np.maximum(1e-8, self.X))
         self.T = pd.DataFrame([t(log_X) for t in
             self.trans]).reset_index(drop=True).T.reset_index(drop=True)
 
@@ -127,7 +127,7 @@ class DTChoice:
         noisy_X = pd.DataFrame([{name: value + np.random.laplace(0, sens[name]/
                                      feature_budget)
                                  for name, value in self.metafeatures(data).items()}])
-        log_noisy_X = np.log(np.maximum(1, noisy_X))
+        log_noisy_X = np.log(np.maximum(1e-8, noisy_X))
         noisy_T = pd.DataFrame([t(log_noisy_X) for t in
             self.trans]).reset_index(drop=True).T
 
@@ -145,7 +145,7 @@ class DTChoice:
         return alg, nfeature_used * feature_budget
 
     #Choose and run the best algorithm in a DP way
-    def choose(self, data, ratio = 0.3):
+    def choose(self, data, ratio=0.3):
         budget = data.epsilon*ratio
         tot_eps = data.epsilon
         data.epsilon -= budget
@@ -153,7 +153,7 @@ class DTChoice:
         data.epsilon = tot_eps - used
         return self.algs[best].run(data)
 
-    def get_errors(self, data, ratio=0.2):
+    def get_errors(self, data, ratio=0.3):
         #data = copy.copy(data)
         budget = data.epsilon*ratio
         errors = pd.DataFrame([{name: alg.error(data)
