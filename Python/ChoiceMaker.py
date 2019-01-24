@@ -124,9 +124,13 @@ class DTChoice:
         nnz = np.count_nonzero(self.is_used)
         feature_budget = budget / nnz
         X = self.metafeatures(data)
-        noisy_X = pd.DataFrame([{name: value + np.random.laplace(0, sens[name]/
-                                     feature_budget)
-                                 for name, value in self.metafeatures(data).items()}])
+        #noisy_X = pd.DataFrame([{name: value + np.random.laplace(0, sens[name]/
+        #                             feature_budget)
+        #                         for name, value in self.metafeatures(data).items()}])
+        noisy_X = pd.DataFrame(self.metafeatures(data), index=[0]) \
+                + pd.DataFrame(self.metafeatures.sensitivities, index=[0]) \
+                              .apply(lambda x: np.random.laplace(0,
+                                  x/feature_budget))
         log_noisy_X = np.log(np.maximum(1e-8, noisy_X))
         noisy_T = pd.DataFrame([t(log_noisy_X) for t in
             self.trans]).reset_index(drop=True).T
