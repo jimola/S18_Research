@@ -5,7 +5,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import model_selection
 import pandas as pd
 import numpy as np
-from data import adult, ttt, nursery, loan
 
 import DPrivacy as dp
 
@@ -15,11 +14,6 @@ class DataSet:
             y_col = df.columns[-1]
         self.features = df[df.columns.difference([y_col])]
         self.label    = df[y_col]
-
-adult = DataSet(adult.original, y_col = "Target")
-ttt = DataSet(ttt.data)
-nurs = DataSet(nursery.data)
-loan = DataSet(loan.data)
 
 def tuning(d):
     dummies = pd.get_dummies(d.features)
