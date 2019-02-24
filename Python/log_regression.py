@@ -147,8 +147,13 @@ class DPLogisticRegression:
 
         for i in range(self.logit.coef_.shape[0]):
             noise = dp.laplacian_l2(e, n = n, \
-                                    sensitivity = 2 * self.K_eff * self.logit.C / len(X))
+                                    sensitivity = 2 * self.K_eff *
+                                    self.logit.C)# / len(X))
+            """On further inspection of the "references" paper as well as
+            SKlearn's logistic regression documentation, we should not be
+            dividing by len(X).
 
+            """
             if self.logit.fit_intercept:
                 self.logit.coef_[i] = self.logit.coef_[i] + noise[:-1]
                 self.logit.intercept_[i] = self.logit.intercept_[i] + noise[-1]

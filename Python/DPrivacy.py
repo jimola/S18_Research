@@ -74,7 +74,7 @@ def laplacian(epsilon, n=1, sensitivity=1):
         return np.random.exponential(1/lam, n) * sign
 
 def sampleR(d, beta):
-    """Sample r in R^d proportionally to exp(|r|_2 / beta)"""
+    """Sample r in R^d proportionally to exp(-|r|_2 / beta)"""
     erlang = sum(np.random.exponential(scale = beta, size = d))
     direction = np.random.normal(size = d)
     direction = direction / np.linalg.norm(direction)
