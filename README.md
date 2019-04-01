@@ -6,14 +6,31 @@ This project contains the research I did during Spring of 2018 at Carnegie Mello
 We attempt to make an automatic "choice-maker" for differentially private algorithms.
 The working code can be found in the Python/ directory.
 
+### Requirements
+
+The code relies on Python 3.5 and the following libraries, which can
+be installed using `pip` (run `pip3 install <library-name>`):
+
+- `numpy`
+- `scipy`
+- `pandas`
+- `matplotlib`
+- `jupyter`
+- `cython` (to compile the `scikit-learn` fork below)
+
 ### Installation
 
 To view the experiments in the Python/ directory, make sure you have Jupyter notebooks set up.
 I use my own fork of scikit-learn as well as a fork of DPComp, a repo that implements many
 DP algorithms which I compare. These two repos are submodules of this project. To install them, run 
-```
-git submodule update --init --recursive
-```
+
+    git submodule update --init --recursive
+
 after cloning. Then, the scikit-learn repository must be built by going to `Python/scikit-learn/`
-and typing `python setup.py build`. The [dpcomp-core](https://github.com/jimola/dpcomp_core) repo can
-be set up by (TODO).
+and running:
+
+    python setup.py build
+    python setup.py install
+
+The [dpcomp-core](https://github.com/jimola/dpcomp_core) repo can be
+set up by (TODO).
