@@ -1,10 +1,11 @@
 import pandas as pd
 import numpy as np
 import DPrivacy as dp
+import graphviz
 import copy
 import sys
 sys.path = ['./scikit-learn/build/lib.linux-x86_64-3.6/'] + sys.path
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, export_graphviz
 from sklearn.model_selection import train_test_split
 
 # TODO
@@ -197,3 +198,21 @@ class DTChoice:
             return (R.mean(axis=0), R.std(axis=0))
         else:
             return R.mean(axis=0)
+
+    def print_tree(self, of=None):
+        dot_data = export_graphviz(self.model, out_file=of, filled=True,
+                rounded=True)
+        graph = graphviz.Source(dot_data)
+        return graph
+
+    def print_arith_coef(self, idx):
+        coefs = self.trans[idx].coefs
+        L = list(self.metafeatures.sensitivities.keys())
+        top = []
+        bot = []
+        for i in range(len(L)):
+            if coefs[i] == 1:
+                top.append(L[i])
+            elif coefs[i] == -1:
+                bot.append(L[i])
+        return '*'.join(top) + ' / ' + '*'.join(bot)

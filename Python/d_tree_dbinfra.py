@@ -1,11 +1,12 @@
 
 
 class null_cm:
-    def __init__(self):
+    def __init__(self, depth):
         self.leaf = Leaf()
         self.split = Split()
+        self.depth = depth
     def choose(self, db):
-        if db.depth < db.max_depth:
+        if db.depth < min(db.max_depth, self.depth):
             return self.split.run(db)
         else:
             return self.leaf.run(db)
