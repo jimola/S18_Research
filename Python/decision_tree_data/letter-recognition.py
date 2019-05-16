@@ -1,13 +1,13 @@
 
 df = pd.read_csv('../data/letter-recognition.csv', header=None)
-df.apply(lambda c: c.astype('category'))
 df['TARGET'] = df[0]
 df = df.drop([0], axis=1)
 
 def sample_df(df, num_letters=6):
     letters = [chr(x+65) for x in np.random.choice(26, num_letters, replace=False)]
     rows = np.any([df.TARGET == l for l in letters], axis=0)
-    return df[rows]
+    df = df[rows].apply(lambda c: c.astype('category'))
+    return df
 
 D5 = sample_df(df, 5)
 D6 = sample_df(df, 6)
