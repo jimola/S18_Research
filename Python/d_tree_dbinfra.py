@@ -21,6 +21,8 @@ eps: value of epsilon for the experiments
 prng: random number generator
 returns a tuple: (regret of algorithm on each db, metafeatures associated with db, and the db itself)
 """
+# AAA: Can we make tree_algs a parameter of this function instead of reading
+# from the global environment?
 def get_train_dbs(seed_db, eps, prng):
     regs = []
     X = []
