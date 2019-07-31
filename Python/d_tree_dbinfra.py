@@ -24,8 +24,6 @@ returns a tuple: (regret of algorithm on each db, metafeatures associated with d
 # AAA: Can we make tree_algs a parameter of this function instead of reading
 # from the global environment?
 def get_train_dbs(seed_db, eps, prng):
-    regs = []
-    X = []
     D = []
     for l in range(1, 4): #Used to be 6
         for x in range(2**(l+3)):
@@ -37,8 +35,6 @@ def get_train_dbs(seed_db, eps, prng):
             L = prng.randint(0.7*L, L)
             idxs = prng.choice(idxs, L)
             data = DB(seed_db.loc[idxs, cols[l:]], seed_db.loc[idxs, seed_db.columns[-1]], None, None, epsilon=eps, depth=l)
-            regs.append({name: alg.error(data) for name, alg in tree_algs.items()})
-            X.append(DBMetas()(data))
             D.append(data)
     #Large DBs    
     for x in range(16):
@@ -48,10 +44,8 @@ def get_train_dbs(seed_db, eps, prng):
         L = prng.randint(0.7*L, L)
         new_db = seed_db.sample(L, random_state=prng)
         data = DB(new_db.loc[:, cols], new_db.loc[:, seed_db.columns[-1]], None, None, epsilon=eps, depth=0)
-        regs.append({name: alg.error(data) for name, alg in tree_algs.items()})
-        X.append(DBMetas()(data))
         D.append(data)
-    return (regs, X, D)
+    return D
 
 """
 Does a similar thing as get_train_dbs, but makes fewer slices, and the slices are large

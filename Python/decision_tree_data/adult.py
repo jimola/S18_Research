@@ -3,7 +3,7 @@ def discretize(col, n_quantiles):
     L = col.quantile(L)
     return L.searchsorted(col)
 
-adult = pd.read_csv('data/adult.data', header=None)
+adult = pd.read_csv('../data/adult.data')
 adult = adult.rename(columns = {0: 'age', 1: 'workclass', 2: 'fnlwgt', 3: 'education', 
                                 4: 'education_num', 5: 'marital_status', 6: 'occupation',
                                 7: 'relationship', 8: 'race', 9: 'sex', 10: 'capital_gain',
@@ -36,4 +36,4 @@ adult.native_country = adult.native_country.apply(world_region)
 
 adult = adult.apply(lambda x: x.astype('category'))
 
-pickle.dump(adult, open('decision_tree_data/adult.pkl', 'wb'))
+pickle.dump(adult, open('adult.pkl', 'wb'))

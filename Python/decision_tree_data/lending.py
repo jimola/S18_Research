@@ -4,7 +4,7 @@ def discretize(col, n_quantiles):
     return L.searchsorted(col)
 
 
-lending = pd.read_csv('data/fam_credit_ss.csv')
+lending = pd.read_csv('../data/fam_credit_ss.csv')
 
 lending.income = discretize(lending.income, 8)
 lending.age = discretize(lending.age, 5)
@@ -14,4 +14,4 @@ lending.auto_insurance = discretize(lending.auto_insurance, 10)
 
 lending = lending.apply(lambda x: x.astype('category'))
 
-pickle.dump(lending, open('decision_tree_data/lending.pkl', 'wb'))
+pickle.dump(lending, open('lending.pkl', 'wb'))
