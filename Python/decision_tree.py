@@ -4,6 +4,7 @@ import collections
 import numpy as np
 import pandas as pd
 import DPrivacy as dp
+
 class DB:
     def __init__(self, X, y, X_test, y_test, epsilon=1, depth=0, max_depth=0):
         self.epsilon = epsilon

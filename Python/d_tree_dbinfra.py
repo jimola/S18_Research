@@ -1,5 +1,3 @@
-
-
 class null_cm:
     def __init__(self, depth):
         self.leaf = Leaf()
@@ -52,7 +50,7 @@ Does a similar thing as get_train_dbs, but makes fewer slices, and the slices ar
 because these are databases we want to test on (and we probably won't be using tiny dbs in real life).
 """
 
-def get_test_dbs(seed_db, eps, prng):
+def get_test_dbs(seed_db, eps, prng, max_depth):
     cols = seed_db.columns[:-1]
     y_col = seed_db.columns[-1]
     L = len(seed_db)
@@ -60,9 +58,10 @@ def get_test_dbs(seed_db, eps, prng):
     L = prng.randint(0.7*L, L)
     new_db = seed_db.sample(L, random_state=prng).reset_index(drop=True)
     split = int(0.7*L)
-    md = min(len(cols), 4)
+    max_depth = min(len(cols), max_depth)
     d = DB(new_db.loc[:split, cols], new_db.loc[:split, y_col], \
-           new_db.loc[split:, cols], new_db.loc[split:, y_col], epsilon=eps, max_depth=md)
+           new_db.loc[split:, cols], new_db.loc[split:, y_col], epsilon=eps,
+           max_depth=max_depth)
     return d
 
 
