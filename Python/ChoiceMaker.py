@@ -65,13 +65,12 @@ class DTChoice:
     a run method, which executes the algorithm on a database, and an error
     method, which computes the algorithm's error on a database.
     
-    reps (default=1): Number of times to call the error method in case more
-    precision is desired.
+    regrets: If the regrets are already known, supply them here. Will avoid the
+    training phase of the CM.
 
-    y (optional, default=None): List of algorithms evaluated on train_set
-    because it may be expensive to run these algorithms and their results may 
-    already be around
+    C: Value of C used to train the special regret-based decision tree
 
+    trans: feature transformations to use. Best to be kept as 'default'
     """
 
     def __init__(self, train_set, mfs, algs, regrets=None, C=0,
