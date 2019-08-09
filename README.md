@@ -15,6 +15,7 @@ be installed using `pip` (run `pip3 install <library-name>`):
 - `scipy`
 - `pandas`
 - `matplotlib`
+- `graphviz`
 - `jupyter`
 - `cython` (to compile the `scikit-learn` fork below)
 
