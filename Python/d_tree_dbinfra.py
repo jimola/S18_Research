@@ -19,29 +19,30 @@ eps: value of epsilon for the experiments
 prng: random number generator
 returns a tuple: (regret of algorithm on each db, metafeatures associated with db, and the db itself)
 """
-# AAA: Can we make tree_algs a parameter of this function instead of reading
-# from the global environment?
-def get_train_dbs(seed_db, eps, prng):
+def get_train_dbs(seed_db, eps, max_depth, start_size, branch_factor=2,
+        max_size=5000, throwaway=0.7, prng=None):
+    if prng is None:
+        prng = np.random.RandomState(12345)
     D = []
-    for l in range(1, 4): #Used to be 6
-        for x in range(2**(l+3)):
+    for l in range(1, max_depth): 
+        for x in range(start_size * branch_factor ** l):
             cols = prng.permutation(seed_db.columns[:-1])
             db_groups = seed_db.groupby(list(cols[:l])).groups
             idxs = db_groups[list(db_groups)[prng.randint(len(db_groups))]]
-            L = idxs.size
-            L = min(L, 5000)
-            L = prng.randint(0.7*L, L)
+            L = min(max_size, idxs.size)
+            L = prng.randint(throwaway*L, L)
             idxs = prng.choice(idxs, L)
-            data = DB(seed_db.loc[idxs, cols[l:]], seed_db.loc[idxs, seed_db.columns[-1]], None, None, epsilon=eps, depth=l)
+            data = DB(seed_db.loc[idxs, cols[l:]], seed_db.loc[idxs, \
+                seed_db.columns[-1]], None, None, epsilon=eps, depth=l)
             D.append(data)
     #Large DBs    
-    for x in range(16):
+    for x in range(start_size):
         cols = seed_db.columns[:-1]
-        L = len(seed_db)
-        L = min(L, 5000)
-        L = prng.randint(0.7*L, L)
+        L = min(max_size, len(seed_db))
+        L = prng.randint(throwaway*L, L)
         new_db = seed_db.sample(L, random_state=prng)
-        data = DB(new_db.loc[:, cols], new_db.loc[:, seed_db.columns[-1]], None, None, epsilon=eps, depth=0)
+        data = DB(new_db.loc[:, cols], new_db.loc[:, seed_db.columns[-1]], \
+                None, None, epsilon=eps, depth=0)
         D.append(data)
     return D
 
@@ -50,15 +51,17 @@ Does a similar thing as get_train_dbs, but makes fewer slices, and the slices ar
 because these are databases we want to test on (and we probably won't be using tiny dbs in real life).
 """
 
-def get_test_dbs(seed_db, eps, prng, max_depth):
+def get_test_dbs(seed_db, eps, max_depth, max_size=5000, throwaway=0.7, 
+        validation_size=0.7, prng=None):
+    if prng is None:
+        prng = np.random.RandomState(12345)
     cols = seed_db.columns[:-1]
     y_col = seed_db.columns[-1]
-    L = len(seed_db)
-    L = min(L, int(5000/0.7))
-    L = prng.randint(0.7*L, L)
+    L = min(max_size / validation_size, len(seed_db))
+    L = prng.randint(throwaway*L, L)
     new_db = seed_db.sample(L, random_state=prng).reset_index(drop=True)
-    split = int(0.7*L)
     max_depth = min(len(cols), max_depth)
+    split = int(validation_size*L)
     d = DB(new_db.loc[:split, cols], new_db.loc[:split, y_col], \
            new_db.loc[split:, cols], new_db.loc[split:, y_col], epsilon=eps,
            max_depth=max_depth)
