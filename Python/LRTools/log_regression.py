@@ -1,6 +1,3 @@
-import sys
-import os
-
 from sklearn.linear_model import LogisticRegression
 from sklearn import model_selection
 import pandas as pd
@@ -8,19 +5,20 @@ import numpy as np
 
 import DPrivacy as dp
 
+"""
 class DataSet:
     def __init__(self, df, y_col = None):
         if y_col == None:
             y_col = df.columns[-1]
         self.features = df[df.columns.difference([y_col])]
         self.label    = df[y_col]
-
 def tuning(d):
     dummies = pd.get_dummies(d.features)
     X_train, X_test, y_train, y_test = model_selection.train_test_split(dummies, d.label)
     Cs = [0.5, 1.0, 1.5, 2.0]
     models = [LogisticRegression(C = C).fit(X_train, y_train) for C in Cs]
     return X_test, y_test, Cs, models
+"""
 
 class DPLogisticRegression:
     """Differentially private logistic regression
@@ -181,6 +179,12 @@ class DPLogisticRegression:
         self._enforce_norm(X)
         return self.logit.predict(X)
 
+    def predict_proba(self, X):
+
+        X = self._normalize(X)
+        self._enforce_norm(X)
+        return self.logit.predict_proba(X)[:,0]
+
     def score(self, X, y):
         """Returns the mean accuracy on the given test data and labels.
 
@@ -206,6 +210,50 @@ class DPLogisticRegression:
     def set_epsilon(self, eps):
         self.epsilon = eps
 
+class DPAlg:
+    def __init__(self, C):
+        self.numruns = 0
+        self.name = str(C)
+        self.model = DPLogisticRegression(0.1, C=C, K=1.02, fit_intercept=True)
+    def error(self, db):
+        self.model.set_epsilon(db.epsilon)
+        #5-way CV score.
+        A = self.manual_CV(db, 5, self.model)
+        return 1.0-A.mean()
+    def run(self, db):
+        self.numruns += 1
+        self.model.set_epsilon(db.epsilon)
+        return self.model.fit(db.X, db.y)
+    @staticmethod
+    def manual_CV(db, parts, clf):
+        kf = model_selection.KFold(parts)
+        arr = []
+        for train_idx, test_idx in kf.split(db.X):
+            X_test = db.X.iloc[test_idx]
+            y_test = db.y.iloc[test_idx]
+            X_train = db.X.iloc[train_idx]
+            y_train = db.y.iloc[train_idx]
+            #Have to fix case when only one class exists
+            if len(np.unique(y_train)) == 1 or len(np.unique(y_test)) == 1:
+               	arr.append(1.0)
+            else:
+                clf.fit(X_train, y_train)
+                if clf.logit.classes_[0] == 0:
+                    P = clf.predict_proba(X_test)
+                    print(P.sum())
+                    diff = P - y_test
+                else:
+                    diff = 1.0 - clf.predict_proba(X_test) - y_test
+                #print(y_test, clf.predict_proba(X_test), clf.logit.classes_)
+                acc = np.sqrt((diff*diff).mean())
+                V = acc / y_test.std()
+                #print(V)
+                #arr.append(clf.score(X_test, y_test))
+                #V = sklearn.metrics.roc_auc_score(y_test, clf.predict_proba(X_test))
+                arr.append(V)
+            #pdb.set_trace()
+        return np.array(arr)
+"""
 def test(epsilon, C, fit_intercept):
     X = pd.get_dummies(ttt.features)
     y = ttt.label
@@ -233,3 +281,4 @@ class LogRegressionChooser:
     def fitPrivateModel(DB, epsilon):
         #Let's make this first
         pass
+"""
