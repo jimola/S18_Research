@@ -17,6 +17,10 @@ class DB:
                 encode='ordinal').fit_transform(X_dummy)
         X_dummy = pd.DataFrame(X_dummy)
         return cls(X_dummy, y_dummy, epsilon)
+    @staticmethod
+    def get_norm(X):
+        X = pd.get_dummies(X)
+        return np.linalg.norm( X, axis=1).max()
 
 """Metafeatures used.  Note that the size of the
 dataset is considered public; the adjacency relation

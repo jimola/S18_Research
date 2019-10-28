@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 
 import DPrivacy as dp
+import pdb
 
 """
 class DataSet:
@@ -134,7 +135,7 @@ class DPLogisticRegression:
         self._enforce_norm(X) # This should never throw an error after the call to _normalize
 
         self.logit = self.logit.fit(X, y)
-
+        
         # Split the privacy budget among each of the models fitted for each class
 
         e = self.epsilon / self.logit.coef_.shape[0]
@@ -142,16 +143,12 @@ class DPLogisticRegression:
         n = self.logit.coef_.shape[1]
         if self.logit.fit_intercept:
             n = n + 1
-
+        #lambda as defined in references paper
+        lam = 1/(X.shape[0] * self.logit.C)
         for i in range(self.logit.coef_.shape[0]):
             noise = dp.laplacian_l2(e, n = n, \
-                                    sensitivity = 2 * self.K_eff *
-                                    self.logit.C)# / len(X))
-            """On further inspection of the "references" paper as well as
-            SKlearn's logistic regression documentation, we should not be
-            dividing by len(X).
-
-            """
+                                    sensitivity = 2 * self.K_eff /
+                                    (lam * X.shape[0]))
             if self.logit.fit_intercept:
                 self.logit.coef_[i] = self.logit.coef_[i] + noise[:-1]
                 self.logit.intercept_[i] = self.logit.intercept_[i] + noise[-1]
@@ -211,10 +208,10 @@ class DPLogisticRegression:
         self.epsilon = eps
 
 class DPAlg:
-    def __init__(self, C):
+    def __init__(self, C, K):
         self.numruns = 0
         self.name = str(C)
-        self.model = DPLogisticRegression(0.1, C=C, K=1.02, fit_intercept=True)
+        self.model = DPLogisticRegression(0.1, C=C, K=K, fit_intercept=True)
     def error(self, db):
         self.model.set_epsilon(db.epsilon)
         #5-way CV score.
