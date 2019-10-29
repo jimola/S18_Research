@@ -135,6 +135,7 @@ class DPLogisticRegression:
         self._enforce_norm(X) # This should never throw an error after the call to _normalize
 
         self.logit = self.logit.fit(X, y)
+        print(self.logit.coef_)
         
         # Split the privacy budget among each of the models fitted for each class
 
@@ -147,13 +148,13 @@ class DPLogisticRegression:
         lam = 1/(X.shape[0] * self.logit.C)
         for i in range(self.logit.coef_.shape[0]):
             noise = dp.laplacian_l2(e, n = n, \
-                                    sensitivity = 2 * self.K_eff /
-                                    (lam * X.shape[0]))
+                                    sensitivity = 2 / (lam * X.shape[0]))
             if self.logit.fit_intercept:
                 self.logit.coef_[i] = self.logit.coef_[i] + noise[:-1]
                 self.logit.intercept_[i] = self.logit.intercept_[i] + noise[-1]
             else:
                 self.logit.coef_[i] = self.logit.coef_[i] + noise
+        print(self.logit.coef_)
 
         return self
 
@@ -223,6 +224,7 @@ class DPAlg:
         return self.model.fit(db.X, db.y)
     @staticmethod
     def manual_CV(db, parts, clf):
+        pdb.set_trace()
         kf = model_selection.KFold(parts)
         arr = []
         for train_idx, test_idx in kf.split(db.X):
@@ -234,16 +236,14 @@ class DPAlg:
             if len(np.unique(y_train)) == 1 or len(np.unique(y_test)) == 1:
                	arr.append(1.0)
             else:
-                clf.fit(X_train, y_train)
+                clf = clf.fit(X_train, y_train)
                 if clf.logit.classes_[0] == 0:
-                    P = clf.predict_proba(X_test)
-                    print(P.sum())
-                    diff = P - y_test
-                else:
                     diff = 1.0 - clf.predict_proba(X_test) - y_test
+                else:
+                    diff = clf.predict_proba(X_test) - y_test
                 #print(y_test, clf.predict_proba(X_test), clf.logit.classes_)
-                acc = np.sqrt((diff*diff).mean())
-                V = acc / y_test.std()
+                acc = (diff*diff).mean()
+                V = acc / y_test.var()
                 #print(V)
                 #arr.append(clf.score(X_test, y_test))
                 #V = sklearn.metrics.roc_auc_score(y_test, clf.predict_proba(X_test))
