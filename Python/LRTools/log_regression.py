@@ -5,6 +5,8 @@ import numpy as np
 
 import DPrivacy as dp
 import pdb
+import warnings
+
 
 """
 class DataSet:
@@ -95,10 +97,6 @@ class DPLogisticRegression:
         if K <= 0:
             raise ValueError("K must be positive")
         self.K = K
-        if fit_intercept:
-            self.K_eff = np.sqrt(K * K + 1)
-        else:
-            self.K_eff = K
 
     def _normalize(self, X):
         coefs = np.maximum(np.sqrt(np.square(X).sum(axis = 1)), self.K *
@@ -108,16 +106,16 @@ class DPLogisticRegression:
     def _enforce_norm(self, X):
         """Ensure that X respects norm bounds
 
-        Throw an error if any row of X has a norm bigger than K.
+        Throw an error if any row of X has a norm bigger than 1
 
         NB: This method violates differential privacy, and should not be used
         indiscriminately with private data.
 
         """
         max_norm = np.sqrt(np.square(X).sum(axis = 1).max())
-        if max_norm > self.K:
+        if max_norm > 1:
             raise ValueError("The l2 norm of the rows of X must be bounded by K = %f; "
-                             "the maximum was %f" % (self.K, max_norm))
+                             "the maximum was %f" % (self.K, max_norm*self.K))
 
     def fit(self, X, y):
         """Fit model to features X and labels y.
@@ -135,26 +133,30 @@ class DPLogisticRegression:
         self._enforce_norm(X) # This should never throw an error after the call to _normalize
 
         self.logit = self.logit.fit(X, y)
-        print(self.logit.coef_)
+        #print(self.logit.coef_)
         
         # Split the privacy budget among each of the models fitted for each class
 
         e = self.epsilon / self.logit.coef_.shape[0]
-
         n = self.logit.coef_.shape[1]
+
+        small_weight = np.quantile(abs( self.logit.coef_), 0.05)
+        mean = (2 * self.logit.C) / e
+        if small_weight < mean:
+            warnings.warn("For at least 5%% of the coeffients, the noise is \
+            %0.2f times or greater. Expect answer to be noisy" \
+                    % float(mean / small_weight))
         if self.logit.fit_intercept:
             n = n + 1
-        #lambda as defined in references paper
-        lam = 1/(X.shape[0] * self.logit.C)
         for i in range(self.logit.coef_.shape[0]):
             noise = dp.laplacian_l2(e, n = n, \
-                                    sensitivity = 2 / (lam * X.shape[0]))
+                                    sensitivity = 2 * self.logit.C)
             if self.logit.fit_intercept:
                 self.logit.coef_[i] = self.logit.coef_[i] + noise[:-1]
                 self.logit.intercept_[i] = self.logit.intercept_[i] + noise[-1]
             else:
                 self.logit.coef_[i] = self.logit.coef_[i] + noise
-        print(self.logit.coef_)
+        #print(self.logit.coef_)
 
         return self
 
@@ -209,10 +211,11 @@ class DPLogisticRegression:
         self.epsilon = eps
 
 class DPAlg:
-    def __init__(self, C, K):
+    def __init__(self, C, K, debug=False):
         self.numruns = 0
         self.name = str(C)
-        self.model = DPLogisticRegression(0.1, C=C, K=K, fit_intercept=True)
+        self.model = DPLogisticRegression(0.1, C=C, K=K, fit_intercept=False)
+        self.debug = debug
     def error(self, db):
         self.model.set_epsilon(db.epsilon)
         #5-way CV score.
@@ -222,9 +225,9 @@ class DPAlg:
         self.numruns += 1
         self.model.set_epsilon(db.epsilon)
         return self.model.fit(db.X, db.y)
-    @staticmethod
-    def manual_CV(db, parts, clf):
-        pdb.set_trace()
+    def manual_CV(self, db, parts, clf):
+        if self.debug:
+            pdb.set_trace()
         kf = model_selection.KFold(parts)
         arr = []
         for train_idx, test_idx in kf.split(db.X):
@@ -248,7 +251,6 @@ class DPAlg:
                 #arr.append(clf.score(X_test, y_test))
                 #V = sklearn.metrics.roc_auc_score(y_test, clf.predict_proba(X_test))
                 arr.append(V)
-            #pdb.set_trace()
         return np.array(arr)
 """
 def test(epsilon, C, fit_intercept):
