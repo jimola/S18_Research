@@ -83,20 +83,23 @@ class DPLogisticRegression:
     Empirical Risk Minimization.  In Journal of Machine Learning 12, 2011.
 
     """
-    def __init__(self, epsilon, K = 1.0, C = 1.0, fit_intercept = False):
+    def __init__(self, epsilon, K = 1.0, C = 1.0, fit_intercept = False,
+            objectivepert_param=1.0):
         self.logit = LogisticRegression(penalty = 'l2',
                                         C = C,
                                         dual = False,
                                         tol = 1e-4, # XXX Does this have an impact on sensitivity?
                                         fit_intercept = fit_intercept,
                                         class_weight = None,
-                                        solver = 'liblinear')
+                                        solver = 'lbfgs')
         if epsilon < 0:
             raise ValueError("epsilon must be non-negative")
         self.epsilon = epsilon
         if K <= 0:
             raise ValueError("K must be positive")
         self.K = K
+        self.objectivepert_param = objectivepert_param
+        self.C = C
 
     def _normalize(self, X):
         coefs = np.maximum(np.sqrt(np.square(X).sum(axis = 1)), self.K *
@@ -118,7 +121,36 @@ class DPLogisticRegression:
                              "the maximum was %f" % (self.K, max_norm*self.K))
 
     def fit(self, X, y):
-        """Fit model to features X and labels y.
+        """Fit model to features X and labels y using objective perturbation
+        
+        """
+        if len(X) == 0:
+            raise ValueError("Must provide non-empty X")
+
+        X = self._normalize(X)
+
+        self._enforce_norm(X)
+        
+        if len(y.shape) != 1:
+            raise ValueError("y must be one-dimensional")
+
+        n_pts = X.shape[0]
+        c = self.objectivepert_param
+        slack = np.log(1 + 2*c*self.C + c*c*self.C*self.C)
+        epsilon_res = self.epsilon - slack
+        if epsilon_res > 0:
+            delta = 0
+        else:
+            delta = c / (n_pts * (np.exp(epsilon_res / 4) - 1)) \
+                            - 1.0 / (n_pts * self.C)
+            epsilon_res = self.epsilon / 2
+
+        self.logit.fit(X, y, delta, epsilon_res / 2)
+
+        return self
+
+    def fit_output(self, X, y):
+        """Fit model to features X and labels y using output perturbation
 
         Normalizes the features in X to stay within the bound on the norm K: If
         the norm of a row is greater than K, normalize that row; otherwise,
@@ -132,7 +164,7 @@ class DPLogisticRegression:
 
         self._enforce_norm(X) # This should never throw an error after the call to _normalize
 
-        self.logit = self.logit.fit(X, y)
+        self.logit = self.logit.fit(X, y, delta=0, tightness=np.inf)
         #print(self.logit.coef_)
         
         # Split the privacy budget among each of the models fitted for each class
