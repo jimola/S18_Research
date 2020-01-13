@@ -269,7 +269,7 @@ class DPAlg:
             y_train = db.y.iloc[train_idx]
             #Have to fix case when only one class exists
             if len(np.unique(y_train)) == 1 or len(np.unique(y_test)) == 1:
-               	arr.append(1.0)
+                arr.append(1.0)
             else:
                 clf = clf.fit(X_train, y_train)
                 if clf.logit.classes_[0] == 0:
@@ -284,32 +284,44 @@ class DPAlg:
                 #V = sklearn.metrics.roc_auc_score(y_test, clf.predict_proba(X_test))
                 arr.append(V)
         return np.array(arr)
-"""
-def test(epsilon, C, fit_intercept):
-    X = pd.get_dummies(ttt.features)
-    y = ttt.label
-    K = np.sqrt(np.square(X).sum(axis = 1)).max()
-    plogit = DPLogisticRegression(epsilon = epsilon, K = K, C = C, fit_intercept = fit_intercept)
-    plogit = plogit.fit(X, y)
-    print(plogit.score(X, y))
-    return plogit
 
-def test_multiclass(epsilon, C, fit_intercept):
-    X = pd.get_dummies(nurs.features)
-    y = nurs.label
-    K = np.sqrt(np.square(X).sum(axis = 1)).max()
-    plogit = DPLogisticRegression(epsilon = epsilon, K = K, C = C, fit_intercept = fit_intercept)
-    plogit = plogit.fit(X, y)
-    print(plogit.score(X, y))
-    return plogit
-
-class LogRegressionChooser:
-    def __init__(hyperparams, mfeatures, train_dbs, scorefunc):
-        pass
-    def choose(DB):
-        pass
-
-    def fitPrivateModel(DB, epsilon):
-        #Let's make this first
-        pass
-"""
+class DBTester:
+    @staticmethod
+    def get_rsquared(X,y, private, norm, e=1, C=1):
+        cutoff = int(0.75*X.shape[0])
+        if private:
+            clf = DPLogisticRegression(e, K=norm, C=C)
+            clf.fit(X[:cutoff], y[:cutoff])
+        else:
+            X = X.copy() / norm
+            clf = LogisticRegression(C=C, solver='lbfgs', fit_intercept=False)
+            clf.fit(X[:cutoff], y[:cutoff], delta=0, tightness=np.inf)
+            
+        
+        if private:
+            C = clf.logit.classes_[0]
+            Ps = clf.predict_proba(X[cutoff:])
+        else:
+            C = clf.classes_[0]
+            Ps = clf.predict_proba(X[cutoff:])[:, 0]
+        
+        if C == 0:
+            Ps = 1-Ps
+        err = (y[cutoff:] - Ps)**2
+        return 1 - err.mean() / y[cutoff:].var()
+    
+    @staticmethod
+    def logistic_test(X, y, norm, C, priv_min=1, priv_max=10, num_steps=10, tol=0.9):
+        baseline = get_rsquared(X, y, False, norm, C=C)
+        print('Baseline: %f' % baseline)
+        if baseline <= 0:
+            print("Baseline too low; aborting")
+            return
+        else:
+            print("epsilons: ")
+        for i in np.linspace(priv_min, priv_max, num_steps):
+            perf = get_rsquared(X, y, True, norm, i, C=C)
+            if perf / baseline > tol:
+                print("%0.2f Yes;" % i, end=' ')
+            else:
+                print("%0.2f No;" % i, end=' ')

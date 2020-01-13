@@ -3,11 +3,20 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import KBinsDiscretizer
 class DB:
-    def __init__(self, X, y, epsilon=1):
+    """ Database class. Eases keeping track of epsilon, X, and y.
+        params:
+        X - database independent attributes
+        y - dependent variable
+        epsilon - value of epsilon for privacy
+    """
+    def __init__(self, X, y, epsilon=1, add_const=True):
         self.epsilon = epsilon
         self.ncol = X.shape[1]
         self.X = pd.get_dummies(X)
+        if add_const:
+            self.X['const'] = np.ones(self.X.shape[0])
         self.y = y
+
     @classmethod
     def dummy_vals(cls, nrow, ncol, nclasses, epsilon=1):
         X_dummy = np.random.normal(size=(nrow, ncol))
@@ -21,6 +30,21 @@ class DB:
     def get_norm(X):
         X = pd.get_dummies(X)
         return np.linalg.norm( X, axis=1).max()
+
+    def drop(thresh):
+        self.X = X.loc[:, (self.X == 0).sum() / self.X.shape[0] < (1-thresh)]
+
+    def normalize():
+        X = self.X
+        for c in X.columns:
+            if X[c].min() >= 0:
+                X[c] = X[c] / X[c].max()
+            elif X[c].max() <= 0:
+                X[c] = -X[c] / X[c].min()
+            else:
+                rnge = X[c].max() - X[c].min()
+                t = (X[c] - X[c].min()) / rnge
+                X[c] = 2*t-1
 
 """Metafeatures used.  Note that the size of the
 dataset is considered public; the adjacency relation
