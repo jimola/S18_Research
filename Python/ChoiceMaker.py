@@ -74,7 +74,7 @@ class DTChoice:
     """
 
     def __init__(self, train_set, mfs, algs, regrets=None, C=0,
-            trans='default'):
+            trans='default', verbose=0):
         self.metafeatures = mfs
         self.algs = algs
         if isinstance(train_set, pd.DataFrame):
@@ -86,9 +86,18 @@ class DTChoice:
         usage[usage > 0] = 1
         self.is_used = usage
         if regrets is None:
-            self.regrets = pd.DataFrame([{name: alg.error(t)
-                                         for name, alg in algs.items()}
-                                         for t in train_set])
+            if verbose > 0:
+                checkpoint = int( len(train_set) / verbose)
+                checkpoint = max(1, checkpoint)
+            else:
+                checkpoint = len(train_set) + 1
+            regrets = []
+            for i, t in enumerate(train_set):
+                regrets.append({name: alg.error(t) for name, alg in
+                    algs.items()})
+                if i % checkpoint == 0:
+                    print("%0.1f%%" % (100*i / len(train_set)))
+            self.regrets = pd.DataFrame(regrets)
         else:
             self.regrets = regrets
         if trans == 'default':

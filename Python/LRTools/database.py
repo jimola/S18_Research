@@ -26,15 +26,15 @@ class DB:
                 encode='ordinal').fit_transform(X_dummy)
         X_dummy = pd.DataFrame(X_dummy)
         return cls(X_dummy, y_dummy, epsilon)
-    @staticmethod
-    def get_norm(X):
-        X = pd.get_dummies(X)
-        return np.linalg.norm( X, axis=1).max()
+    def get_norm(self):
+        #X = pd.get_dummies(X)
+        return np.linalg.norm(self.X, axis=1).max()
 
-    def drop(thresh):
-        self.X = X.loc[:, (self.X == 0).sum() / self.X.shape[0] < (1-thresh)]
+    def drop(self, thresh):
+        self.X = self.X.loc[:, (self.X == 0).sum() / self.X.shape[0] < (1-thresh)]
+        return self
 
-    def normalize():
+    def normalize(self):
         X = self.X
         for c in X.columns:
             if X[c].min() >= 0:
@@ -45,6 +45,7 @@ class DB:
                 rnge = X[c].max() - X[c].min()
                 t = (X[c] - X[c].min()) / rnge
                 X[c] = 2*t-1
+        return self
 
 """Metafeatures used.  Note that the size of the
 dataset is considered public; the adjacency relation
@@ -97,9 +98,7 @@ class DBSlicer:
         db = pd.concat((reshape(Z1, s1), reshape(Z2, s2)), ignore_index=True)
         db_x = db[db.columns[:-1]]
         ys = db[db.columns[-1]]
-        db = pd.DataFrame()
-        while db.shape[1] + db_x.shape[1] < ncol:
-            db = pd.concat((db, db_x), axis=1, ignore_index=True)
-        rand_cols = np.random.choice(db_x.columns, ncol-db.shape[1], replace=False)
-        return pd.concat((db, db_x[rand_cols], ys), axis=1, ignore_index=True).sample(frac=1)
+        rand_mat = prng.uniform(-1, 1, (db_x.shape[1], ncol))
+        db_x = db_x.dot(rand_mat)
+        return pd.concat((db_x, ys), axis=1, ignore_index=True).sample(frac=1)
     

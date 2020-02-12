@@ -145,7 +145,11 @@ class DPLogisticRegression:
                             - 1.0 / (n_pts * self.C)
             epsilon_res = self.epsilon / 2
 
-        self.logit.fit(X, y, delta, epsilon_res / 2)
+        #If a warning is thrown here, the fit probably didn't converge. But
+        #we will suppress them and treat them as potentially-noisy data points.
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            self.logit.fit(X, y, delta, epsilon_res / 2)
 
         return self
 
@@ -209,13 +213,19 @@ class DPLogisticRegression:
         """
         X = self._normalize(X)
         self._enforce_norm(X)
-        return self.logit.predict(X)
+        with warnings.catch_warnings():
+            #the predict function throws warnings when noise is too high.
+            warnings.simplefilter("ignore")
+            return self.logit.predict(X)
 
     def predict_proba(self, X):
 
         X = self._normalize(X)
         self._enforce_norm(X)
-        return self.logit.predict_proba(X)[:,0]
+        with warnings.catch_warnings():
+            #the predict function throws warnings when noise is too high.
+            warnings.simplefilter("ignore")
+            return self.logit.predict_proba(X)[:,0]
 
     def score(self, X, y):
         """Returns the mean accuracy on the given test data and labels.
@@ -237,21 +247,24 @@ class DPLogisticRegression:
         """
         X = self._normalize(X)
         self._enforce_norm(X)
-        return self.logit.score(X, y)
+        with warnings.catch_warnings():
+            #the fit function throws warnings when noise is too high.
+            warnings.simplefilter("ignore")
+            return self.logit.score(X, y)
 
     def set_epsilon(self, eps):
         self.epsilon = eps
 
 class DPAlg:
-    def __init__(self, C, K, debug=False):
+    def __init__(self, C, debug=False):
         self.numruns = 0
         self.name = str(C)
-        self.model = DPLogisticRegression(0.1, C=C, K=K, fit_intercept=False)
+        self.model = DPLogisticRegression(0.1, C=C, fit_intercept=False)
         self.debug = debug
     def error(self, db):
         self.model.set_epsilon(db.epsilon)
         #5-way CV score.
-        A = self.manual_CV(db, 5, self.model)
+        A = self.manual_CV(db, 4, self.model)
         return 1.0-A.mean()
     def run(self, db):
         self.numruns += 1
@@ -271,6 +284,7 @@ class DPAlg:
             if len(np.unique(y_train)) == 1 or len(np.unique(y_test)) == 1:
                 arr.append(1.0)
             else:
+                clf.K = db.get_norm() * 2
                 clf = clf.fit(X_train, y_train)
                 if clf.logit.classes_[0] == 0:
                     diff = 1.0 - clf.predict_proba(X_test) - y_test
@@ -289,6 +303,9 @@ class DBTester:
     @staticmethod
     def get_rsquared(X,y, private, norm, e=1, C=1):
         cutoff = int(0.75*X.shape[0])
+        U = len( np.unique(y[cutoff:]) )
+        if U == 1:
+            return -np.inf
         if private:
             clf = DPLogisticRegression(e, K=norm, C=C)
             clf.fit(X[:cutoff], y[:cutoff])
@@ -312,7 +329,7 @@ class DBTester:
     
     @staticmethod
     def logistic_test(X, y, norm, C, priv_min=1, priv_max=10, num_steps=10, tol=0.9):
-        baseline = get_rsquared(X, y, False, norm, C=C)
+        baseline = DBTester.get_rsquared(X, y, False, norm, C=C)
         print('Baseline: %f' % baseline)
         if baseline <= 0:
             print("Baseline too low; aborting")
@@ -320,7 +337,7 @@ class DBTester:
         else:
             print("epsilons: ")
         for i in np.linspace(priv_min, priv_max, num_steps):
-            perf = get_rsquared(X, y, True, norm, i, C=C)
+            perf = DBTester.get_rsquared(X, y, True, norm, i, C=C)
             if perf / baseline > tol:
                 print("%0.2f Yes;" % i, end=' ')
             else:
