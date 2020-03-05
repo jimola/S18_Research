@@ -164,7 +164,7 @@ class DTChoice:
         data.epsilon -= budget
         (best, used) = self.get_best_alg(data, budget)
         data.epsilon = tot_eps - used
-        return self.algs[best].run(data)
+        return self.algs[best]
 
     def get_errors(self, data, ratio=0.3):
         #data = copy.copy(data)
