@@ -7,6 +7,7 @@ import sys
 sys.path = ['./scikit-learn/build/lib.linux-x86_64-3.6/'] + sys.path
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
 from sklearn.model_selection import train_test_split
+from tqdm import tqdm
 
 # TODO
 # - Replace the metafeature class with a callable object.
@@ -74,7 +75,7 @@ class DTChoice:
     """
 
     def __init__(self, train_set, mfs, algs, regrets=None, C=0,
-            trans='default', verbose=0):
+            trans='default'):
         self.metafeatures = mfs
         self.algs = algs
         if isinstance(train_set, pd.DataFrame):
@@ -86,17 +87,13 @@ class DTChoice:
         usage[usage > 0] = 1
         self.is_used = usage
         if regrets is None:
-            if verbose > 0:
-                checkpoint = int( len(train_set) / verbose)
-                checkpoint = max(1, checkpoint)
-            else:
-                checkpoint = len(train_set) + 1
             regrets = []
-            for i, t in enumerate(train_set):
+            num_iter = None
+            if hasattr(train_set, '__len__'):
+                num_iter = len(train_set)
+            for i, t in tqdm(enumerate(train_set), total=num_iter):
                 regrets.append({name: alg.error(t) for name, alg in
                     algs.items()})
-                if i % checkpoint == 0:
-                    print("%0.1f%%" % (100*i / len(train_set)))
             self.regrets = pd.DataFrame(regrets)
         else:
             self.regrets = regrets
