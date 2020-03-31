@@ -84,7 +84,7 @@ class DPLogisticRegression:
 
     """
     def __init__(self, epsilon, K = 1.0, C = 1.0, fit_intercept = False,
-            objectivepert_param=1.0):
+            objectivepert_param=0.25):
         self.logit = LogisticRegression(penalty = 'l2',
                                         C = C,
                                         dual = False,
@@ -330,7 +330,7 @@ class DBTester:
     @staticmethod
     def logistic_test(X, y, norm, C, priv_min=1, priv_max=10, num_steps=10, tol=0.9):
         baseline = DBTester.get_rsquared(X, y, False, norm, C=C)
-        print('Baseline: %f' % baseline)
+        print('Baseline: %0.3f' % baseline)
         if baseline <= 0:
             print("Baseline too low; aborting")
             return
@@ -339,6 +339,6 @@ class DBTester:
         for i in np.linspace(priv_min, priv_max, num_steps):
             perf = DBTester.get_rsquared(X, y, True, norm, i, C=C)
             if perf / baseline > tol:
-                print("%0.2f Yes;" % i, end=' ')
+                print("eps = %0.2f: %0.3f (Yes);" % (i, perf), end=' ')
             else:
-                print("%0.2f No;" % i, end=' ')
+                print("eps = %0.2f: %0.3f (No);" % (i, perf), end=' ')
