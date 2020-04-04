@@ -66,37 +66,30 @@ class DTChoice:
     a run method, which executes the algorithm on a database, and an error
     method, which computes the algorithm's error on a database.
     
-    regrets: If the regrets are already known, supply them here. Will avoid the
-    training phase of the CM.
-
     C: Value of C used to train the special regret-based decision tree
 
     trans: feature transformations to use. Best to be kept as 'default'
     """
 
-    def __init__(self, train_set, mfs, algs, regrets=None, C=0,
-            trans='default'):
+    def __init__(self, train_set, mfs, algs, C=0, trans='default'):
         self.metafeatures = mfs
         self.algs = algs
-        if isinstance(train_set, pd.DataFrame):
-            self.X = train_set
-        else:
-            self.X = pd.DataFrame([mfs(t) for t in train_set])
         self.C = C
         usage = np.array(list(mfs.sensitivities.values()))
         usage[usage > 0] = 1
         self.is_used = usage
-        if regrets is None:
-            regrets = []
-            num_iter = None
-            if hasattr(train_set, '__len__'):
-                num_iter = len(train_set)
-            for i, t in tqdm(enumerate(train_set), total=num_iter):
-                regrets.append({name: alg.error(t) for name, alg in
-                    algs.items()})
-            self.regrets = pd.DataFrame(regrets)
-        else:
-            self.regrets = regrets
+
+        regrets = []
+        X = []
+
+        for t in tqdm(train_set):
+            X.append(mfs(t))
+            regrets.append({name: alg.error(t) for name, alg in
+                algs.items()})
+
+        self.X = pd.DataFrame(X)
+        self.regrets = pd.DataFrame(regrets)
+
         if trans == 'default':
             self.trans = MetaFeatureHelper.get_all_trans(self.X.shape[1])
         else:
@@ -121,8 +114,7 @@ class DTChoice:
 
     #Helper method
     def retrain_model(self):
-        X = pd.concat((self.X, self.T), axis=1)
-        self.model.fit(X, self.y, self.regrets, self.C)
+        self.model.fit(self.T, self.y, self.regrets, self.C)
 
     #Return the label of the best algorithm.
     def get_best_alg(self, data, budget):
