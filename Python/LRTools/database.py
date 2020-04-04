@@ -98,7 +98,7 @@ class DBSlicer:
         db = pd.concat((reshape(Z1, s1), reshape(Z2, s2)), ignore_index=True)
         db_x = db[db.columns[:-1]]
         ys = db[db.columns[-1]]
-        rand_mat = prng.uniform(-1, 1, (db_x.shape[1], ncol))
+        rand_mat = prng.normal(0, 1, (db_x.shape[1], ncol))
         db_x = db_x.dot(rand_mat)
         return pd.concat((db_x, ys), axis=1, ignore_index=True).sample(frac=1)
     
