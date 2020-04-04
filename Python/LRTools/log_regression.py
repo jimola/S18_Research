@@ -261,9 +261,8 @@ class DPAlg:
         self.name = str(C)
         self.model = DPLogisticRegression(0.1, C=C, fit_intercept=False)
         self.debug = debug
-    def error(self, db):
+    def error(self, db, parts=4):
         self.model.set_epsilon(db.epsilon)
-        #5-way CV score.
         A = self.manual_CV(db, 4, self.model)
         return 1.0-A.mean()
     def run(self, db):
@@ -297,6 +296,9 @@ class DPAlg:
                 #arr.append(clf.score(X_test, y_test))
                 #V = sklearn.metrics.roc_auc_score(y_test, clf.predict_proba(X_test))
                 arr.append(V)
+
+            #Modified this method to only do one round for speedup
+            break
         return np.array(arr)
 
 class DBTester:
