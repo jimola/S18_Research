@@ -78,22 +78,26 @@ class DTChoice:
         usage = np.array(list(mfs.sensitivities.values()))
         usage[usage > 0] = 1
         self.is_used = usage
+        
+        if len(train_set) == 2:
+            self.X = train_set[0]
+            self.regrets = train_set[1]
+        else:
+            regrets = []
+            X = []
 
-        regrets = []
-        X = []
+            for t in tqdm(train_set):
+                X.append(mfs(t))
+                regrets.append({name: alg.error(t) for name, alg in
+                    algs.items()})
 
-        for t in tqdm(train_set):
-            X.append(mfs(t))
-            regrets.append({name: alg.error(t) for name, alg in
-                algs.items()})
-
-        self.X = pd.DataFrame(X)
-        self.regrets = pd.DataFrame(regrets)
+            self.X = pd.DataFrame(X)
+            self.regrets = pd.DataFrame(regrets)
 
         if trans == 'default':
             self.trans = MetaFeatureHelper.get_all_trans(self.X.shape[1])
         else:
-            self.trans = []
+            self.trans = np.identity(len(mfs))
         log_X = np.log(np.maximum(1e-8, self.X))
         self.T = pd.DataFrame([t(log_X) for t in
             self.trans]).reset_index(drop=True).T.reset_index(drop=True)
@@ -102,6 +106,10 @@ class DTChoice:
         self.model = DecisionTreeClassifier()
         self.retrain_model()
     
+    @classmethod
+    def from_dataframes(cls, mfs_array, regrets, mfs, algs, C=0, trans='default'):
+        return cls((mfs_array, regrets), mfs, algs, C=C, trans=trans)
+
     #Change metafeatures
     def update_metas(self, train_set, mfs):
         self.X = pd.DataFrame([mfs(t) for t in train_set])
@@ -133,7 +141,7 @@ class DTChoice:
         noisy_T = pd.DataFrame([t(log_noisy_X) for t in
             self.trans]).reset_index(drop=True).T
 
-        X = pd.concat((noisy_X, noisy_T), axis=1)
+        X = noisy_T
         S = self.X.shape[1]
         used = np.zeros(S)
         node_counts = self.model.decision_path(X).data-1 
